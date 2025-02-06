@@ -4,8 +4,8 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | RISUL',
-    default: 'RISUL VIDA',
+    template: '%s | RSUL VIDA SEGUROS',
+    default: 'RSUL VIDA SEGUROS',
   },
   description: 'The APP for proposals',
   metadataBase: new URL('https://next-learn-dashboard.vercel.sh'),
