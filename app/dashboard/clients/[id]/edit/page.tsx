@@ -1,21 +1,22 @@
-import Form from '@/app/ui/invoices/edit-form';
+import Form from '@/app/ui/clients/edit-form';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
-import {fetchInvoiceById, fetchCustomers } from '@/app/lib/data';
+import {fetchClientById } from '@/app/lib/clients/data';
+import { fetchBases } from '@/app/lib/bases/data';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Edit Proposals',
+  title: 'Edit Clients',
 };
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
     const params = await props.params;
     const id = params.id;
-    const [invoice, customers] = await Promise.all([
-        fetchInvoiceById(id),
-        fetchCustomers(),
+    const [client, bases] = await Promise.all([
+        fetchClientById(id),
+        fetchBases(),
       ]);
-    if (!invoice) {
+      if (!client) {
     notFound();
     }
 
@@ -23,15 +24,15 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         <main>
             <Breadcrumbs
                 breadcrumbs={[
-                { label: 'Invoices', href: '/dashboard/invoices' },
+                { label: 'Clients', href: '/dashboard/clients' },
                 {
-                    label: 'Edit Invoice',
-                    href: `/dashboard/invoices/${id}/edit`,
+                    label: 'Edit Client',
+                    href: `/dashboard/clients/${id}/edit`,
                     active: true,
                 },
                 ]}
             />
-        <Form invoice={invoice} customers={customers} />
+        <Form client={client} bases={bases} />
         </main>
   );
 }
