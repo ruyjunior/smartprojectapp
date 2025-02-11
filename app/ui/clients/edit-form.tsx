@@ -241,7 +241,7 @@ export default function EditClientForm({
                 aria-describedby="base-error"
               >
                 <option value="" disabled>
-                  Select a base
+                  Select a Policie
                 </option>
                 {bases.map((base) => (
                   <option key={base.id} value={base.id}>

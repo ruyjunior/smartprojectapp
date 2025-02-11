@@ -7,6 +7,7 @@ import { CreateClient } from '@/app/ui/clients/buttons';
 import { ClientsTableSkeleton } from '@/app/ui/clients/skeletons';
 import { lusitana } from '@/app/ui/fonts';
 import { fetchClientsPages } from '@/app/lib/clients/data';
+import NavLinks from '@/app/ui/clients/nav-links';
 
 
 export const metadata: Metadata = {
@@ -39,6 +40,7 @@ export default async function Page(props: {
       <div className="mt-5 flex w-full justify-center">
         {<Pagination totalPages={totalPages} /> }
       </div>
+      <NavLinks />
     </div>
   );
 }
