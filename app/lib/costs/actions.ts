@@ -23,7 +23,7 @@ export type State = {
   errors?: {
     age?: string[];
     valuetitular?: string[];
-    idcompanie?: string[];
+    idpolicie?: string[];
     numberplan?: string[];
   };
   message?: string | null;

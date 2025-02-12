@@ -20,7 +20,7 @@ export type State = {
   errors?: {
     number?: string[];
     valuedeath?: string[];
-    idcompanie?: string[];
+    idpolicie?: string[];
   };
   message?: string | null;
 };
