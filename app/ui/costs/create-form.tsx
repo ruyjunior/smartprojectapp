@@ -3,8 +3,7 @@ import { useActionState } from 'react';
 import { Policie } from '@/app/lib/policies/definitions';
 import Link from 'next/link';
 import {
-  FingerPrintIcon, CurrencyDollarIcon, MapPinIcon, IdentificationIcon, PhoneIcon,
-  TicketIcon, TagIcon, TruckIcon, AtSymbolIcon,CalendarDateRangeIcon
+  IdentificationIcon, NumberedListIcon, BanknotesIcon, DocumentCurrencyDollarIcon
 } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
 import { createCost, State } from '@/app/lib/costs/actions';
@@ -30,7 +29,7 @@ export default function Form({ policies }: { policies: Policie[] }) {
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 aria-describedby="age-error"
                 />
-              <TagIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+              <IdentificationIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
             <div id="age-error" aria-live="polite" aria-atomic="true">
               {state.errors?.age &&
@@ -59,7 +58,7 @@ export default function Form({ policies }: { policies: Policie[] }) {
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 aria-describedby="valuetitular-error"
                 />
-              <TagIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+              <BanknotesIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
             <div id="valuetitular-error" aria-live="polite" aria-atomic="true">
               {state.errors?.valuetitular &&
@@ -94,7 +93,7 @@ export default function Form({ policies }: { policies: Policie[] }) {
                 </option>
               ))}
             </select>
-            <MapPinIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+            <DocumentCurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
           </div>
           <div id="base-error" aria-live="polite" aria-atomic="true">
             {state.errors?.idpolicie &&
@@ -117,11 +116,11 @@ export default function Form({ policies }: { policies: Policie[] }) {
                 id="numberplan"
                 name="numberplan"
                 type="text"
-                placeholder="Enter a age"
+                placeholder="Enter a Number for Plan"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 aria-describedby="numberplan-error"
                 />
-              <TagIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+              <NumberedListIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
             <div id="numberplan-error" aria-live="polite" aria-atomic="true">
               {state.errors?.numberplan &&

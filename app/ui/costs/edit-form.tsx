@@ -3,8 +3,7 @@ import { useActionState } from 'react';
 import { Cost } from '@/app/lib/costs/definitions';
 import { Policie } from '@/app/lib/policies/definitions';
 import {
-  FingerPrintIcon, CurrencyDollarIcon, MapPinIcon, IdentificationIcon, PhoneIcon,
-  TicketIcon, TagIcon, TruckIcon, AtSymbolIcon,CalendarDateRangeIcon
+  IdentificationIcon, NumberedListIcon, BanknotesIcon, DocumentCurrencyDollarIcon
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
@@ -40,7 +39,7 @@ export default function EditCostForm({
                   className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                   aria-describedby="age-error"
                   />
-                <TagIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+                <IdentificationIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
               </div>
               <div id="age-error" aria-live="polite" aria-atomic="true">
                 {state.errors?.age &&
@@ -70,7 +69,7 @@ export default function EditCostForm({
                   className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                   aria-describedby="valuetitular-error"
                   />
-                <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+                <BanknotesIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
               </div>
               <div id="valuetitular-error" aria-live="polite" aria-atomic="true">
                 {state.errors?.valuetitular &&
@@ -93,7 +92,7 @@ export default function EditCostForm({
                 id="idpolicie"
                 name="idpolicie"
                 className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                defaultValue=""
+                defaultValue={cost.idpolicie}
                 aria-describedby="policie-error"
               >
                 <option value="" disabled>
@@ -105,7 +104,7 @@ export default function EditCostForm({
                   </option>
                 ))}
               </select>
-              <MapPinIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+              <DocumentCurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
             </div>
             <div id="base-error" aria-live="polite" aria-atomic="true">
               {state.errors?.idpolicie &&
@@ -117,7 +116,7 @@ export default function EditCostForm({
             </div>
           </div>
 
-          {/* AGE */}
+          {/* Number Plan */}
           <div className="mb-4">
             <label htmlFor="numberplan" className="mb-2 block text-sm font-medium">
               Enter a number for plan
@@ -133,7 +132,7 @@ export default function EditCostForm({
                   className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                   aria-describedby="numberplan-error"
                   />
-                <TagIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+                <NumberedListIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
               </div>
               <div id="numberplan-error" aria-live="polite" aria-atomic="true">
                 {state.errors?.numberplan &&

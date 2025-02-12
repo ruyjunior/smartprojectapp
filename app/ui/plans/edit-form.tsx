@@ -3,8 +3,7 @@ import { useActionState } from 'react';
 import { Plan } from '@/app/lib/plans/definitions';
 import { Policie } from '@/app/lib/policies/definitions';
 import {
-  FingerPrintIcon, CurrencyDollarIcon, MapPinIcon, IdentificationIcon, PhoneIcon,
-  TicketIcon, TagIcon, TruckIcon, AtSymbolIcon,CalendarDateRangeIcon
+  FingerPrintIcon, CurrencyDollarIcon, DocumentCurrencyDollarIcon, NumberedListIcon
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
@@ -40,7 +39,7 @@ export default function EditPlanForm({
                   className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                   aria-describedby="number-error"
                   />
-                <TagIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+                <NumberedListIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
               </div>
               <div id="number-error" aria-live="polite" aria-atomic="true">
                 {state.errors?.number &&
@@ -70,7 +69,7 @@ export default function EditPlanForm({
                   className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                   aria-describedby="valuedeath-error"
                   />
-                <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+                <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
               </div>
               <div id="valuedeath-error" aria-live="polite" aria-atomic="true">
                 {state.errors?.valuedeath &&
@@ -93,7 +92,7 @@ export default function EditPlanForm({
                 id="idpolicie"
                 name="idpolicie"
                 className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                defaultValue=""
+                defaultValue={plan.idpolicie}
                 aria-describedby="policie-error"
               >
                 <option value="" disabled>
@@ -105,7 +104,7 @@ export default function EditPlanForm({
                   </option>
                 ))}
               </select>
-              <MapPinIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+              <DocumentCurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
             </div>
             <div id="base-error" aria-live="polite" aria-atomic="true">
               {state.errors?.idpolicie &&

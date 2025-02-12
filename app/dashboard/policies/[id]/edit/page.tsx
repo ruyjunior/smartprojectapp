@@ -3,6 +3,7 @@ import Breadcrumbs from '@/app/ui/breadcrumbs';
 import {fetchPolicieById } from '@/app/lib/policies/data';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
+import { fetchCompanies } from '@/app/lib/companies/data';
 
 export const metadata: Metadata = {
   title: 'Edit Policies',
@@ -11,8 +12,9 @@ export const metadata: Metadata = {
 export default async function Page(props: { params: Promise<{ id: string }> }) {
     const params = await props.params;
     const id = params.id;
-    const [policie] = await Promise.all([
+    const [policie, companies] = await Promise.all([
         fetchPolicieById(id),
+        fetchCompanies()
       ]);
       if (!policie) {
     notFound();
@@ -30,7 +32,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
                 },
                 ]}
             />
-        <Form policie={policie} />
+        <Form policie={policie} companies={companies} />
         </main>
   );
 }

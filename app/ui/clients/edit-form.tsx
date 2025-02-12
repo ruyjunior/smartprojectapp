@@ -237,7 +237,7 @@ export default function EditClientForm({
                 id="base"
                 name="idbase"
                 className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                defaultValue=""
+                defaultValue={client.idbase}
                 aria-describedby="base-error"
               >
                 <option value="" disabled>
