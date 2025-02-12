@@ -1,7 +1,7 @@
 export type Cost = {
   id: string;
   age: string;
-  valuetitular: string;
+  valuetitular: number;
   numberplan: string;
   idpolicie: string;
 };
@@ -9,7 +9,7 @@ export type Cost = {
 export type CostForm = {
   id: string;
   age: string;
-  valuetitular: string;
+  valuetitular: number;
   numberplan: string;
   idpolicie: string;
 };

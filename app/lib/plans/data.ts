@@ -65,6 +65,8 @@ export async function fetchPlanById(id: string) {
 
     const plan = data.rows.map((plan) => ({
       ...plan,
+      valuedeath: plan.valuedeath / 100,
+
     }));
     
     return plan[0];

@@ -20,20 +20,26 @@ export default async function PlansTable({
           <div className="inline-block min-w-full align-middle">
             <div className="overflow-hidden rounded-md bg-gray-50 p-2 md:pt-0">
               <div className="md:hidden">
-                {plans?.map((plan) =>  (
+                {plans?.map((plan) => {
+                    const policie = policies.find((c) => c.id === plan.idpolicie);
+                    return(
                     <div
                       key={plan.id}
-                      className="mb-2 w-full rounded-md bg-white p-4"
+                      className="flex-row mb-6 w-full rounded-md bg-green-300 p-3"
                     >
-                      <div className="flex items-center justify-between border-b pb-4">
+                      <div className="flex items-center justify-between border-b pb-2">
                         <div>
-                          <p className="text-sm text-gray-500">
-                            {plan.number}
-                          </p>
+                          <p className="text-sm text-gray-500">Policy: {policie?.number}</p>
+                          <p className="text-sm text-gray-500">Plano: {plan.number}</p>
+                          <p className="text-sm text-gray-500">Death Value: {formatCurrency(plan.valuedeath)}</p>
                         </div>
                       </div>
+                      <div className="flex justify-end gap-3 pt-2">
+                          <UpdatePlan id={plan.id} />
+                          <DeletePlan id={plan.id} />
+                        </div>
                     </div>
-                  ))}
+                  )})}
                 </div>
               <table className="hidden min-w-full rounded-md text-gray-900 md:table">
                 <thead className="rounded-md bg-gray-50 text-left text-sm font-normal">

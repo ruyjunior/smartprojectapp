@@ -30,7 +30,7 @@ export async function fetchFilteredCosts(
       WHERE
         costs.numberplan::text ILIKE ${`%${query}%`} OR
         costs.age::text ILIKE ${`%${query}%`} 
-      ORDER BY costs.numberplan ASC
+      ORDER BY numberplan, age  ASC
     `;
     const costs = data.rows;
     return costs;
@@ -67,6 +67,7 @@ export async function fetchCostById(id: string) {
 
     const cost = data.rows.map((cost) => ({
       ...cost,
+      valuetitular: cost.valuetitular / 100,
     }));
     
     return cost[0];

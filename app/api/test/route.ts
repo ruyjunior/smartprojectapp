@@ -3,6 +3,7 @@ import { fetchClients, fetchClientById } from '@/app/lib/clients/data';
 import { fetchFilteredUsers, fetchUsers } from '@/app/lib/users/data';
 import { fetchCosts, fetchFilteredCosts } from '@/app/lib/costs/data';
 import { fetchFilteredPlans } from '@/app/lib/plans/data';
+import { fetchProposals } from '@/app/lib/proposals/data';
 
 export async function GET() {
    /* try {
@@ -58,7 +59,7 @@ try {
   );
 }
 }
-*/
+
 try {
   const plans = await fetchFilteredPlans("", 1);
   return NextResponse.json({ plans });
@@ -71,5 +72,17 @@ try {
   );
 }
 }
+*/
+try {
+  const proposals = await fetchProposals();
+  return NextResponse.json({ proposals });
+} catch (error) {
+  console.error('Erro ao buscar plans:', error);
 
+  return NextResponse.json(
+    { error: (error as Error).message }, // Aqui forçamos `error` a ser do tipo `Error`
+    { status: 500 }
+  );
+}
+}
   

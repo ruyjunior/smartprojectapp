@@ -39,11 +39,12 @@ export async function createPlan(prevState: State, formData: FormData) {
       };
     }
     const { number, valuedeath, idpolicie} = validatedFields.data;
+    const valuedeathInCents = valuedeath * 100;
 
     try {
         await sql`
         INSERT INTO proposalsapp.plans ( number, valuedeath, idpolicie)
-        VALUES (${number}, ${valuedeath}, ${idpolicie})
+        VALUES (${number}, ${valuedeathInCents}, ${idpolicie})
         `;  
     } catch (error){
       return {
@@ -72,11 +73,12 @@ export async function updatePlan(
   }
 
   const { number, valuedeath, idpolicie} = validatedFields.data;
-   
+  const valuedeathInCents = valuedeath * 100;
+
   try {
   await sql`
     UPDATE proposalsapp.plans
-    SET number = ${number}, valuedeath = ${valuedeath}, idpolicie = ${idpolicie} 
+    SET number = ${number}, valuedeath = ${valuedeathInCents}, idpolicie = ${idpolicie} 
     WHERE id = ${id}
   `;
  } catch (error){

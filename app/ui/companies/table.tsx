@@ -21,13 +21,12 @@ export default async function CompaniesTable({
                 {companies?.map((companie) =>  (
                     <div
                       key={companie.id}
-                      className="mb-2 w-full rounded-md bg-white p-4"
+                      className="flex-row mb-6 w-full rounded-md bg-green-300 p-3"
                     >
-                      <div className="flex items-center justify-between border-b pb-4">
+                      <div className="flex items-center justify-between border-b pb-2">
                         <div>
-                          <p className="text-sm text-gray-500">
-                            {companie.name}
-                          </p>
+                        <p className="text-2xl">{companie.name}</p>
+                        <p className="text-sm text-gray-500">CNPJ: {companie.cnpj}</p>
                         </div>
                       </div>
                     </div>

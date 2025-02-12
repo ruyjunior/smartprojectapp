@@ -21,14 +21,17 @@ export default async function UsersTable({
                 {users?.map((user) =>  (
                     <div
                       key={user.id}
-                      className="mb-2 w-full rounded-md bg-white p-4"
+                      className="mb-6 w-full rounded-md bg-green-300 p-2"
                     >
-                      <div className="flex items-center justify-between border-b pb-4">
+                      <div className="flex items-center justify-between border-b pb-2">
                         <div>
-                          <p className="text-sm text-gray-500">
-                            {user.email}
-                          </p>
+                        <p className="text-sm text-gray-500">Name: {user.name}</p>
+                        <p className="text-sm text-gray-500">Email: {user.email}</p>
                         </div>
+                      </div>
+                      <div className="flex justify-end gap-3 pt-2">
+                        <UpdateUser id={user.id} />
+                        <DeleteUser id={user.id} />
                       </div>
                     </div>
                   ))}

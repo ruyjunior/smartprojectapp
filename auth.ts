@@ -4,11 +4,7 @@ import Credentials from 'next-auth/providers/credentials';
 import { z } from 'zod';
 import type { User } from '@/app/lib/definitions';
 import bcrypt from 'bcrypt';
-//import postgres from 'postgres';
 import { sql } from '@vercel/postgres';
-
-
-//const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
 async function getUser(email: string): Promise<User | undefined> {
     try {

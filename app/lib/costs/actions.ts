@@ -44,11 +44,12 @@ export async function createCost(prevState: State, formData: FormData) {
       };
     }
     const { age, valuetitular, idpolicie, numberplan} = validatedFields.data;
+    const valuetitularInCents = valuetitular * 100;
 
     try {
         await sql`
         INSERT INTO proposalsapp.costs ( age, valuetitular, idpolicie, numberplan)
-        VALUES (${age}, ${valuetitular}, ${idpolicie}, ${numberplan})
+        VALUES (${age}, ${valuetitularInCents}, ${idpolicie}, ${numberplan})
         `;  
     } catch (error){
       return {
@@ -78,11 +79,12 @@ export async function updateCost(
   }
 
   const { age, valuetitular, idpolicie, numberplan} = validatedFields.data;
-   
+  const valuetitularInCents = valuetitular * 100;
+ 
   try {
   await sql`
     UPDATE proposalsapp.costs
-    SET age = ${age}, valuetitular = ${valuetitular}, idpolicie = ${idpolicie},  numberplan = ${numberplan} 
+    SET age = ${age}, valuetitular = ${valuetitularInCents}, idpolicie = ${idpolicie},  numberplan = ${numberplan} 
     WHERE id = ${id}
   `;
  } catch (error){
