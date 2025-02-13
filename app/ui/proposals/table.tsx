@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { UpdateProposal, DeleteProposal } from '@/app/ui/proposals/buttons';
+import { UpdateProposal, DeleteProposal, PdfProposal } from '@/app/ui/proposals/buttons';
 import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
 import { fetchFilteredProposals } from '@/app/lib/proposals/data';
 import { fetchPolicies } from '@/app/lib/policies/data';
@@ -68,7 +68,7 @@ export default async function ProposalsTable({
                           <div className="flex justify-end gap-2">
                             <UpdateProposal id={proposal.id} />
                             <DeleteProposal id={proposal.id} />
-                            <DeleteProposal id={proposal.id} />
+                            <PdfProposal id={proposal.id} />
                           </div>
                       </div>
                     </div>
@@ -137,7 +137,7 @@ export default async function ProposalsTable({
                         <div className="flex justify-end gap-3">
                           <UpdateProposal id={proposal.id} />
                           <DeleteProposal id={proposal.id} />
-                          <DeleteProposal id={proposal.id} />
+                          <PdfProposal id={proposal.id} />
                         </div>
                       </td>
                     </tr>
