@@ -10,12 +10,8 @@ import { Companie } from '@/app/lib/companies/definitions';
 import {  PDFDownloadLink } from '@react-pdf/renderer'
 import { formatDateToLocal } from '@/app/lib/utils';
 import {DocPDF, DocPDF2} from './docPDF';
-
-import dynamic from 'next/dynamic';
-
-const PDFViewer = dynamic(() => import('@react-pdf/renderer').then(mod => mod.PDFViewer), {
-  ssr: false
-});
+import { PDFViewer } from '@react-pdf/renderer';
+import { PagePDF } from './docPDF';
 
 export default function PdfProposalForm({
   proposal,
@@ -47,9 +43,7 @@ export default function PdfProposalForm({
 
   return (
     <div>
-      <PDFViewer style={{ width: '100%', height: '500px', marginTop: 20 }}>
-        <DocPDF data={data}/>
-      </PDFViewer>     
+      <PagePDF data={data}/>
     </div>
 );
 }

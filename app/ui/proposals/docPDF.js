@@ -3,6 +3,23 @@ import styles from '@/app/ui/proposals/styles'
 import { ProposalPDF } from '@/app/lib/proposals/definitions';
 import logo from '@/public/rsul/icatu.jpg';
 import { formatDateToLocal } from '@/app/lib/utils';
+import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
+
+export const PagePDF = ({data}) => (
+  <div>
+    <PDFDownloadLink 
+      document={<DocPDF data={data}/>}
+      fileName={
+        data.proposal?.number + '-' + data.client?.name + '.pdf'
+      }>
+      {({ loading }) => (loading ? 'Gerando PDF...' : 'Download ')}
+    </PDFDownloadLink>
+
+    <PDFViewer style={{ width: '100%', height: '500px', marginTop: 20 }}>
+      <DocPDF data={data}/>
+    </PDFViewer>     
+  </div>
+);
 
 export const DocPDF = ({data}) => (
   <Document>
