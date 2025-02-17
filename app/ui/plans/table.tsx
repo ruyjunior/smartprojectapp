@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { UpdatePlan, DeletePlan } from '@/app/ui/plans/buttons';
-import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
+import { formatDateToLocal, formatCurrency } from '@/app/lib/utils/utils';
 import { fetchFilteredPlans } from '@/app/lib/plans/data';
 import { fetchPolicies } from '@/app/lib/policies/data';
 export default async function PlansTable({ 

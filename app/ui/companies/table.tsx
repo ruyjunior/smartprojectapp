@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { UpdateCompanie, DeleteCompanie } from '@/app/ui/companies/buttons';
-import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
+import { formatDateToLocal, formatCurrency } from '@/app/lib/utils/utils';
 import { fetchFilteredCompanies } from '@/app/lib/companies/data';
 
 export default async function CompaniesTable({ 

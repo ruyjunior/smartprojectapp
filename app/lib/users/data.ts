@@ -5,7 +5,7 @@ export async function fetchUsers() {
   
   try {
     const data = await sql<User>`
-      SELECT id, name, email
+      SELECT id, name, email, role
       FROM proposalsapp.users
       ORDER BY name ASC
     `;
@@ -24,10 +24,11 @@ export async function fetchFilteredUsers(
   
   try {
     const data = await sql<User>`
-      SELECT id, name, email
+      SELECT id, name, email, role
       FROM proposalsapp.users
       WHERE
         users.name ILIKE ${`%${query}%`} OR
+        users.role ILIKE ${`%${query}%`} OR
         users.email ILIKE ${`%${query}%`} 
       ORDER BY name ASC
     `;
@@ -58,7 +59,8 @@ export async function fetchUserById(id: string) {
       SELECT
         users.id,
         users.name,
-        users.email
+        users.email,
+        users.role
         FROM proposalsapp.users
         WHERE users.id = ${id} `;
 

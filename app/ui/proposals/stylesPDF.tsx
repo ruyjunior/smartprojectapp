@@ -1,7 +1,8 @@
 import { StyleSheet } from '@react-pdf/renderer';
 
 const stylesPDF = StyleSheet.create({
-    page: { padding: 30 },
+    page: { padding: 30, flexDirection: 'column',
+      backgroundColor:'white' },
     title: { fontSize: 14, marginBottom: 5 },
     subtitle: { fontSize: 12, marginBottom: 1 },
     chaphter: {fontSize: 10, padding: 5, marginTop: 1, backgroundColor: 'lightgray' },

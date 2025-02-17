@@ -1,9 +1,8 @@
-import { Page, Text, View, Document, Image, Font} from '@react-pdf/renderer'
-import styles from '@/app/ui/proposals/styles'
-import { ProposalPDF } from '@/app/lib/proposals/definitions';
-import logo from '@/public/rsul/icatu.jpg';
-import { formatDateToLocal } from '@/app/lib/utils';
+import { Page, Text, View, Document, Font, StyleSheet, Image} from '@react-pdf/renderer';
+import styles from '@/app/ui/proposals/stylesPDF';
+import { formatDateToLocal } from '@/app/lib/utils/utils';
 import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
+import { DocumentArrowDownIcon } from '@heroicons/react/24/outline';
 
 export const PagePDF = ({data}) => (
   <div>
@@ -14,18 +13,19 @@ export const PagePDF = ({data}) => (
       }>
       {({ loading }) => (loading ? 'Gerando PDF...' : 'Download ')}
     </PDFDownloadLink>
+    <DocumentArrowDownIcon className="h-5 w-5 text-gray-500" />
 
     <PDFViewer style={{ width: '100%', height: '500px', marginTop: 20 }}>
-      <DocPDF data={data}/>
+      <DocPDF data={data} />
     </PDFViewer>     
   </div>
 );
+
 
 export const DocPDF = ({data}) => (
   <Document>
     <Page size="A4" style={styles.page}>
         <View style={styles.section}>
-            <Image style={styles.image} src={logo}/>  
             <View style={styles.textContainer}>
                 <Text style={styles.subtitle}>Seguro de Vida em Grupo e Acidentes Pessoais</Text>
                 <Text style={styles.title}>PROPOSTA DE ADESÃO</Text>
@@ -145,9 +145,6 @@ export const DocPDF = ({data}) => (
             <Text style={styles.tableCell}></Text>
             <Text style={[styles.tableCell, styles.lastCell]}></Text>
           </View>
-
-
-
         </View>
 
         <Text style={styles.chaphter }>Dados do(s) beneficiário(s)8
@@ -165,19 +162,6 @@ export const DocPDF = ({data}) => (
             <Text style={styles.tableCell}></Text>
             <Text style={[styles.tableCell, styles.lastCell]}>{}</Text>
           </View>
-        </View>
-    </Page>
-  </Document>
-);
-
-export const DocPDF2 = () => (
-  <Document>
-    <Page size="A4" style={styles.page}>
-        <View style={styles.section}>
-            <View style={styles.textContainer}>
-                <Text style={styles.subtitle}>Seguro de Vida em Grupo e Acidentes Pessoais</Text>
-                <Text style={styles.title}>PROPOSTA DE ADESÃO</Text>
-            </View>
         </View>
     </Page>
   </Document>

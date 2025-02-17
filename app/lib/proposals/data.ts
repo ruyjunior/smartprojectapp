@@ -28,7 +28,7 @@ export async function fetchFilteredProposals(
       FROM proposalsapp.proposals
       WHERE
         proposals.number::text ILIKE ${`%${query}%`}
-      ORDER BY number ASC
+      ORDER BY timestamp DESC
     `;
     const proposals = data.rows;
     return proposals;

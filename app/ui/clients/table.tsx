@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { UpdateClient, DeleteClient } from '@/app/ui/clients/buttons';
-import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
+import { formatDateToLocal, formatCurrency } from '@/app/lib/utils/utils';
 import { fetchFilteredClients } from '@/app/lib/clients/data';
 import { fetchBases} from '@/app/lib/bases/data';
 

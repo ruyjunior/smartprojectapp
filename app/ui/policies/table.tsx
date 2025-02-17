@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { UpdatePolicie, DeletePolicie } from '@/app/ui/policies/buttons';
-import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
+import { formatDateToLocal, formatCurrency } from '@/app/lib/utils/utils';
 import { fetchFilteredPolicies } from '@/app/lib/policies/data';
 import { fetchCompanies } from '@/app/lib/companies/data';
 export default async function PoliciesTable({ 

@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { UpdateProposal, DeleteProposal, PdfProposal } from '@/app/ui/proposals/buttons';
-import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
+import { formatDateToLocal, formatCurrency } from '@/app/lib/utils/utils';
 import { fetchFilteredProposals } from '@/app/lib/proposals/data';
 import { fetchPolicies } from '@/app/lib/policies/data';
 import { fetchUsers } from '@/app/lib/users/data';

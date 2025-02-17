@@ -30,6 +30,6 @@
     ".next/types/**/*.ts",
     "app/lib/placeholder-data.ts",
     "scripts/seed.js"
-, "app/ui/proposals/docPDF.js", "app/ui/proposals/styles.js"  ],
+, "app/ui/proposals/docPDF.js", "app/ui/proposals/stylesPDF.tsx"  ],
   "exclude": ["node_modules"]
 }

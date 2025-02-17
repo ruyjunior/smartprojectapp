@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { UpdateCost, DeleteCost } from '@/app/ui/costs/buttons';
-import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
+import { formatDateToLocal, formatCurrency } from '@/app/lib/utils/utils';
 import { fetchFilteredCosts } from '@/app/lib/costs/data';
 import { fetchPolicies } from '@/app/lib/policies/data';
 export default async function CostsTable({ 

@@ -7,10 +7,6 @@ import { Client } from '@/app/lib/clients/definitions';
 import { Plan } from '@/app/lib/plans/definitions';
 import { Cost } from '@/app/lib/costs/definitions';
 import { Companie } from '@/app/lib/companies/definitions';
-import {  PDFDownloadLink } from '@react-pdf/renderer'
-import { formatDateToLocal } from '@/app/lib/utils';
-import {DocPDF, DocPDF2} from './docPDF';
-import { PDFViewer } from '@react-pdf/renderer';
 import { PagePDF } from './docPDF';
 
 export default function PdfProposalForm({
@@ -41,21 +37,5 @@ export default function PdfProposalForm({
     companie: companies.find((c) => c.id === policies.find((c) => c.id === proposal.idpolicie)?.idcompany) as Companie,
   };
 
-  return (
-    <div>
-      <PagePDF data={data}/>
-    </div>
-);
+  return (<PagePDF data={data}/>);
 }
-/*
-<DocPDF data={data}/>
-        <DocPDF2 />
-
-<PDFDownloadLink 
-document={<DocPDF data={data}/>}
-fileName={
-  proposal.number + '-' + data.client?.name + '.pdf'
-}>
-{({ loading }) => (loading ? 'Gerando PDF...' : 'Download ')}
-</PDFDownloadLink>
-*/

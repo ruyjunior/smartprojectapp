@@ -4,15 +4,16 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { sql } from '@vercel/postgres';
 import { error } from 'console';
-import { signIn } from '@/auth';
+import { signIn } from '@/app/lib/auth';
 import { AuthError } from 'next-auth';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 const FormSchema = z.object({
   id: z.string(),
   name: z.string(),
   email: z.string(),
-  password: z.string()
+  password: z.string(),
+  role: z.string()
 });
 
 const CreateUser = FormSchema.omit({ id: true });
@@ -23,6 +24,7 @@ export type State = {
     name?: string[];
     email?: string[];
     password?: string[];
+    role?: string[];
   };
   message?: string | null;
 };
@@ -32,6 +34,7 @@ export async function createUser(prevState: State, formData: FormData) {
       name: formData.get('name'),
       email: formData.get('email'),
       password: formData.get('password'),
+      role: formData.get('role'),
     });
 
     if (!validatedFields.success) {
@@ -40,13 +43,13 @@ export async function createUser(prevState: State, formData: FormData) {
         message: 'Missing Fields. Failed to Create.',
       };
     }
-    const { name, email, password} = validatedFields.data;
+    const { name, email, password, role} = validatedFields.data;
     const hashedPassword = await bcrypt.hash(password, 10);
 
     try {
         await sql`
-        INSERT INTO proposalsapp.users ( name, email, password)
-        VALUES (${name}, ${email}, ${hashedPassword})
+        INSERT INTO proposalsapp.users ( name, email, password, role)
+        VALUES (${name}, ${email}, ${hashedPassword}, ${role})
         `;  
     } catch (error){
       return {
@@ -66,6 +69,7 @@ export async function updateUser(
     name: formData.get('name'),
     email: formData.get('email'),
     password: formData.get('password'),
+    role: formData.get('role'),
 });
   if (!validatedFields.success) {
     return {
@@ -74,13 +78,13 @@ export async function updateUser(
     };
   }
 
-  const { name, email, password} = validatedFields.data;
+  const { name, email, password, role} = validatedFields.data;
   const hashedPassword = await bcrypt.hash(password, 10);
    
   try {
   await sql`
     UPDATE proposalsapp.users
-    SET name = ${name}, email = ${email}, password = ${hashedPassword} 
+    SET name = ${name}, email = ${email}, password = ${hashedPassword}, role = ${role} 
     WHERE id = ${id}
   `;
  } catch (error){

@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { UpdateBase, DeleteBase } from '@/app/ui/bases/buttons';
-import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
+import { formatDateToLocal, formatCurrency } from '@/app/lib/utils/utils';
 import { fetchFilteredBases } from '@/app/lib/bases/data';
 
 export default async function BasesTable({ 

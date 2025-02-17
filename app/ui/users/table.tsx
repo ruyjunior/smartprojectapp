@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { UpdateUser, DeleteUser } from '@/app/ui/users/buttons';
-import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
+import { formatDateToLocal, formatCurrency } from '@/app/lib/utils/utils';
 import { fetchFilteredUsers } from '@/app/lib/users/data';
 
 export default async function UsersTable({ 
@@ -45,6 +45,9 @@ export default async function UsersTable({
                     <th scope="col" className="px-3 py-5 font-medium">
                       EMAIL
                     </th>
+                    <th scope="col" className="px-3 py-5 font-medium">
+                      ROLE
+                    </th>
                   </tr>
                 </thead>
 
@@ -62,6 +65,9 @@ export default async function UsersTable({
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
                         {user.password}
+                      </td>
+                      <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
+                        {user.role}
                       </td>
                       <td className="whitespace-nowrap py-3 pl-6 pr-3">
                         <div className="flex justify-end gap-3">

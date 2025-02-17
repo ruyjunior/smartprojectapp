@@ -9,7 +9,6 @@ import { fetchUsers } from '@/app/lib/users/data';
 import { fetchPlans } from '@/app/lib/plans/data';
 import { fetchCosts } from '@/app/lib/costs/data';
 import { fetchCompanies } from '@/app/lib/companies/data';
-
 export const metadata: Metadata = {
   title: 'Print PDF Proposals',
 };
@@ -41,7 +40,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
                     active: true,
                 },
                 ]}
-            />
+            />            
         <Form 
           proposal={proposal} 
           policies={policies} 

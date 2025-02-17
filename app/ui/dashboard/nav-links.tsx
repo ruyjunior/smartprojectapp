@@ -1,12 +1,10 @@
 'use client';
 import {
   UserGroupIcon,
-  HomeIcon,
   DocumentCheckIcon,
-  BuildingOfficeIcon,
   DocumentCurrencyDollarIcon,
-  MapPinIcon,
   UsersIcon,
+  UserCircleIcon,
   PresentationChartLineIcon
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
@@ -24,7 +22,7 @@ const links = [
   },
   { name: 'Policies', href: '/dashboard/policies', icon: DocumentCurrencyDollarIcon },
   { name: 'Clients', href: '/dashboard/clients', icon: UserGroupIcon },
-  { name: 'Users', href: '/dashboard/users', icon: UsersIcon },
+  { name: 'Users', href: '/dashboard/users', icon: UserCircleIcon },
 ];
 
 export default function NavLinks() {

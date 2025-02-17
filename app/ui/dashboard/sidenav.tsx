@@ -2,9 +2,10 @@ import Link from 'next/link';
 import NavLinks from '@/app/ui/dashboard/nav-links';
 import LogoApp from '@/app/ui/logo';
 import { PowerIcon } from '@heroicons/react/24/outline';
-import { signOut } from '@/auth';
+import { signOut } from '@/app/lib/auth';
+import UserCard from '@/app/ui/dashboard/userCard';
 
-export default function SideNav() {
+export default async function SideNav() {
   return (
     <div className="flex h-full flex-col px-3 py-4 md:px-2">
       <Link className="m-1 flex h-12 items-center justify-center rounded-md bg-blue-600 p-4 md:h-12" href="/">
@@ -12,6 +13,10 @@ export default function SideNav() {
           <LogoApp />
         </div>
       </Link>
+
+      <div className="m-2 flex text-xs h-6 items-center justify-rigth rounded-md bg-green-300 p-2 md:h-8">
+        <UserCard />
+      </div>
 
       <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2">
         <NavLinks />

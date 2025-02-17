@@ -8,7 +8,7 @@ import {
   LatestInvoiceRaw,
   Revenue,
 } from './definitions';
-import { formatCurrency } from './utils';
+import { formatCurrency } from './utils/utils';
 
 export async function fetchRevenue() {
   try {
@@ -54,29 +54,24 @@ export async function fetchCardData() {
     // You can probably combine these into a single SQL query
     // However, we are intentionally splitting them to demonstrate
     // how to initialize multiple queries in parallel with JS.
-    const invoiceCountPromise = sql`SELECT COUNT(*) FROM invoices`;
-    const customerCountPromise = sql`SELECT COUNT(*) FROM customers`;
-    const invoiceStatusPromise = sql`SELECT
-         SUM(CASE WHEN status = 'paid' THEN amount ELSE 0 END) AS "paid",
-         SUM(CASE WHEN status = 'pending' THEN amount ELSE 0 END) AS "pending"
-         FROM invoices`;
+    const proposalCountPromise = sql`SELECT COUNT(*) FROM proposalsapp.proposals`;
+    const customerCountPromise = sql`SELECT COUNT(*) FROM proposalsapp.users`;
+    const clientCountPromise = sql`SELECT COUNT(*) FROM proposalsapp.clients`;
 
     const data = await Promise.all([
-      invoiceCountPromise,
+      proposalCountPromise,
       customerCountPromise,
-      invoiceStatusPromise,
+      clientCountPromise,
     ]);
 
-    const numberOfInvoices = Number(data[0].rows[0].count ?? '0');
+    const numberOfProposals = Number(data[0].rows[0].count ?? '0');
     const numberOfCustomers = Number(data[1].rows[0].count ?? '0');
-    const totalPaidInvoices = formatCurrency(data[2].rows[0].paid ?? '0');
-    const totalPendingInvoices = formatCurrency(data[2].rows[0].pending ?? '0');
+    const numberOfClients = Number(data[2].rows[0].count ?? '0');
 
     return {
+      numberOfProposals,
       numberOfCustomers,
-      numberOfInvoices,
-      totalPaidInvoices,
-      totalPendingInvoices,
+      numberOfClients,    
     };
   } catch (error) {
     console.error('Database Error:', error);
