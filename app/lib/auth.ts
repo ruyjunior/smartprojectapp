@@ -2,11 +2,9 @@ import NextAuth, { NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { sql } from "@vercel/postgres";
 import { JWT } from "next-auth/jwt";
-import  {AdapterUser}  from "next-auth";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { User } from "@/app/lib/users/definitions";
-import { formatDateToLocal } from "./utils/utils";
 
 async function getUser(email: string): Promise<User | null> {
   try {
@@ -66,12 +64,10 @@ export const authOptions: NextAuthConfig = {
     maxAge: 60 * 60 * 24 * 7 // Expiração do token JWT
   },
   callbacks: {
-    async jwt({ token, user } : { token: JWT, user: User | null | AdapterUser }) {
+    async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.name = user.name;
-        token.email = user.email;
-        token.role = user.role;
+        token.user = user;
       }
       return token;
     },
@@ -79,9 +75,9 @@ export const authOptions: NextAuthConfig = {
       if (token) {
         session.user = {
           id: token.id as string,
-          name: token.name as string,
-          email: token.email as string,
-          role: token.role as string,
+          name: token.user.name as string,
+          email: token.user.email as string,
+          role: token.user.role as string,
           emailVerified: null,
         };
       }
