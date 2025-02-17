@@ -3,10 +3,6 @@ import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { sql } from '@vercel/postgres';
-import { error } from 'console';
-import { signIn } from '@/app/lib/auth2';
-import { AuthError } from 'next-auth';
-import bcrypt from 'bcrypt';
 
 const FormSchema = z.object({
   id: z.string(),
