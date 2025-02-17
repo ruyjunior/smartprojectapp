@@ -12,7 +12,7 @@ export default async function CardWrapper() {
   const {
     numberOfProposals,
     numberOfCustomers,
-    numberOfClients,
+    numberOfClients
   } = await fetchCardData();
 
   return (

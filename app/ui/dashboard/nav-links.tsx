@@ -3,7 +3,6 @@ import {
   UserGroupIcon,
   DocumentCheckIcon,
   DocumentCurrencyDollarIcon,
-  UsersIcon,
   UserCircleIcon,
   PresentationChartLineIcon
 } from '@heroicons/react/24/outline';
