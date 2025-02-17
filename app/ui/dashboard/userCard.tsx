@@ -9,7 +9,7 @@ export default async function UserCard() {
   return (
     <div>
       <div>
-        <p> User: {session.user.name} Level: {session.user.role}</p>
+        <p> User: {session.user.name} Level: {session.user.email}</p>
       </div>
     </div>
   )

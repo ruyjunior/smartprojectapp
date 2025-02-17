@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { sql } from "@vercel/postgres";
 import { JWT } from "next-auth/jwt";
 import bcrypt from "bcryptjs";
+//import argon2 from "argon2";
 import { z } from "zod";
 import { User } from "@/app/lib/users/definitions";
 
@@ -46,6 +47,8 @@ export const authOptions: NextAuthConfig = {
         }
 
         const passwordsMatch = await bcrypt.compare(password, user.password);
+        //const hash = await argon2.hash(password);
+        //const passwordsMatch = (hash === user.password);
         if (!passwordsMatch) {
           console.log("Senha incorreta.");
           return null;
