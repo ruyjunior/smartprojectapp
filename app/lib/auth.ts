@@ -9,7 +9,7 @@ import { User } from "@/app/lib/users/definitions";
 
 async function getUser(email: string): Promise<User | null> {
   try {
-    const users = await sql<User>`SELECT * FROM proposalsapp.users WHERE email=${email}`;
+    const users = await sql<User>`SELECT * FROM autoricapp.users WHERE email=${email}`;
     return users.rows[0] || null;
   } catch (error) {
     console.error("Erro ao buscar usuário:", error);
@@ -60,8 +60,8 @@ export const authOptions: NextAuthConfig = {
   ],
   session: {
     strategy: "jwt",
-    maxAge: 60 * 60 * 1, // 7 dias
-    updateAge: 60 * 60 // Atualiza o token a cada 1 hora
+    maxAge: 60 * 60 * 24 * 7, // 7 dias
+    updateAge: 60 * 60 * 2 // Atualiza o token a cada 1 hora
   },
   jwt: {
     maxAge: 60 * 60 * 24 * 7 // Expiração do token JWT

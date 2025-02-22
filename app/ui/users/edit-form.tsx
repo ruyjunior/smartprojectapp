@@ -1,10 +1,7 @@
 'use client';
 import { useActionState } from 'react';
 import { User } from '@/app/lib/users/definitions';
-import {
-  FingerPrintIcon, CurrencyDollarIcon, MapPinIcon, IdentificationIcon, PhoneIcon,
-  TicketIcon, TagIcon, TruckIcon, AtSymbolIcon,CalendarDateRangeIcon
-} from '@heroicons/react/24/outline';
+import { MapPinIcon, TagIcon, AtSymbolIcon, KeyIcon, UserCircleIcon} from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 import { updateUser, State } from '@/app/lib/users/actions';
@@ -60,7 +57,7 @@ export default function EditUserForm({
                 <input
                   id="email"
                   name="email"
-                  type="text"
+                  type="email"
                   placeholder="Enter a email"
                   defaultValue={user.email}
                   className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
@@ -89,13 +86,13 @@ export default function EditUserForm({
                 <input
                   id="password"
                   name="password"
-                  type="text"
+                  type="password"
                   placeholder="Enter a password"
                   defaultValue={user.password}
                   className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                   aria-describedby="password-error"
                   />
-                <PhoneIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+                <KeyIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
               </div>
               <div id="password-error" aria-live="polite" aria-atomic="true">
                 {state.errors?.password &&
@@ -124,7 +121,7 @@ export default function EditUserForm({
                 <option value="oper"> Operator</option>
                 <option value="admin"> Administrator</option>
                 </select>
-              <MapPinIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+              <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
             </div>
             <div id="role-error" aria-live="polite" aria-atomic="true">
               {state.errors?.role &&

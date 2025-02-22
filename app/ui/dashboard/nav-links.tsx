@@ -3,8 +3,8 @@ import {
   UserGroupIcon,
   DocumentCheckIcon,
   DocumentCurrencyDollarIcon,
-  UserCircleIcon,
-  PresentationChartLineIcon
+  UserCircleIcon, BuildingOfficeIcon,
+  PresentationChartLineIcon, RectangleStackIcon
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -14,13 +14,10 @@ import clsx from 'clsx';
 // Depending on the size of the application, this would be stored in a database.
 const links = [
   { name: 'Dashboard', href: '/dashboard', icon: PresentationChartLineIcon },
-  {
-    name: 'Proposals',
-    href: '/dashboard/proposals',
-    icon: DocumentCheckIcon,
-  },
-  { name: 'Policies', href: '/dashboard/policies', icon: DocumentCurrencyDollarIcon },
-  { name: 'Clients', href: '/dashboard/clients', icon: UserGroupIcon },
+  { name: 'Projects', href: '/dashboard/projects', icon: DocumentCheckIcon },
+  { name: 'Tasks', href: '/dashboard/tasks', icon: RectangleStackIcon },
+  { name: 'Companies', href: '/dashboard/companies', icon: BuildingOfficeIcon },
+  { name: 'Employees', href: '/dashboard/employees', icon: UserGroupIcon },
   { name: 'Users', href: '/dashboard/users', icon: UserCircleIcon },
 ];
 
@@ -37,7 +34,7 @@ export default function NavLinks() {
             className={clsx(
               'flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-200 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3',
               {
-                'bg-sky-200 text-green-600': pathname === link.href,
+                'bg-sky-200 text-blue-600': pathname === link.href,
               },
             )}
           >

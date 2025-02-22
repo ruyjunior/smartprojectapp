@@ -1,5 +1,6 @@
 'use client';
 import { useActionState } from 'react';
+import React, { useState } from 'react';
 import { Companie } from '@/app/lib/companies/definitions';
 import {
   IdentificationIcon, PhoneIcon,
@@ -8,6 +9,7 @@ import {
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 import { updateCompanie, State } from '@/app/lib/companies/actions';
+import { formatCNPJ } from '@/app/lib/utils/utils';
 
 export default function EditCompanieForm({
   companie,
@@ -17,6 +19,13 @@ export default function EditCompanieForm({
   const initialState: State = { message: null, errors: {} };
   const updateCompanieWithId = updateCompanie.bind(null, companie.id);
   const [state, formAction] = useActionState(updateCompanieWithId, initialState);
+  const [cnpj, setCNPJ] = useState(formatCNPJ(companie.cnpj));
+
+  const handleChangeCNPJ = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const formattedCNPJ = formatCNPJ(event.target.value);
+    setCNPJ(formattedCNPJ);
+  };
+
   return (
       <form action={formAction}>
         <div className="rounded-md bg-gray-50 p-4 md:p-6">
@@ -62,7 +71,9 @@ export default function EditCompanieForm({
                   name="cnpj"
                   type="text"
                   placeholder="Enter a cnpj"
-                  defaultValue={companie.cnpj}
+                  value={cnpj}
+                  maxLength={18}
+                  onChange={handleChangeCNPJ}  
                   className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                   aria-describedby="cnpj-error"
                   />

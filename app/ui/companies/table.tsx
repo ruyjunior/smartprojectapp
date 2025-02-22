@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { UpdateCompanie, DeleteCompanie } from '@/app/ui/companies/buttons';
-import { formatDateToLocal, formatCurrency } from '@/app/lib/utils/utils';
+import { formatDateToLocal, formatCurrency, formatCNPJ } from '@/app/lib/utils/utils';
 import { fetchFilteredCompanies } from '@/app/lib/companies/data';
 
 export default async function CompaniesTable({ 
@@ -54,7 +54,7 @@ export default async function CompaniesTable({
                         </div>
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {companie.cnpj}
+                        {formatCNPJ(companie.cnpj)}
                       </td>
                       <td className="whitespace-nowrap py-3 pl-6 pr-3">
                         <div className="flex justify-end gap-3">

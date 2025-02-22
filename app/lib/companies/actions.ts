@@ -37,7 +37,7 @@ export async function createCompanie(prevState: State, formData: FormData) {
 
     try {
         await sql`
-        INSERT INTO proposalsapp.companies ( name, cnpj)
+        INSERT INTO autoricapp.companies ( name, cnpj)
         VALUES (${name}, ${cnpj})
         `;  
     } catch (error){
@@ -69,11 +69,12 @@ export async function updateCompanie(
    
   try {
   await sql`
-    UPDATE proposalsapp.companies
+    UPDATE autoricapp.companies
     SET name = ${name}, cnpj = ${cnpj} 
     WHERE id = ${id}
   `;
  } catch (error){
+  console.log(error);
   return { message: 'Database Error: Failed to Update Companie.' };
  }
  
@@ -84,6 +85,6 @@ export async function updateCompanie(
 export async function deleteCompanie(id: string) {
     //throw new Error('Failed to Delete Invoice');
     
-    await sql`DELETE FROM proposalsapp.companies WHERE id = ${id}`;
+    await sql`DELETE FROM autoricapp.companies WHERE id = ${id}`;
     revalidatePath('/dashboard/companies');
   }

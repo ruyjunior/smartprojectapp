@@ -45,7 +45,7 @@ export async function createUser(prevState: State, formData: FormData) {
 
     try {
         await sql`
-        INSERT INTO proposalsapp.users ( name, email, password, role)
+        INSERT INTO autoricapp.users ( name, email, password, role)
         VALUES (${name}, ${email}, ${hashedPassword}, ${role})
         `;  
     } catch (error){
@@ -80,7 +80,7 @@ export async function updateUser(
    
   try {
   await sql`
-    UPDATE proposalsapp.users
+    UPDATE autoricapp.users
     SET name = ${name}, email = ${email}, password = ${hashedPassword}, role = ${role} 
     WHERE id = ${id}
   `;
@@ -95,6 +95,6 @@ export async function updateUser(
 export async function deleteUser(id: string) {
     //throw new Error('Failed to Delete Invoice');
     
-    await sql`DELETE FROM proposalsapp.users WHERE id = ${id}`;
+    await sql`DELETE FROM autoricapp.users WHERE id = ${id}`;
     revalidatePath('/dashboard/users');
   }

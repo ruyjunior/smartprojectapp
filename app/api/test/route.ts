@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server';
-import { fetchClients, fetchClientById } from '@/app/lib/clients/data';
+import { fetchClients, fetchClientById } from '@/app/lib/employees/data';
 import { fetchFilteredUsers, fetchUsers } from '@/app/lib/users/data';
 import { fetchCosts, fetchFilteredCosts } from '@/app/lib/costs/data';
 import { fetchFilteredPlans } from '@/app/lib/plans/data';
 import { fetchProposals } from '@/app/lib/proposals/data';
+import { fetchCompanies } from '@/app/lib/companies/data';
 
 export async function GET() {
    /* try {
@@ -74,8 +75,8 @@ try {
 }
 */
 try {
-  const proposals = await fetchProposals();
-  return NextResponse.json({ proposals });
+  const companies = await fetchCompanies();
+  return NextResponse.json({ companies });
 } catch (error) {
   console.error('Erro ao buscar plans:', error);
 
