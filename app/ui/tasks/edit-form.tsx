@@ -5,7 +5,8 @@ import React, { useState } from 'react';
 import { Task } from '@/app/lib/tasks/definitions';
 import { Employee } from '@/app/lib/employees/definitions';
 import { Project } from '@/app/lib/projects/definitions';
-import { CurrencyDollarIcon, UserCircleIcon, CalendarDateRangeIcon } from '@heroicons/react/24/outline';
+import { CurrencyDollarIcon, UserCircleIcon, CalendarDateRangeIcon, 
+  TagIcon, DocumentTextIcon, HandThumbUpIcon, ExclamationTriangleIcon, DocumentCheckIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 import { updateTask, State } from '@/app/lib/tasks/actions';
@@ -126,7 +127,7 @@ export default function EditTaskForm({
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 aria-describedby="title-error"
                 />
-              <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+              <TagIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
             <div id="title-error" aria-live="polite" aria-atomic="true">
               {state.errors?.title &&
@@ -155,7 +156,7 @@ export default function EditTaskForm({
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 aria-describedby="what-error"
                 />
-              <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+              <DocumentTextIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
             <div id="what-error" aria-live="polite" aria-atomic="true">
               {state.errors?.what &&
@@ -184,7 +185,7 @@ export default function EditTaskForm({
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 aria-describedby="how-error"
                 />
-              <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+              <DocumentTextIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
             <div id="how-error" aria-live="polite" aria-atomic="true">
               {state.errors?.how &&
@@ -215,7 +216,7 @@ export default function EditTaskForm({
               <option value="medium"> Medium </option>
               <option value="high"> High </option>
             </select>
-            <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+            <ExclamationTriangleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
           </div>
           <div id="grade-error" aria-live="polite" aria-atomic="true">
             {state.errors?.grade &&
@@ -245,7 +246,7 @@ export default function EditTaskForm({
               <option value="doing"> Doing </option>
               <option value="done"> Done </option>
             </select>
-            <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+            <HandThumbUpIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
           </div>
           <div id="status-error" aria-live="polite" aria-atomic="true">
             {state.errors?.grade &&
@@ -279,7 +280,7 @@ export default function EditTaskForm({
                 </option>
               ))}
             </select>
-            <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+            <DocumentCheckIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
           </div>
           <div id="who-error" aria-live="polite" aria-atomic="true">
             {state.errors?.who &&

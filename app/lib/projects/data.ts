@@ -5,7 +5,7 @@ export async function fetchProjects() {
   
   try {
     const data = await sql<Project>`
-      SELECT id, title, comments, idprovider, idtaker, expectedhours,  executedhours, timestamp
+      SELECT id, title, comments, idprovider, idtaker, timestamp
       FROM autoricapp.projects
       ORDER BY timestamp ASC
     `;
@@ -24,7 +24,7 @@ export async function fetchFilteredProjects(
   
   try {
     const data = await sql<Project>`
-      SELECT id, title, comments, idprovider, idtaker, expectedhours,  executedhours, timestamp
+      SELECT id, title, comments, idprovider, idtaker, timestamp
       FROM autoricapp.projects
       WHERE
         projects.title::text ILIKE ${`%${query}%`}
@@ -54,14 +54,13 @@ export async function fetchProjectsPages(query: string) {
 export async function fetchProjectById(id: string) {
   try {
     const data = await sql<Project>`
-      SELECT id, title, comments, idprovider, idtaker, expectedhours,  executedhours, timestamp
+      SELECT id, title, comments, idprovider, idtaker, timestamp
       FROM autoricapp.projects
       WHERE projects.id = ${id} `;
 
     const project = data.rows.map((project) => ({
       ...project,
     }));
-    
     return project[0];
     console.log( 'Project: ' + project[0]);
   } catch (error) {

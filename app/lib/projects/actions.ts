@@ -78,7 +78,7 @@ export async function updateProject(
   await sql`
     UPDATE autoricapp.projects
     SET 
-    title = ${title}, comments = ${comments}, iduser = ${idprovider}, idpolicie = ${idtaker}
+    title = ${title}, comments = ${comments}, idprovider = ${idprovider}, idtaker = ${idtaker}
     WHERE id = ${id}
   `;
  } catch (error){

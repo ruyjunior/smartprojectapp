@@ -1,7 +1,7 @@
 // Loading animation
 const shimmer =
   'before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent';
-import {TableRowSkeleton} from '@/app/ui/skeletons';
+import { TableRowSkeleton } from '@/app/ui/skeletons';
 
 export function ProjectSkeleton() {
   return (
@@ -60,23 +60,26 @@ export function ProjectsTableSkeleton() {
           <table className="hidden min-w-full text-gray-900 md:table">
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  NUMBER
+                <th scope="col" className="px-1 py-1 font-medium">
+                  TITLE
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  CLIENT
+                <th scope="col" className="px-1 py-1 font-medium">
+                  DATE
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  USER
+                <th scope="col" className="px-1 py-1 font-medium">
+                  PROVIDER
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  POLICIE
+                <th scope="col" className="px-1 py-1 font-medium">
+                  TAKER
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  PLAN
+                <th scope="col" className="px-1 py-1 font-medium">
+                  TIME PREVISION
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  COST
+                <th scope="col" className="px-1 py-1 font-medium">
+                  TIME SPEND
+                </th>
+                <th scope="col" className="px-1 py-1 font-medium">
+                  COMMENTS
                 </th>
                 <th
                   scope="col"

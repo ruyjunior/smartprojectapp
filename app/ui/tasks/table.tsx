@@ -56,34 +56,40 @@ export default async function TasksTable({
                 })}
               </div>
               <table className="hidden min-w-full rounded-md text-gray-900 md:table">
-                <thead className="rounded-md bg-blue-100 text-left text-sm font-normal">
+                <thead className="rounded-md bg-blue-100 text-left text-xs font-normal">
                   <tr>
-                    <th scope="col" className="px-3 py-5 font-medium">
+                    <th scope="col" className="px-2 py-1 font-medium">
                       PROJECT
                     </th>
-                    <th scope="col" className="px-3 py-5 font-medium">
+                    <th scope="col" className="px-2 py-1 font-medium">
                       STATUS
                     </th>
-                    <th scope="col" className="px-3 py-5 font-medium">
+                    <th scope="col" className="px-2 py-1 font-medium">
                       GRADE
                     </th>
-                    <th scope="col" className="px-3 py-5 font-medium">
+                    <th scope="col" className="whitespace-nowrap px-2 py-1 font-medium">
                       START DATE
                     </th>
-                    <th scope="col" className="px-3 py-5 font-medium">
+                    <th scope="col" className="px-2 py-1 font-medium">
                       END DATE
                     </th>
-                    <th scope="col" className="px-3 py-5 font-medium">
+                    <th scope="col" className="px-2 py-1 font-medium">
                       TITLE
                     </th>
-                    <th scope="col" className="px-3 py-5 font-medium">
+                    <th scope="col" className="px-2 py-1 font-medium">
                       WHAT
                     </th>
-                    <th scope="col" className="px-3 py-5 font-medium">
+                    <th scope="col" className="px-2 py-1 font-medium ">
                       HOW
                     </th>
-                    <th scope="col" className="px-3 py-5 font-medium">
+                    <th scope="col" className="px-2 py-1 font-medium">
                       WHO
+                    </th>
+                    <th
+                      scope="col"
+                      className="relative pb-4 pl-3 pr-6 pt-2 sm:pr-6"
+                    >
+                      <span className="sr-only">Edit</span>
                     </th>
                   </tr>
                 </thead>
@@ -93,37 +99,37 @@ export default async function TasksTable({
                     const project = projects.find((p) => p.id === task.idproject);
                     return (
                       <tr key={task.id} className="group">
-                        <td className="whitespace-nowrap bg-white py-5 pl-4 pr-3 text-sm text-black group-first-of-type:rounded-md group-last-of-type:rounded-md sm:pl-6">
+                        <td className="whitespace-nowrap bg-white py-1 pl-1 pr-1 text-xs text-black group-first-of-type:rounded-md group-last-of-type:rounded-md xs:pl-6">
                           <div className="flex items-center gap-3">
                             <p>{project?.title}</p>
                           </div>
                         </td>
-                        <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
+                        <td className="whitespace-nowrap bg-white px-2 py-1 text-xs">
                           <TaskStatus status={task.status} />
                         </td>
-                        <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
+                        <td className="whitespace-nowrap bg-white px-2 py-1 text-xs">
                           {task.grade}
                         </td>
-                        <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
+                        <td className="whitespace-nowrap bg-white px-2 py-1 text-xs">
                           {formatDateToLocal(task.startdate)}
                         </td>
-                        <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
+                        <td className="whitespace-nowrap bg-white px-2 py-1 text-xs">
                           {formatDateToLocal(task.enddate)}
                         </td>
-                        <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
+                        <td className="whitespace-nowrap bg-white px-2 py-1 text-xs">
                           {task.title}
                         </td>
-                        <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
+                        <td className="bg-white px-2 py-1 text-xs">
                           {task.what}
                         </td>
-                        <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
+                        <td className="bg-white px-2 py-1 text-xs break-words">
                           {task.how}
                         </td>
-                        <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
+                        <td className="whitespace-nowrap bg-white px-2 py-1 text-xs">
                           {employee?.name}
                         </td>
-                        <td className="whitespace-nowrap py-3 pl-6 pr-3">
-                          <div className="flex justify-end gap-3">
+                        <td className="whitespace-nowrap py-1 pl-2 pr-2">
+                          <div className="flex justify-end gap-1">
                             <UpdateTask id={task.id} />
                             <DeleteTask id={task.id} />
                           </div>
