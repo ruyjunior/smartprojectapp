@@ -5,12 +5,14 @@ import React, { useState } from 'react';
 import { Task } from '@/app/lib/tasks/definitions';
 import { Employee } from '@/app/lib/employees/definitions';
 import { Project } from '@/app/lib/projects/definitions';
-import { CurrencyDollarIcon, UserCircleIcon, CalendarDateRangeIcon, 
-  TagIcon, DocumentTextIcon, HandThumbUpIcon, ExclamationTriangleIcon, DocumentCheckIcon } from '@heroicons/react/24/outline';
+import {
+  ClockIcon, UserCircleIcon, CalendarDateRangeIcon,
+  TagIcon, DocumentTextIcon, HandThumbUpIcon, ExclamationTriangleIcon, DocumentCheckIcon
+} from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 import { updateTask, State } from '@/app/lib/tasks/actions';
-import { formatDateToLocal, formatDateBr, formatDateDb} from '@/app/lib/utils/utils';
+import { formatTime, formatDateDb } from '@/app/lib/utils/utils';
 
 export default function EditTaskForm({
   task,
@@ -22,11 +24,13 @@ export default function EditTaskForm({
   projects: Project[];
 }) {
   const initialState: State = { message: null, errors: {} };
-  const updateTaskWithId = updateTask.bind(null, task.id);
+  const updateTaskWithId = (state: State = initialState, formData: FormData) => updateTask(task.id, state, formData);
   const [state, formAction] = useActionState(updateTaskWithId, initialState);
 
   const startdate = formatDateDb(task.startdate);
   const enddate = formatDateDb(task.enddate);
+  const timeprevision = formatTime(task.timeprevision);
+  const timespend = formatTime(task.timespend);
 
   return (
     <form action={formAction}>
@@ -77,6 +81,53 @@ export default function EditTaskForm({
           </div>
         </div>
 
+        {/* Time Prevision */}
+        <div className="mb-4">
+          <label htmlFor="timeprevision" className="mb-2 block text-sm font-medium">
+            Enter Time Prevision
+          </label>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="timeprevision"
+                name="timeprevision"
+                type="time"
+                defaultValue={task.timeprevision}
+                //maxLength={5}
+                //onChange={handleChangeEndDate}
+                placeholder="Enter a time prevision"
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                aria-describedby="enddate-error"
+              />
+              <ClockIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+            </div>
+          </div>
+        </div>
+
+        {/* Time Spend */}
+        <div className="mb-4">
+          <label htmlFor="timespend" className="mb-2 block text-sm font-medium">
+            Enter Time spend
+          </label>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="timespend"
+                name="timespend"
+                type="time"
+                defaultValue={task.timespend}
+                //maxLength={5}
+                //onChange={handleChangeEndDate}
+                placeholder="Enter a time spend"
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                aria-describedby="enddate-error"
+              />
+              <ClockIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+            </div>
+          </div>
+        </div>
+
+
         {/* Employee*/}
         <div className="mb-4">
           <label htmlFor="who" className="mb-2 block text-sm font-medium">
@@ -102,7 +153,7 @@ export default function EditTaskForm({
             <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
           </div>
           <div id="who-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.who &&
+            {state?.errors?.who &&
               state.errors.who.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
                   {error}
@@ -126,11 +177,11 @@ export default function EditTaskForm({
                 placeholder="Enter a title"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 aria-describedby="title-error"
-                />
+              />
               <TagIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
             <div id="title-error" aria-live="polite" aria-atomic="true">
-              {state.errors?.title &&
+              {state?.errors?.title &&
                 state.errors.title.map((error: string) => (
                   <p className="mt-2 text-sm text-red-500" key={error}>
                     {error}
@@ -155,11 +206,11 @@ export default function EditTaskForm({
                 placeholder="Enter what will be done"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 aria-describedby="what-error"
-                />
+              />
               <DocumentTextIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
             <div id="what-error" aria-live="polite" aria-atomic="true">
-              {state.errors?.what &&
+              {state?.errors?.what &&
                 state.errors.what.map((error: string) => (
                   <p className="mt-2 text-sm text-red-500" key={error}>
                     {error}
@@ -184,11 +235,11 @@ export default function EditTaskForm({
                 placeholder="Enter how it was done"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 aria-describedby="how-error"
-                />
+              />
               <DocumentTextIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
             <div id="how-error" aria-live="polite" aria-atomic="true">
-              {state.errors?.how &&
+              {state?.errors?.how &&
                 state.errors.how.map((error: string) => (
                   <p className="mt-2 text-sm text-red-500" key={error}>
                     {error}
@@ -219,7 +270,7 @@ export default function EditTaskForm({
             <ExclamationTriangleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
           </div>
           <div id="grade-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.grade &&
+            {state?.errors?.grade &&
               state.errors.grade.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
                   {error}
@@ -249,7 +300,7 @@ export default function EditTaskForm({
             <HandThumbUpIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
           </div>
           <div id="status-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.grade &&
+            {state?.errors?.grade &&
               state.errors.grade.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
                   {error}
@@ -283,7 +334,7 @@ export default function EditTaskForm({
             <DocumentCheckIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
           </div>
           <div id="who-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.who &&
+            {state?.errors?.who &&
               state.errors.who.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
                   {error}

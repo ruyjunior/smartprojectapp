@@ -73,9 +73,9 @@ export async function fetchEmployeeById(id: string) {
       ...employee,
       price: Number(employee.price) / 100
     }));
-    console.log(employee[0].price);
+    console.log( 'Employee: ' + employee[0].name);
+
     return employee[0];
-    console.log( 'Employee: ' + employee[0]);
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch employee.');

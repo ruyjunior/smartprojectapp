@@ -1,10 +1,7 @@
 import { NextResponse } from 'next/server';
-import { fetchClients, fetchClientById } from '@/app/lib/employees/data';
 import { fetchFilteredUsers, fetchUsers } from '@/app/lib/users/data';
-import { fetchCosts, fetchFilteredCosts } from '@/app/lib/costs/data';
-import { fetchFilteredPlans } from '@/app/lib/plans/data';
-import { fetchProposals } from '@/app/lib/proposals/data';
 import { fetchCompanies } from '@/app/lib/companies/data';
+import { fetchTasksByProject } from '@/app/lib/tasks/data';
 
 export async function GET() {
    /* try {

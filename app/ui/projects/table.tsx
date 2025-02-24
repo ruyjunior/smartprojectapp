@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { UpdateProject, DeleteProject, PdfProject } from '@/app/ui/projects/buttons';
+import { UpdateProject, DeleteProject, PdfProject, ViewProject } from '@/app/ui/projects/buttons';
 import { formatDateToLocal, formatCurrency } from '@/app/lib/utils/utils';
 import { fetchFilteredProjects } from '@/app/lib/projects/data';
 import { fetchCompanies } from '@/app/lib/companies/data';
@@ -39,12 +39,13 @@ export default async function ProjectsTable({
                       </div>
                       <div className="flex-row items-center justify-between pt-1">
                         <div>
-                          <p>Expected Hours: </p>
-                          <p>Executed Hours: </p>
+                          <p>Prevision Hours: </p>
+                          <p>Spend Hours: </p>
                         </div>
                       </div>
                       <div className="flex items-center justify-between pt-1">
                         <div className="flex justify-end gap-2">
+                          <ViewProject id={project.id} />
                           <UpdateProject id={project.id} />
                           <DeleteProject id={project.id} />
                           <PdfProject id={project.id} />
@@ -58,11 +59,14 @@ export default async function ProjectsTable({
                 <thead className="rounded-md bg-blue-100 text-left text-xs font-normal">
                   <tr>
                     <th scope="col" className="px-1 py-1 font-medium">
+                      VIEW
+                    </th>
+                    <th scope="col" className="px-1 py-1 font-medium">
                       TAKER
                     </th>
                     <th scope="col" className="px-1 py-1 font-medium">
                       PROVIDER
-                    </th> 
+                    </th>
                     <th scope="col" className="px-1 py-1 font-medium">
                       TITLE
                     </th>
@@ -94,9 +98,14 @@ export default async function ProjectsTable({
                     const taker = companies.find((c) => c.id === project.idtaker);
                     return (
                       <tr key={project.id} className="group">
+                        <td className="whitespace-nowrap py-2 pl-2 pr-2">
+                          <div className="flex justify-end gap-3">
+                            <ViewProject id={project.id} />
+                          </div>
+                        </td>
                         <td className="bg-white w-20 py-2 pl-2 pr-2 text-xs text-black group-first-of-type:rounded-md group-last-of-type:rounded-md xs:pl-6">
                           <div className="flex items-center gap-3">
-                          <p>{taker ? taker.name : 'Taker not found'}</p>
+                            <p>{taker ? taker.name : 'Taker not found'}</p>
                           </div>
                         </td>
                         <td className="bg-white px-2 py-1 text-xs">

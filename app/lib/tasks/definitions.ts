@@ -10,4 +10,6 @@ export type Task = {
   enddate: string;
   status: string;
   idproject: string;
+  timeprevision: string;
+  timespend: string;
 };

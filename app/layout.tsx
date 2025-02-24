@@ -3,6 +3,7 @@ import { inter } from '@/app/ui/fonts';
 import { Metadata } from 'next';
 import AuthProvider from "@/app/login/SessionProvider";
 import { SessionProvider } from "next-auth/react";
+import  favicon  from 'public/logo/favicon-32x32.png'
 
 export const metadata: Metadata = {
   title: {
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
     default: 'AUTORIC AUTOMATION',
   },
   description: 'The APP for automation projects',
-  metadataBase: new URL('https://www.autoric.com.br'),
+  metadataBase: new URL('https://www.autoric.com.br')
 };
 
 export default function RootLayout({

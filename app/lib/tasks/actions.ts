@@ -3,7 +3,6 @@ import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { sql } from '@vercel/postgres';
-import { start } from 'repl';
 
 const FormSchema = z.object({
   id: z.string(),
@@ -16,15 +15,18 @@ const FormSchema = z.object({
   enddate: z.string(),
   status: z.string(),
   idproject: z.string(),
+  timeprevision: z.string(),
+  timespend: z.string(),
 });
 
-const CreateTask = FormSchema.omit({ id: true, enddate: true, how: true });
+const CreateTask = FormSchema.omit({ id: true, enddate: true, how: true, timespend: true });
 const UpdateTask = FormSchema.omit({ id: true });
 
 export type State = {
   errors?: {
     title?: string[];
     startdate?: String[];
+    timeprevision?: String[];
     what?: string[];
     how?: string[];
     who?: string[];
@@ -38,6 +40,7 @@ export async function createTask(prevState: State, formData: FormData) {
   const validatedFields = CreateTask.safeParse({
     title: formData.get('title'),
     startdate: formData.get('startdate'),
+    timeprevision: formData.get('timeprevision'),
     what: formData.get('what'),
     how: formData.get('how'),
     who: formData.get('who'),
@@ -52,12 +55,13 @@ export async function createTask(prevState: State, formData: FormData) {
         message: 'Missing Fields. Failed to Create.',
       };
     }
-    const { title, startdate, status, what, who, grade, idproject} = validatedFields.data;
+    const { title, startdate, timeprevision, status, what, who, grade, idproject} = validatedFields.data;
 
     try {
         await sql`
-        INSERT INTO autoricapp.tasks ( title, startdate, status, what, who, grade, idproject)
-        VALUES (${title}, ${startdate}, ${status}, ${what}, ${who}, ${grade}, ${idproject})
+        INSERT INTO autoricapp.tasks ( 
+          title, startdate, timeprevision, status, what, who, grade, idproject)
+        VALUES (${title}, ${startdate}, ${timeprevision}, ${status}, ${what}, ${who}, ${grade}, ${idproject})
         `;  
     } catch (error){
       return {
@@ -65,8 +69,8 @@ export async function createTask(prevState: State, formData: FormData) {
       };
     }
     revalidatePath('/dashboard/tasks');
-    redirect('/dashboard/tasks');
-}
+    redirect('/dashboard/projects/' + idproject + '/view' );
+  }
  
 export async function updateTask(
   id: string,
@@ -82,7 +86,9 @@ export async function updateTask(
     startdate: formData.get('startdate'),
     enddate: formData.get('enddate'),
     status: formData.get('status'),
-    idproject: formData.get('idproject')
+    idproject: formData.get('idproject'),
+    timeprevision: formData.get('timeprevision'),
+    timespend: formData.get('timespend'),
 });
   if (!validatedFields.success) {
     return {
@@ -91,8 +97,11 @@ export async function updateTask(
     };
   }
   
-  const { title, what, how, who, grade, startdate, enddate, status, idproject} = validatedFields.data;
-  const sanitizedEndDate = enddate || null;
+  const { title, what, how, who, grade, startdate, 
+          enddate, status, idproject, timeprevision, timespend
+        } = validatedFields.data;
+        const sanitizedEndDate = enddate || null;
+        const sanitizedTimeSpend = timespend || null;
 
   try {
     await sql`
@@ -106,7 +115,9 @@ export async function updateTask(
       grade = ${grade}, 
       startdate = ${startdate}, 
       enddate = ${sanitizedEndDate}, 
-      status = ${status}
+      status = ${status},
+      timeprevision = ${timeprevision},
+      timespend = ${sanitizedTimeSpend}
     WHERE id = ${id}
   `;
 } catch (error){
@@ -114,7 +125,7 @@ export async function updateTask(
  }
  
   revalidatePath('/dashboard/tasks');
-  redirect('/dashboard/tasks');
+  redirect('/dashboard/projects/' + idproject + '/view' );
 }
 
 export async function deleteTask(id: string) {

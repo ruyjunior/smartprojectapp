@@ -1,25 +1,27 @@
-import { DocumentCheckIcon, UserGroupIcon, UsersIcon, UserCircleIcon } from '@heroicons/react/24/outline';
+import { DocumentCheckIcon, UserGroupIcon, UsersIcon, UserCircleIcon, 
+          BuildingOfficeIcon, RectangleStackIcon , CheckIcon, ClockIcon
+        } from '@heroicons/react/24/outline';
 import { fetchCardData } from '@/app/lib/data';
 import { lusitana } from '@/app/ui/fonts';
 
 const iconMap = {
-  customers: UserCircleIcon,
-  clients: UserGroupIcon,
-  proposals: DocumentCheckIcon,
+  companies: BuildingOfficeIcon,
+  tasksDone: CheckIcon,
+  tasksStop: ClockIcon,
 };
 
 export default async function CardWrapper() {
   const {
-    numberOfProposals,
-    numberOfCustomers,
-    numberOfClients
+   numberOfTasksDone,
+   numberOfTasksStop,
+   numberOfCompanies
   } = await fetchCardData();
 
   return (
     <>
-      <Card title="Total Proposals" value={numberOfProposals} type="proposals" />
-      <Card title="Total Clients" value={numberOfClients} type="clients" />
-      <Card title="Total Users" value={numberOfCustomers} type="customers" />
+      <Card title="Total Tasks Done" value={numberOfTasksDone} type="tasksDone" />
+      <Card title="Total Tasks Stopped" value={numberOfTasksStop} type="tasksStop" />
+      <Card title="Total Companies" value={numberOfCompanies} type="companies" />
     </>
   );
 }
@@ -31,7 +33,7 @@ export function Card({
 }: {
   title: string;
   value: number | string;
-  type: 'proposals' | 'customers' | 'clients';
+  type: 'tasksDone' | 'tasksStop' | 'companies';
 }) {
   const Icon = iconMap[type];
 

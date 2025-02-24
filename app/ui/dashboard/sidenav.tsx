@@ -8,8 +8,8 @@ import UserCard from '@/app/ui/dashboard/userCard';
 export default async function SideNav() {
   return (
     <div className="flex h-full flex-col px-3 py-4 md:px-2">
-      <Link className="m-1 flex h-12 items-center justify-center rounded-md bg-blue-400 p-4 md:h-12" href="/">
-        <div className="w-100 text-white md:w-100">
+      <Link className="m-1 flex h-12 items-center justify-center rounded-md bg-white-400 p-6 md:h-12" href="/">
+        <div className="w-28 text-white md:w-25">
           <LogoApp />
         </div>
       </Link>

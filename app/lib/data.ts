@@ -9,43 +9,26 @@ import {
   Revenue,
 } from './definitions';
 import { formatCurrency } from './utils/utils';
+import { Task } from './tasks/definitions';
 
-export async function fetchRevenue() {
+export async function fetchLatestTasks() {
   try {
-    // Artificially delay a response for demo purposes.
-    // Don't do this in production :)
+    const data = await sql<Task>`
+   SELECT 
+        id, title, what, how, who, grade, 
+                startdate, enddate, status, idproject, 
+                        timeprevision, timespend 
+                              FROM autoricapp.tasks
+                                    ORDER BY startdate DESC
+                                          LIMIT 5`;
 
-    //console.log('Fetching revenue data...');
-    //await new Promise((resolve) => setTimeout(resolve, 3000));
-
-    const data = await sql<Revenue>`SELECT * FROM revenue`;
-
-    //console.log('Data fetch completed after 3 seconds.');
-
-    return data.rows;
-  } catch (error) {
-    console.error('Database Error:', error);
-    throw new Error('Failed to fetch revenue data.');
-  }
-}
-
-export async function fetchLatestInvoices() {
-  try {
-    const data = await sql<LatestInvoiceRaw>`
-      SELECT invoices.amount, customers.name, customers.image_url, customers.email, invoices.id
-      FROM invoices
-      JOIN customers ON invoices.customer_id = customers.id
-      ORDER BY invoices.date DESC
-      LIMIT 5`;
-
-    const latestInvoices = data.rows.map((invoice) => ({
-      ...invoice,
-      amount: formatCurrency(invoice.amount),
+    const latestTasks = data.rows.map((task) => ({
+      ...task,
     }));
-    return latestInvoices;
+    return latestTasks;
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch the latest invoices.');
+    throw new Error('Failed to fetch the latest tasks.');
   }
 }
 
@@ -54,24 +37,24 @@ export async function fetchCardData() {
     // You can probably combine these into a single SQL query
     // However, we are intentionally splitting them to demonstrate
     // how to initialize multiple queries in parallel with JS.
-    const proposalCountPromise = sql`SELECT COUNT(*) FROM proposalsapp.proposals`;
-    const customerCountPromise = sql`SELECT COUNT(*) FROM proposalsapp.users`;
-    const clientCountPromise = sql`SELECT COUNT(*) FROM proposalsapp.clients`;
+    const countTasksDone = sql`SELECT COUNT(*) FROM autoricapp.tasks WHERE tasks.status = 'done'`;
+    const countTasksStop = sql`SELECT COUNT(*) FROM autoricapp.tasks WHERE tasks.status = 'stopped'`;
+    const countCompanies = sql`SELECT COUNT(*) FROM autoricapp.companies`;
 
     const data = await Promise.all([
-      proposalCountPromise,
-      customerCountPromise,
-      clientCountPromise,
+      countTasksDone,
+      countTasksStop,
+      countCompanies,
     ]);
 
-    const numberOfProposals = Number(data[0].rows[0].count ?? '0');
-    const numberOfCustomers = Number(data[1].rows[0].count ?? '0');
-    const numberOfClients = Number(data[2].rows[0].count ?? '0');
-
+    const numberOfTasksDone = Number(data[0].rows[0].count ?? '0');
+    const numberOfTasksStop = Number(data[1].rows[0].count ?? '0');
+    const numberOfCompanies = Number(data[2].rows[0].count ?? '0');
+    
     return {
-      numberOfProposals,
-      numberOfCustomers,
-      numberOfClients,    
+      numberOfTasksDone,
+      numberOfTasksStop,
+      numberOfCompanies,    
     };
   } catch (error) {
     console.error('Database Error:', error);

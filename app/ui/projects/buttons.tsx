@@ -1,4 +1,4 @@
-import { PencilIcon, PlusIcon, TrashIcon, PrinterIcon } from '@heroicons/react/24/outline';
+import { PencilIcon, PlusIcon, TrashIcon, PrinterIcon, EyeIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { deleteProject } from '@/app/lib/projects/actions';
 
@@ -32,6 +32,17 @@ export function PdfProject({ id }: { id: string }) {
       className="rounded-md border p-2 hover:bg-gray-100"
     >
       <PrinterIcon className="w-5" />
+    </Link>
+  );
+}
+
+export function ViewProject({ id }: { id: string }) {
+  return (
+    <Link
+      href={`/dashboard/projects/${id}/view`}
+      className="rounded-md border p-2 hover:bg-gray-100"
+    >
+      <EyeIcon className="w-5" />
     </Link>
   );
 }

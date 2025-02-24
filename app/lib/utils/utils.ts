@@ -24,6 +24,14 @@ export const formatDateToLocal = (
   return formatter.format(date);
 };
 
+export const formatTime = (time: string | null | undefined) => {
+  if (!time) {
+    return '';
+  }
+  // Remove the seconds part
+  return time.slice(0, -3);
+};
+
 export const formatCPF = (cpf: string | null | undefined) => {
   if (!cpf) {
     return '';
