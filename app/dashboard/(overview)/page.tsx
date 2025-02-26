@@ -1,5 +1,4 @@
 import CardWrapper from '@/app/ui/dashboard/cards';
-import RevenueChart from '@/app/ui/dashboard/revenue-chart';
 import LatestTasks from '@/app/ui/dashboard/latest-tasks';
 import { lusitana } from '@/app/ui/fonts';
 import { Suspense } from 'react';
