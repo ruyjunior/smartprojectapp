@@ -1,4 +1,8 @@
 import Form from '@/app/ui/projects/view-form';
+import TasksTable from '@/app/ui/tasks/table';
+import ProjectsTable from '@/app/ui/projects/table';
+import { CreateTask } from '@/app/ui/tasks/buttons';
+import { Suspense } from 'react';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
 import { fetchProjectById } from '@/app/lib/projects/data';
 import { fetchCompanies } from '@/app/lib/companies/data';
@@ -8,7 +12,7 @@ import { Metadata } from 'next';
 import { fetchEmployees } from '@/app/lib/employees/data';
 
 export const metadata: Metadata = {
-  title: 'Print PDF Projects',
+  title: 'Project View',
 };
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
@@ -17,7 +21,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   const [project, companies, tasks, employees] = await Promise.all([
     fetchProjectById(id),
     fetchCompanies(),
-    fetchTasksByProject(id), //FetchTasksByProject
+    fetchTasksByProject(id),
     fetchEmployees()
   ]);
   if (!project) {
@@ -28,7 +32,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Projects' , href: '/dashboard/projects' },
+          { label: 'Projects', href: '/dashboard/projects' },
           {
             label: project.title,
             href: `/dashboard/projects/${id}/view`,
@@ -36,12 +40,11 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           },
         ]}
       />
-      <Form
-        project={project}
-        tasks={tasks}
-        companies={companies}
-        employees={employees}
-      />
+      <ProjectsTable query={id} currentPage={null} />
+      <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
+        <CreateTask id={id}/>
+      </div>
+      <TasksTable query={id} currentPage={null} />
     </main>
   );
 }

@@ -1,10 +1,10 @@
 import { sql } from '@vercel/postgres';
-import { Companie } from '@/app/lib/companies/definitions';
+import { Company } from '@/app/lib/companies/definitions';
 
 export async function fetchCompanies() {
   
   try {
-    const data = await sql<Companie>`
+    const data = await sql<Company>`
       SELECT id, name, cnpj, cep
       FROM autoricapp.companies
       ORDER BY name ASC
@@ -23,7 +23,7 @@ export async function fetchFilteredCompanies(
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
   
   try {
-    const data = await sql<Companie>`
+    const data = await sql<Company>`
       SELECT id, name, cnpj, cep
       FROM autoricapp.companies
       WHERE
@@ -54,7 +54,7 @@ export async function fetchCompaniesPages(query: string) {
 
 export async function fetchCompanieById(id: string) {
   try {
-    const data = await sql<Companie>`
+    const data = await sql<Company>`
       SELECT
         companies.id,
         companies.name,

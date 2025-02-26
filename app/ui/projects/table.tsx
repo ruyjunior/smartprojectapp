@@ -3,17 +3,19 @@ import { UpdateProject, DeleteProject, PdfProject, ViewProject } from '@/app/ui/
 import { formatDateToLocal, formatCurrency } from '@/app/lib/utils/utils';
 import { fetchFilteredProjects } from '@/app/lib/projects/data';
 import { fetchCompanies } from '@/app/lib/companies/data';
+import { fetchEmployees } from '@/app/lib/employees/data';
 
 export default async function ProjectsTable({
   query,
   currentPage,
 }: {
-  query: string;
-  currentPage: number;
+  query: string | undefined | null;
+  currentPage: number | undefined | null;
 }) {
   const projects = await fetchFilteredProjects(query, currentPage);
   const companies = await fetchCompanies();
-
+  const employees = await fetchEmployees();
+  //console.log('Projects:', projects);
   return (
     <div className="w-full">
       <div className="mt-6 flow-root">
@@ -24,6 +26,8 @@ export default async function ProjectsTable({
                 {projects?.map((project) => {
                   const provider = companies.find((c) => c.id === project.idprovider);
                   const taker = companies.find((c) => c.id === project.idtaker);
+                  const takerSponsor = employees.find((e) => e.id === project.idtakersponsor);
+                  const providerSponsor = employees.find((e) => e.id === project.idprovidersponsor);
                   return (
                     <div
                       key={project.id}
@@ -32,15 +36,17 @@ export default async function ProjectsTable({
                       <div className="flex-row w-full items-center justify-between border-b pb-4">
                         <div className=' hover:bg-green-500'>
                           <p className='text-2xl'>{project.title}</p>
-                          <p>Date: {formatDateToLocal(project.timestamp)}</p>
-                          <p>Provider: {provider ? provider.name : 'Profider not found'}</p>
+                          <p>Date: {formatDateToLocal(project.timestamp)}</p>                          
                           <p>Taker: {taker ? taker.name : 'Taker not found'}</p>
+                          <p>Taker Sponsor: {takerSponsor ? takerSponsor.name : 'Taker Sponsor not found'}</p>
+                          <p>Provider: {provider ? provider.name : 'Profider not found'}</p>
+                          <p>Provider Sponsor: {providerSponsor ? providerSponsor.name : 'Provider Sponsor not found'}</p>
                         </div>
                       </div>
                       <div className="flex-row items-center justify-between pt-1">
                         <div>
-                          <p>Prevision Hours: </p>
-                          <p>Spend Hours: </p>
+                          <p>Prevision Hours: {project.timeprevision}</p>
+                          <p>Spend Hours: {project.timespend}</p>
                         </div>
                       </div>
                       <div className="flex items-center justify-between pt-1">
@@ -65,7 +71,13 @@ export default async function ProjectsTable({
                       TAKER
                     </th>
                     <th scope="col" className="px-1 py-1 font-medium">
+                      TAKER SPONSOR
+                    </th>
+                    <th scope="col" className="px-1 py-1 font-medium">
                       PROVIDER
+                    </th>
+                    <th scope="col" className="px-1 py-1 font-medium">
+                      PROVIDER SPONSOR
                     </th>
                     <th scope="col" className="px-1 py-1 font-medium">
                       TITLE
@@ -96,6 +108,9 @@ export default async function ProjectsTable({
                   {projects.map((project) => {
                     const provider = companies.find((c) => c.id === project.idprovider);
                     const taker = companies.find((c) => c.id === project.idtaker);
+                    const takerSponsor = employees.find((e) => e.id === project.idtakersponsor);
+                    const providerSponsor = employees.find((e) => e.id === project.idprovidersponsor);
+  
                     return (
                       <tr key={project.id} className="group">
                         <td className="whitespace-nowrap py-2 pl-2 pr-2">
@@ -109,7 +124,13 @@ export default async function ProjectsTable({
                           </div>
                         </td>
                         <td className="bg-white px-2 py-1 text-xs">
-                          <p>{provider ? provider.name : 'Profider not found'}</p>
+                          <p>{takerSponsor ? takerSponsor.name : 'Taker Sponser not found'}</p>
+                        </td>
+                        <td className="bg-white px-2 py-1 text-xs">
+                          <p>{provider ? provider.name : 'Provider not found'}</p>
+                        </td>
+                        <td className="bg-white px-2 py-1 text-xs">
+                          <p>{providerSponsor ? providerSponsor.name : 'Provider Sponsor not found'}</p>
                         </td>
                         <td className=" bg-white px-4 py-5 text-xs">
                           <p>{project.title}</p>
@@ -121,10 +142,10 @@ export default async function ProjectsTable({
                           <p>{project.comments}</p>
                         </td>
                         <td className=" bg-white px-4 py-5 text-xs">
-                          <p>Time Prevision - Future</p>
+                          <p>{project.timeprevision}</p>
                         </td>
                         <td className=" bg-white px-4 py-5 text-xs">
-                          <p>Time Spend - Future</p>
+                          <p>{project.timespend}</p>
                         </td>
                         <td className="whitespace-nowrap py-2 pl-2 pr-2">
                           <div className="flex justify-end gap-3">

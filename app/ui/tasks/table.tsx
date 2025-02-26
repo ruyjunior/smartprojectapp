@@ -1,7 +1,6 @@
-import Image from 'next/image';
 import { UpdateTask, DeleteTask } from '@/app/ui/tasks/buttons';
 import TaskStatus from '@/app/ui/tasks/status';
-import { formatDateToLocal, formatCurrency } from '@/app/lib/utils/utils';
+import { formatDateToLocal, formatTime } from '@/app/lib/utils/utils';
 import { fetchFilteredTasks } from '@/app/lib/tasks/data';
 import { fetchProjects } from '@/app/lib/projects/data';
 import { fetchEmployees } from '@/app/lib/employees/data';
@@ -10,8 +9,8 @@ export default async function TasksTable({
   query,
   currentPage,
 }: {
-  query: string;
-  currentPage: number;
+  query: string | undefined | null;
+  currentPage: number | undefined | null;
 }) {
   const tasks = await fetchFilteredTasks(query, currentPage);
   const employees = await fetchEmployees();
@@ -32,19 +31,27 @@ export default async function TasksTable({
                       key={task.id}
                       className="mb-6 w-full rounded-md bg-blue-200 p-2"
                     >
-                      <div className="flex-row items-center justify-between border-b pb-4">
-                        <div>
-                          <p>Name: {project?.title}</p>
-                          <p className="text-sm text-gray-500">Start: {formatDateToLocal(task.startdate)}</p>
-                          <p className="text-sm text-gray-500">End: {formatDateToLocal(task.enddate)}</p>
-                          <p className="text-sm text-gray-500">Taks: {task.title}</p>
-                          <p className="text-sm text-gray-500">What: {task.what}</p>
-                          <p className="text-sm text-gray-500">Who: {employee?.name}</p>
-                          <p className="text-sm text-gray-500">How: {task.how}</p>
+                      <div className="flex-row items-center justify-between border-b pb-2">
+                        <div className="flex-col justify-left gap-3 pt-1">
+                          <p>Title: {task.title}</p>
+                          <div className="flex justify-left gap-3 pb-1">
+                            <p className="text-sm text-gray-500">Start: {formatDateToLocal(task.startdate)}</p>
+                            <p className="text-sm text-gray-500">End: {formatDateToLocal(task.enddate)}</p>
+                          </div>
+                          <div className="flex justify-left border-b gap-3 pb-1">
+                            <p className="text-sm text-gray-500">Prevision: {formatTime(task.timeprevision)}</p>
+                            <p className="text-sm text-gray-500">Spended: {formatTime(task.timespend)}</p>
+                          </div>
                         </div>
-                        <p className="text-sm text-gray-500">Grade: {task.grade}</p>
-                        <p className="text-sm text-gray-500">Status: {task.status}</p>
-
+                        <div className='pt-2'>
+                          <p className="text-sm text-gray-500">What: {task.what}</p>
+                          <p className="text-sm text-gray-500">How: {task.how}</p>
+                          <p className="text-sm text-gray-500">Who: {employee?.name}</p>
+                        </div>
+                        <div className="flex justify-center gap-3 pt-2">
+                          <p className="text-sm text-gray-500">Status: {task.status}</p>
+                          <p className="text-sm text-gray-500">Grade: {task.grade}</p>
+                        </div>
                       </div>
                       <div className="flex justify-end gap-3 pt-2">
                         <UpdateTask id={task.id} />
@@ -59,7 +66,7 @@ export default async function TasksTable({
                 <thead className="rounded-md bg-blue-100 text-left text-xs font-normal">
                   <tr>
                     <th scope="col" className="px-2 py-1 font-medium">
-                      PROJECT
+                      TITLE
                     </th>
                     <th scope="col" className="px-2 py-1 font-medium">
                       STATUS
@@ -74,9 +81,6 @@ export default async function TasksTable({
                       END DATE
                     </th>
                     <th scope="col" className="px-2 py-1 font-medium">
-                      TITLE
-                    </th>
-                    <th scope="col" className="px-2 py-1 font-medium">
                       WHAT
                     </th>
                     <th scope="col" className="px-2 py-1 font-medium ">
@@ -84,6 +88,12 @@ export default async function TasksTable({
                     </th>
                     <th scope="col" className="px-2 py-1 font-medium">
                       WHO
+                    </th>
+                    <th scope="col" className="px-2 py-1 font-medium">
+                      TIME PREVISION
+                    </th>
+                    <th scope="col" className="px-2 py-1 font-medium">
+                      TIME SPENDED
                     </th>
                     <th
                       scope="col"
@@ -94,14 +104,13 @@ export default async function TasksTable({
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 text-gray-900">
-                  {tasks.map((task) => {
+                  {tasks?.map((task) => {
                     const employee = employees.find((e) => e.id === task.who);
-                    const project = projects.find((p) => p.id === task.idproject);
                     return (
                       <tr key={task.id} className="group">
                         <td className="whitespace-nowrap bg-white py-1 pl-1 pr-1 text-xs text-black group-first-of-type:rounded-md group-last-of-type:rounded-md xs:pl-6">
                           <div className="flex items-center gap-3">
-                            <p>{project?.title}</p>
+                            {task.title}
                           </div>
                         </td>
                         <td className="whitespace-nowrap bg-white px-2 py-1 text-xs">
@@ -116,9 +125,6 @@ export default async function TasksTable({
                         <td className="whitespace-nowrap bg-white px-2 py-1 text-xs">
                           {formatDateToLocal(task.enddate)}
                         </td>
-                        <td className="whitespace-nowrap bg-white px-2 py-1 text-xs">
-                          {task.title}
-                        </td>
                         <td className="bg-white px-2 py-1 text-xs">
                           {task.what}
                         </td>
@@ -127,6 +133,12 @@ export default async function TasksTable({
                         </td>
                         <td className="whitespace-nowrap bg-white px-2 py-1 text-xs">
                           {employee?.name}
+                        </td>
+                        <td className="whitespace-nowrap bg-white px-2 py-1 text-xs">
+                          <p className="text-sm text-gray-500">{formatTime(task.timeprevision)}</p>
+                        </td>
+                        <td className="whitespace-nowrap bg-white px-2 py-1 text-xs">
+                          <p className="text-sm text-gray-500">{formatTime(task.timespend)}</p>
                         </td>
                         <td className="whitespace-nowrap py-1 pl-2 pr-2">
                           <div className="flex justify-end gap-1">

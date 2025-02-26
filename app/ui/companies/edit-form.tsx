@@ -1,7 +1,7 @@
 'use client';
 import { useActionState } from 'react';
 import React, { useState } from 'react';
-import { Companie } from '@/app/lib/companies/definitions';
+import { Company } from '@/app/lib/companies/definitions';
 import {
   IdentificationIcon, PhoneIcon,
   TicketIcon, TagIcon, TruckIcon, AtSymbolIcon,CalendarDateRangeIcon
@@ -14,7 +14,7 @@ import { formatCNPJ } from '@/app/lib/utils/utils';
 export default function EditCompanieForm({
   companie,
 }: {
-  companie: Companie;
+  companie: Company;
 }) {
   const initialState: State = { message: null, errors: {} };
   const updateCompanieWithId = updateCompanie.bind(null, companie.id);

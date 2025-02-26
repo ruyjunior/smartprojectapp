@@ -1,19 +1,20 @@
 'use client';
-import { useActionState } from 'react';
-import React, { useState } from 'react';
+import React, { useState, useActionState } from 'react';
 import { Employee } from '@/app/lib/employees/definitions';
 import { Project } from '@/app/lib/projects/definitions';
 import Link from 'next/link';
 import { CurrencyDollarIcon, UserCircleIcon, CalendarDateRangeIcon, ClockIcon } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
 import { createTask, State } from '@/app/lib/tasks/actions';
-import { formatDateToLocal, formatDateBr } from '@/app/lib/utils/utils';
+import { formatDateBr } from '@/app/lib/utils/utils';
 
+export default function Form({ 
+  employees, project } : { 
+  employees: Employee[], project: Project }) {
 
-export default function Form({ employees, projects }: { employees: Employee[], projects: Project[] }) {
-
-  const initialState: State = { message: '', errors: {} as Record<string, string[]> };
+const initialState: State = { message: '', errors: {} };
   const [state, formAction] = useActionState(createTask, initialState);
+
   const [startdate, setStartDate] = useState('');
 
   const handleChangeStartDate = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,17 +36,15 @@ export default function Form({ employees, projects }: { employees: Employee[], p
               id="idproject"
               name="idproject"
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              defaultValue=""
+              defaultValue={project.id}
               aria-describedby="idproject-error"
             >
               <option value="" disabled>
                 Select Project
               </option>
-              {projects.map((project) => (
-                <option key={project.id} value={project.id}>
-                  {project.title}
-                </option>
-              ))}
+              <option key={project.id} value={project.id}>
+                {project.title}
+              </option>
             </select>
             <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
           </div>

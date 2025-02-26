@@ -8,9 +8,11 @@ export type Project = {
   comments: string;
   idprovider: string;
   idtaker: string;
+  idprovidersponsor: string;
+  idtakersponsor: string;
   timestamp: string;
-  expectedhours: string;
-  executedhours: string;
+  timeprevision: string;
+  timespend: string;
 };
 
 export type ProjectPDF = {

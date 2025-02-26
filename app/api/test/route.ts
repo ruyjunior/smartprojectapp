@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { fetchFilteredUsers, fetchUsers } from '@/app/lib/users/data';
 import { fetchCompanies } from '@/app/lib/companies/data';
 import { fetchTasksByProject } from '@/app/lib/tasks/data';
+import { fetchProjects_test, fetchTimes } from '@/app/lib/projects/data';
 
 export async function GET() {
    /* try {
@@ -16,10 +17,9 @@ export async function GET() {
       );
     }
   
-    const id = 'ea3e07e7-035d-4bd2-9623-3f36ac7d706d';
+    const id = 'aede66c3-d750-4bf0-84d5-5310285c7a5c';
     try {
-      const client = await fetchClientById(id);
-      return NextResponse.json({ client });
+      fetchTimes(id);
     } catch (error) {
       console.error('Erro ao buscar cliente:', error);
   
@@ -70,16 +70,20 @@ try {
   );
 }
 }
-*/
+
 try {
-  const companies = await fetchCompanies();
-  return NextResponse.json({ companies });
+  const projects = await fetchProjects_test();
+  return NextResponse.json({ projects });
 } catch (error) {
-  console.error('Erro ao buscar plans:', error);
+  console.error('Erro ao buscar projects:', error);
 
   return NextResponse.json(
     { error: (error as Error).message }, // Aqui forçamos `error` a ser do tipo `Error`
     { status: 500 }
   );
 }
+}
+
+*/
+
 }

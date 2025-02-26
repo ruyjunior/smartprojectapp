@@ -23,17 +23,18 @@ const CreateTask = FormSchema.omit({ id: true, enddate: true, how: true, timespe
 const UpdateTask = FormSchema.omit({ id: true });
 
 export type State = {
+  message?: string;
   errors?: {
     title?: string[];
     startdate?: String[];
     timeprevision?: String[];
     what?: string[];
-    how?: string[];
+    //how?: string[];
     who?: string[];
     grade?: string[]; 
+    status?: string[]; 
     idproject?: string[];
   };
-  message?: string | null;
 };
 
 export async function createTask(prevState: State, formData: FormData) {

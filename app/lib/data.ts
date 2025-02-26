@@ -50,11 +50,11 @@ export async function fetchCardData() {
     const numberOfTasksDone = Number(data[0].rows[0].count ?? '0');
     const numberOfTasksStop = Number(data[1].rows[0].count ?? '0');
     const numberOfCompanies = Number(data[2].rows[0].count ?? '0');
-    
+
     return {
       numberOfTasksDone,
       numberOfTasksStop,
-      numberOfCompanies,    
+      numberOfCompanies,
     };
   } catch (error) {
     console.error('Database Error:', error);
@@ -136,7 +136,7 @@ export async function fetchInvoiceById(id: string) {
       // Convert amount from cents to dollars
       amount: invoice.amount / 100,
     }));
-    
+
     console.log(invoice);
     return invoice[0];
   } catch (error) {

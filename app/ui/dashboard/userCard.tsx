@@ -3,7 +3,7 @@ import { auth } from '@/app/lib/auth';
 
 export default async function UserCard() {
   const session = await auth();
-  if (!session) return <p>Nenhum usuário logado.</p>;  
+  if (!session) return <p>Nenhuma sessão</p>;  
   if (!session.user) return <p>Nenhum usuário logado.</p>;
 
   return (

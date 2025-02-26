@@ -10,19 +10,23 @@ const FormSchema = z.object({
   comments: z.string(),
   idprovider: z.string(),
   idtaker: z.string(),
+  idprovidersponsor: z.string(),
+  idtakersponsor: z.string(),
 });
 
 const CreateProject = FormSchema.omit({ id: true });
 const UpdateProject = FormSchema.omit({ id: true });
 
 export type State = {
+  message?: string;
   errors?: {
     title?: string[];
     comments?: string[];
     idprovider?: string[];
+    idprovidersponsor?: string[];
     idtaker?: string[];
+    idtakersponsor?: string[];
   };
-  message?: string | null;
 };
 
 export async function createProject(prevState: State, formData: FormData) {
@@ -31,6 +35,8 @@ export async function createProject(prevState: State, formData: FormData) {
     comments: formData.get('comments'),
     idprovider: formData.get('idprovider'),
     idtaker: formData.get('idtaker'),
+    idtakersponsor: formData.get('idtakersponsor'),
+    idprovidersponsor: formData.get('idprovidersponsor'),
     });
 
     if (!validatedFields.success) {
@@ -39,12 +45,12 @@ export async function createProject(prevState: State, formData: FormData) {
         message: 'Missing Fields. Failed to Create.',
       };
     }
-    const { title, comments, idprovider, idtaker} = validatedFields.data;
+    const { title, comments, idprovider, idtaker, idtakersponsor, idprovidersponsor} = validatedFields.data;
 
     try {
         await sql`
-        INSERT INTO autoricapp.projects ( title, comments, idprovider, idtaker)
-        VALUES (${title}, ${comments}, ${idprovider}, ${idtaker})
+        INSERT INTO autoricapp.projects ( title, comments, idprovider, idtaker, idtakersponsor, idprovidersponsor)
+        VALUES (${title}, ${comments}, ${idprovider}, ${idtaker}, ${idtakersponsor}, ${idprovidersponsor})
         `;  
     } catch (error){
       return {
@@ -60,28 +66,34 @@ export async function updateProject(
   prevState: State, 
   formData: FormData
   ){
+  //console.log('FormData:' + formData);
   const validatedFields = UpdateProject.safeParse({
     title: formData.get('title'),
     comments: formData.get('comments'),
     idprovider: formData.get('idprovider'),
     idtaker: formData.get('idtaker'),
+    idtakersponsor: formData.get('idtakersponsor'),
+    idprovidersponsor: formData.get('idprovidersponsor'),
 });
   if (!validatedFields.success) {
+    //console.log(validatedFields.error);
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: 'Missing Fields. Failed to Update Project.',
     };
   }
-  const { title, comments, idprovider, idtaker} = validatedFields.data;
+  const { title, comments, idprovider, idtaker, idtakersponsor, idprovidersponsor} = validatedFields.data;
    
   try {
   await sql`
     UPDATE autoricapp.projects
     SET 
-    title = ${title}, comments = ${comments}, idprovider = ${idprovider}, idtaker = ${idtaker}
+    title = ${title}, comments = ${comments}, idprovider = ${idprovider}, idtaker = ${idtaker},
+    idtakersponsor = ${idtakersponsor}, idprovidersponsor = ${idprovidersponsor}
     WHERE id = ${id}
   `;
  } catch (error){
+  //console.log(error);
   return { message: 'Database Error: Failed to Update Project.' };
  }
  

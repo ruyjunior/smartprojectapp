@@ -3,7 +3,7 @@ import { Task } from '@/app/lib/tasks/definitions';
 import { formatTime } from '../utils/utils';
 
 export async function fetchTasks() {
-  
+
   try {
     const data = await sql<Task>`
       SELECT 
@@ -22,22 +22,21 @@ export async function fetchTasks() {
 }
 
 export async function fetchFilteredTasks(
-  query: string,
-  currentPnumber: number) {
-  const offset = (currentPnumber - 1) * ITEMS_PER_PAGE;
-  
+  query: string | undefined | null,
+  currentPnumber: number | undefined | null) {
+
+  const offset = currentPnumber ? (currentPnumber - 1) * ITEMS_PER_PAGE : 0;
   try {
     const data = await sql<Task>`
-      SELECT 
+    SELECT 
         id, title, what, how, who, grade, 
         startdate, enddate, status, idproject, 
         timeprevision, timespend 
       FROM autoricapp.tasks
-      WHERE
-        tasks.title ILIKE ${`%${query}%`} OR
-        tasks.what ILIKE ${`%${query}%`}
+      WHERE idproject::text ILIKE ${`%${query}%`}
       ORDER BY startdate DESC
-    `;
+      LIMIT ${ITEMS_PER_PAGE}
+      OFFSET ${offset}  `;
     const tasks = data.rows;
     return tasks;
   } catch (err) {
@@ -75,7 +74,7 @@ export async function fetchTaskById(id: string) {
       timespend: formatTime(task.timespend),
     }));
     return task[0];
-    console.log( 'Task: ' + task[0]);
+    //console.log('Task: ' + task[0]);
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch proposal.');
@@ -92,12 +91,12 @@ export async function fetchTasksByProject(id: string) {
       FROM autoricapp.tasks
       WHERE tasks.idproject = ${id} `;
 
-      const tasks = data.rows.map((task) => ({
-        ...task,
-        timeprevision: formatTime(task.timeprevision),
-        timespend: formatTime(task.timespend),
-      }));
-      return tasks;
+    const tasks = data.rows.map((task) => ({
+      ...task,
+      timeprevision: formatTime(task.timeprevision),
+      timespend: formatTime(task.timespend),
+    }));
+    return tasks;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch tasks by Id Project.');
