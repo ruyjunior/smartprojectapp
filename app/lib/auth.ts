@@ -7,27 +7,18 @@ import { AdapterUser } from "next-auth/adapters";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 
-/*
-export type User_ = {
-  id: string;
-  name: string;
-  email: string;
-  password: string;
-  role: string; 
-}
-*/
 declare module "next-auth" {
   interface CustomUser extends AdapterUser {
-    role: string; // 🔥 Adicionando role ao User
+    role: string; 
     password: string;
   }
   interface Session {
-    user: CustomUser & DefaultSession["user"]; // 🔥 Garantindo que role aparece na sessão
+    user: CustomUser & DefaultSession["user"]; 
   }
 }
 declare module "next-auth/jwt" {
   interface JWT {
-    role: string; // 🔥 Garantindo que role aparece no token JWT
+    role: string; 
   }
 }
 async function getUser(email: string): Promise< CustomUser | null> {
