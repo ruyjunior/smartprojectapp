@@ -1,9 +1,8 @@
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
-import Image from 'next/image';
 import { lusitana } from '@/app/ui/fonts';
 import { fetchLatestTasks } from '@/app/lib/data';
-import { fetchEmployees, fetchEmployeeById } from '@/app/lib/employees/data';
+import { fetchEmployees } from '@/app/lib/employees/data';
 import TaskStatus from '@/app/ui/tasks/status';
 import { fetchProjects } from '@/app/lib/projects/data';
 

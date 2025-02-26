@@ -1,10 +1,7 @@
 'use client';
 import { useActionState } from 'react';
 import Link from 'next/link';
-import {
-  IdentificationIcon, PhoneIcon,
-  TicketIcon, TagIcon, TruckIcon, AtSymbolIcon,CalendarDateRangeIcon
-} from '@heroicons/react/24/outline';
+import { IdentificationIcon, TagIcon } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
 import { createCompanie, State } from '@/app/lib/companies/actions';
 

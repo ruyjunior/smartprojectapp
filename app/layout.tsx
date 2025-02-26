@@ -1,9 +1,7 @@
 import '@/app/ui/global.css';
 import { inter } from '@/app/ui/fonts';
 import { Metadata } from 'next';
-import AuthProvider from "@/app/login/SessionProvider";
 import { SessionProvider } from "next-auth/react";
-import  favicon  from 'public/logo/favicon-32x32.png'
 
 export const metadata: Metadata = {
   title: {

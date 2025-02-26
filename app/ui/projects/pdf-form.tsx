@@ -1,14 +1,13 @@
 'use client';
 import { Project } from '@/app/lib/projects/definitions';
 import { ProjectPDF } from '@/app/lib/projects/definitions';
-import { Employee } from '@/app/lib/employees/definitions';
 import { Company } from '@/app/lib/companies/definitions';
 import { Task } from '@/app/lib/tasks/definitions';
 import { PagePDF } from './docPDF';
 
 export default function PdfProposalForm({
   project,
-  companies, 
+  companies,
   tasks,
 }: {
   project: Project;
@@ -24,5 +23,5 @@ export default function PdfProposalForm({
   };
 
 
-  return (<PagePDF data={data}/>);
+  return (<PagePDF data={data} />);
 }

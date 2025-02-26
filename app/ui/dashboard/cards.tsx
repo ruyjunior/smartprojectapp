@@ -1,6 +1,4 @@
-import { DocumentCheckIcon, UserGroupIcon, UsersIcon, UserCircleIcon, 
-          BuildingOfficeIcon, RectangleStackIcon , CheckIcon, ClockIcon
-        } from '@heroicons/react/24/outline';
+import { BuildingOfficeIcon, CheckIcon, ClockIcon } from '@heroicons/react/24/outline';
 import { fetchCardData } from '@/app/lib/data';
 import { lusitana } from '@/app/ui/fonts';
 
@@ -12,9 +10,9 @@ const iconMap = {
 
 export default async function CardWrapper() {
   const {
-   numberOfTasksDone,
-   numberOfTasksStop,
-   numberOfCompanies
+    numberOfTasksDone,
+    numberOfTasksStop,
+    numberOfCompanies
   } = await fetchCardData();
 
   return (

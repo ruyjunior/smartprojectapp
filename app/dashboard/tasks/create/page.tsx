@@ -13,6 +13,7 @@ export default async function Page() {
   const employees = await fetchEmployees();
   const companies = await fetchCompanies();
   const projects = await fetchProjects();
+  const project = projects[0];
 
   return (
     <main>
@@ -28,7 +29,7 @@ export default async function Page() {
       />
       <Form
         employees={employees}
-        projects={projects}
+        project={project}
       />
     </main>
   );

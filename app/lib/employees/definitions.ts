@@ -7,6 +7,6 @@ export type Employee = {
   phone: string;
   cep: string;
   idcompany: string;
-  price: string;
+  price: number;
 };
 

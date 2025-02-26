@@ -1,4 +1,3 @@
-import AcmeLogo from '@/app/ui/logo';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import styles from '@/app/ui/home.module.css';
@@ -10,7 +9,6 @@ export const metadata: Metadata = {
   title: 'AUTORIC AUTOMATION',
 };
 
-
 export default function Page() {
   return (
     <main className="flex min-h-screen flex-col p-6">
@@ -19,12 +17,12 @@ export default function Page() {
           <div
             className={styles.shape}
           />
-          <p 
-            className={`${lusitana.className} text-xl text-gray-800 md:text-3xl md:leading-normal`}      
+          <p
+            className={`${lusitana.className} text-xl text-gray-800 md:text-3xl md:leading-normal`}
           >
             <strong>Welcome </strong> to{' '}
             <a href="https://www.autoric.com.br/" className="text-blue-500">
-             {' '} Autoric Automation
+              {' '} Autoric Automation
             </a>
             {' '} You imagine it, we make it work.
           </p>

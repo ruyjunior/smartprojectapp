@@ -1,9 +1,7 @@
-import Image from 'next/image';
 import { UpdateEmployee, DeleteEmployee } from '@/app/ui/employees/buttons';
 import {
   formatDateToLocal, formatCurrency,
-  formatCPF, formatCEP, formatPhone, formatDateBr
-} from '@/app/lib/utils/utils';
+  formatCPF, formatCEP, formatPhone } from '@/app/lib/utils/utils';
 import { fetchFilteredEmployees } from '@/app/lib/employees/data';
 import { fetchCompanies } from '@/app/lib/companies/data';
 

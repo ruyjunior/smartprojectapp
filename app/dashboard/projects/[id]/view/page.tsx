@@ -1,4 +1,3 @@
-import Form from '@/app/ui/projects/view-form';
 import TasksTable from '@/app/ui/tasks/table';
 import ProjectsTable from '@/app/ui/projects/table';
 import { CreateTask } from '@/app/ui/tasks/buttons';

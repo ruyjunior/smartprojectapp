@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { UpdateProject, DeleteProject, PdfProject, ViewProject } from '@/app/ui/projects/buttons';
-import { formatDateToLocal, formatCurrency } from '@/app/lib/utils/utils';
+import { formatDateToLocal } from '@/app/lib/utils/utils';
 import { fetchFilteredProjects } from '@/app/lib/projects/data';
 import { fetchCompanies } from '@/app/lib/companies/data';
 import { fetchEmployees } from '@/app/lib/employees/data';
@@ -36,7 +36,7 @@ export default async function ProjectsTable({
                       <div className="flex-row w-full items-center justify-between border-b pb-4">
                         <div className=' hover:bg-green-500'>
                           <p className='text-2xl'>{project.title}</p>
-                          <p>Date: {formatDateToLocal(project.timestamp)}</p>                          
+                          <p>Date: {formatDateToLocal(project.timestamp)}</p>
                           <p>Taker: {taker ? taker.name : 'Taker not found'}</p>
                           <p>Taker Sponsor: {takerSponsor ? takerSponsor.name : 'Taker Sponsor not found'}</p>
                           <p>Provider: {provider ? provider.name : 'Profider not found'}</p>
@@ -110,7 +110,7 @@ export default async function ProjectsTable({
                     const taker = companies.find((c) => c.id === project.idtaker);
                     const takerSponsor = employees.find((e) => e.id === project.idtakersponsor);
                     const providerSponsor = employees.find((e) => e.id === project.idprovidersponsor);
-  
+
                     return (
                       <tr key={project.id} className="group">
                         <td className="whitespace-nowrap py-2 pl-2 pr-2">

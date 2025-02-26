@@ -2,10 +2,7 @@
 import { useActionState } from 'react';
 import React, { useState } from 'react';
 import { Company } from '@/app/lib/companies/definitions';
-import {
-  IdentificationIcon, PhoneIcon,
-  TicketIcon, TagIcon, TruckIcon, AtSymbolIcon,CalendarDateRangeIcon
-} from '@heroicons/react/24/outline';
+import { IdentificationIcon, TagIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 import { updateCompanie, State } from '@/app/lib/companies/actions';
