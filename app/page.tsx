@@ -1,9 +1,14 @@
-import { ArrowRightIcon } from '@heroicons/react/24/outline';
-import Link from 'next/link';
-import styles from '@/app/ui/home.module.css';
-import { lusitana } from '@/app/ui/fonts';
-import Image from 'next/image';
+import Navbar from "@/app/ui/site/navbar";
+import Hero from "@/app/ui/site/hero";
+import Services from "@/app/ui/site/services";
+import About from "@/app/ui/site/about";
+import Clients from "@/app/ui/site/clients";
+import Technologies from "@/app/ui/site/technologies";
+import Footer from "@/app/ui/site/footer";
 import { Metadata } from 'next';
+import CallToAction from "./ui/site/call_to_action";
+import Team from "./ui/site/team";
+
 
 export const metadata: Metadata = {
   title: 'AUTORIC AUTOMATION',
@@ -11,45 +16,17 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <main className="flex min-h-screen flex-col p-6">
-      <div className="mt-4 flex grow flex-col gap-4 md:flex-row">
-        <div className="flex flex-col justify-center gap-6 rounded-lg bg-gray-50 px-6 py-10 md:w-2/5 md:px-20">
-          <div
-            className={styles.shape}
-          />
-          <p
-            className={`${lusitana.className} text-xl text-gray-800 md:text-3xl md:leading-normal`}
-          >
-            <strong>Welcome </strong> to{' '}
-            <a href="https://www.autoric.com.br/" className="text-blue-500">
-              {' '} Autoric Automation
-            </a>
-            {' '} You imagine it, we make it work.
-          </p>
-          <Link
-            href="/login"
-            className="flex items-center gap-5 self-start rounded-lg bg-blue-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-400 md:text-base"
-          >
-            <span>Log in</span> <ArrowRightIcon className="w-5 md:w-6" />
-          </Link>
-        </div>
-        <div className="flex items-center justify-center p-6 md:w-3/5 md:px-28 md:py-12">
-          {/* Add Hero Images Here */}
-          <Image
-            src="/img/banner.png"
-            width={1000}
-            height={760}
-            className="hidden md:block"
-            alt="Screenshots of the dashboard project showing desktop version"
-          />
-          <Image
-            src="/img/banner.png"
-            width={560}
-            height={620}
-            className="block md:hidden"
-            alt="Screenshots of the dashboard project showing desktop version"
-          />
-        </div>
+    <main >
+      <div className="bg-white text-gray-900">        
+        <Navbar />
+        <Hero />
+        <Services />
+        <About />
+        <Clients />
+        <Technologies />
+        <Team/>
+        <CallToAction/>
+        <Footer />
       </div>
     </main>
   );
