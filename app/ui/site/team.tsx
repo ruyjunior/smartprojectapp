@@ -14,7 +14,7 @@ const Team: React.FC = () => {
                         width={150}
                         height={150}
                         alt="Membro da Equipe 1"
-                        className="rounded-full"
+                        className="rounded-full w-auto h-auto"
                     />
                     <h3 className="text-xl font-semibold text-gray-800">Ruy Junior</h3>
                     <p className="mt-2 text-gray-600">Automation Analyst and Systems Developer.</p>

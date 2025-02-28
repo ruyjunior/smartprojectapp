@@ -20,7 +20,7 @@ const Clients = () => {
               src={logo}
               width={100} height={100}
               alt="Clients"
-              className="rounded-md"
+              className="rounded-md w-auto h -auto"
             />
           </div>
         ))}
