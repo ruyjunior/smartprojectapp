@@ -9,13 +9,15 @@ const logos = [
   '/img/techs/twincat.png',
   '/img/techs/tiaportal.png',
   '/img/techs/weg.png',
-  // add more logos as needed
 ];
 
 const Technologies = () => {
   return (
-    <section id="techs" className="py-20 text-center">
-      <h2 className="text-4xl font-bold mb-6">Technologies our team has knowledge of.</h2>
+    <section id="techs"
+      className="py-20 text-center">
+      <h2 className="text-3xl font-bold mb-6">
+        Technologies our team has knowledge of.
+      </h2>
       <div className="flex justify-center flex-wrap gap-6">
         {logos.map((logo, index) => (
           <div key={index} className="flex items-center justify-center bg-gray-100 px-2 py-3 rounded-lg shadow-md">

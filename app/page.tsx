@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <main >
-      <div className="bg-white text-gray-900">        
+      <div className="bg-gray text-gray-900">        
         <Navbar />
         <Hero />
         <Services />

@@ -5,14 +5,17 @@ import { FaLinkedin } from 'react-icons/fa';
 
 const Team: React.FC = () => {
     return (
-        <section id="team" className="mt-12 text-center">
-            <h2 className="text-3xl font-bold text-center text-gray-800">Our Team</h2>
-            <div className="mt-8 grid gap-8 md:grid-cols-1 lg:grid-cols-1">
-                <div className="flex flex-col items-center rounded-lg bg-white p-6 shadow-md">
+        <section id="team"
+            className="py-20 text-center">
+            <h2 className="text-3xl font-bold mb-6">
+                Our Team
+            </h2>
+            <div className="flex justify-center flex-wrap gap-6">
+                <div className="flex flex-col items-center justify-center bg-gray-100 px-2 py-3 rounded-lg shadow-md">
                     <Image
                         src="/img/team/ruy.jpg"
-                        width={150}
-                        height={150}
+                        width={100}
+                        height={100}
                         alt="Membro da Equipe 1"
                         className="rounded-full w-auto h-auto"
                     />
