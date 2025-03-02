@@ -22,7 +22,7 @@ const UpdateEmployee = FormSchema.omit({ id: true });
 export type State = {
   errors?: {
     name?: string[];
-    idcompany?: string[];   
+    idcompany?: string[];
   };
   message?: string | null;
 };
@@ -39,8 +39,8 @@ export async function createEmployee(prevState: State, formData: FormData) {
     idcompany: formData.get('idcompany'),
     price: formData.get('price'),
   });
-  
-  
+
+
   if (!validatedFields.success) {
     console.log(validatedFields.error.flatten().fieldErrors);
     return {
@@ -48,10 +48,10 @@ export async function createEmployee(prevState: State, formData: FormData) {
       message: 'Missing Fields. Failed to Create.',
     };
   }
-  
+
   const { cpf, name, birth, email, phone, cep, idcompany, price } = validatedFields.data;
   const priceInCents = parseFloat(price) * 100;
-  
+
   const sanitizedCpf = cpf || null;
   const sanitizedName = name || null;
   const sanitizedBirth = birth || null;
@@ -66,8 +66,8 @@ export async function createEmployee(prevState: State, formData: FormData) {
       INSERT INTO autoricapp.employees (cpf, name, birth, email, phone, cep, idcompany, price)
       VALUES (${sanitizedCpf}, ${sanitizedName}, ${sanitizedBirth}, ${sanitizedEmail}, ${sanitizedPhone}, ${sanitizedCep}, ${sanitizedIdCompany}, ${sanitizedPrice})
     `;
-  
-    } catch (error) {
+
+  } catch (error) {
     return {
       message: 'Database Error: Failed to Create Employee.',
     };
@@ -101,7 +101,7 @@ export async function updateEmployee(
   }
   console.log(validatedFields.data.price);
 
-   const { cpf, name, birth, email, phone, cep, idcompany, price } = validatedFields.data;
+  const { cpf, name, birth, email, phone, cep, idcompany, price } = validatedFields.data;
   const priceInCents = parseFloat(price) * 100;
 
   const sanitizedCpf = cpf || null;

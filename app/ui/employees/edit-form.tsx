@@ -8,15 +8,10 @@ import {
   AtSymbolIcon, CalendarDateRangeIcon, BuildingOfficeIcon
 } from '@heroicons/react/24/outline';
 
-import { formatDateToLocal, formatCurrency, formatCurrencyInput,
-  formatCPF, formatCEP, formatPhone, formatDateBr, 
-  formatDateDb
-} from '@/app/lib/utils/utils';
-
+import { formatCPF, formatCEP, formatPhone, formatDateDb} from '@/app/lib/utils/utils';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 import { updateEmployee, State } from '@/app/lib/employees/actions';
-import { bigint } from 'zod';
 
 export default function EditEmployeeForm({
   employee,
@@ -37,8 +32,6 @@ export default function EditEmployeeForm({
     employee.birth = '';
   }
   const birth = formatDateDb(employee.birth);
-  //const price = formatCurrency(Number(employee.price));
-  //const [birth, setBirth] = useState(formatDateToLocal(employee.birth));
   
   const handleChangePhone = (event: React.ChangeEvent<HTMLInputElement>) => {
     const formattedPhone = formatPhone(event.target.value);
@@ -52,13 +45,6 @@ export default function EditEmployeeForm({
     const formattedCPF = formatCPF(event.target.value);
     setCPF(formattedCPF);
   };
-
-  /*
-  const handleChangeBirth = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const formattedBirth = formatDateBr(event.target.value);
-    setBirth(formattedBirth);
-  };
-*/
   
   return (
     <form action={formAction}>

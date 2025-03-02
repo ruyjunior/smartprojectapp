@@ -35,8 +35,7 @@ export async function fetchFilteredTasks(
       FROM autoricapp.tasks
       WHERE idproject::text ILIKE ${`%${query}%`}
       ORDER BY startdate DESC
-      LIMIT ${ITEMS_PER_PAGE}
-      OFFSET ${offset}  `;
+       `;
     const tasks = data.rows;
     return tasks;
   } catch (err) {

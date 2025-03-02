@@ -18,6 +18,9 @@ export type Project = {
 export type ProjectPDF = {
   project: Project;
   provider: Company;
+  providerSponsor: Employee;
   taker: Company;
+  takerSponsor: Employee;
   tasks: Task[];
+  employees: Employee[];
 };

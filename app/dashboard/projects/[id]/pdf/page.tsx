@@ -2,9 +2,10 @@ import Form from '@/app/ui/projects/pdf-form';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
 import { fetchProjectById } from '@/app/lib/projects/data';
 import { fetchCompanies } from '@/app/lib/companies/data';
-import { fetchTasks } from '@/app/lib/tasks/data';
+import { fetchTasksByProject } from '@/app/lib/tasks/data';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
+import { fetchEmployees } from '@/app/lib/employees/data';
 
 export const metadata: Metadata = {
   title: 'Print PDF Projects',
@@ -13,10 +14,11 @@ export const metadata: Metadata = {
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
   const id = params.id;
-  const [project, companies, tasks] = await Promise.all([
+  const [project, companies, tasks, employees] = await Promise.all([
     fetchProjectById(id),
     fetchCompanies(),
-    fetchTasks(),
+    fetchTasksByProject(id),
+    fetchEmployees()
   ]);
   if (!project) {
     notFound();
@@ -28,7 +30,12 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         breadcrumbs={[
           { label: 'Projects', href: '/dashboard/projects' },
           {
-            label: 'Print PDF Project',
+            label: 'View',
+            href: `/dashboard/projects/${id}/view`,
+            
+          },
+          {
+            label: 'PDF',
             href: `/dashboard/projects/${id}/pdf`,
             active: true,
           },
@@ -38,6 +45,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         project={project}
         tasks={tasks}
         companies={companies}
+        employees={employees}
       />
     </main>
   );

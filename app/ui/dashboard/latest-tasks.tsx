@@ -35,13 +35,13 @@ export default async function LatestTasks() {
                 <div className="flex items-center">
                   <div className="min-w-0">
                     <p className="truncate text-sm font-semibold md:text-base">
-                      {task.title}
+                      {project?.title}
                     </p>
+                    <p className="hidden text-sm text-gray-500 sm:block">
+                      {task.title}
+                    </p>                    
                     <p className="hidden text-sm text-gray-500 sm:block">
                       {employee?.name}
-                    </p>
-                    <p className="hidden text-sm text-gray-500 sm:block">
-                      {project?.title}
                     </p>
                   </div>
                 </div>
