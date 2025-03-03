@@ -27,7 +27,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         <main>
             <Breadcrumbs
                 breadcrumbs={[
-                { label: 'Tasks', href: '/dashboard/tasks' },
+                { label: 'Tasks', href: `/dashboard/projects/${task.idproject}/view` },
                 {
                     label: 'Edit Tasks',
                     href: `/dashboard/tasks/${id}/edit`,
