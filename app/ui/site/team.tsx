@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FaLinkedin } from 'react-icons/fa';
+import { FaLinkedin, FaGithub } from 'react-icons/fa';
 
 const Team: React.FC = () => {
     return (
@@ -25,6 +25,11 @@ const Team: React.FC = () => {
                         <FaLinkedin size={24} />
                         <span>LinkedIn</span>
                     </Link>
+                    <Link href="https://github.com/ruyjunior" className="mt-4 text-blue-500 hover:underline flex items-center gap-2">
+                        <FaGithub size={24} />
+                        <span>Github</span>
+                    </Link>
+
                 </div>
             </div>
         </section>

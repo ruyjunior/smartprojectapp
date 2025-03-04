@@ -8,6 +8,8 @@ import Footer from "@/app/ui/site/footer";
 import { Metadata } from 'next';
 import CallToAction from "./ui/site/call_to_action";
 import Team from "./ui/site/team";
+import Figma from "./ui/site/figma";
+import Github from "./ui/site/github";
 
 
 export const metadata: Metadata = {
@@ -17,15 +19,14 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <main >
-      <div className="bg-gray text-gray-900">        
+      <div className="bg-gray text-gray-900">
         <Navbar />
         <Hero />
         <Services />
         <About />
         <Clients />
-        <Technologies />
-        <Team/>
-        <CallToAction/>
+        <Team />
+        <CallToAction />
         <Footer />
       </div>
     </main>
