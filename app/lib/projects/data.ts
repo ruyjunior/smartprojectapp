@@ -6,7 +6,7 @@ export async function fetchProjects() {
 
   try {
     const data = await sql<Project>`
-      SELECT id, title, comments, idprovider, idtaker, timestamp, idtakersponsor, idprovidersponsor
+      SELECT id, title, comments, idprovider, idtaker, timestamp, idtakersponsor, idprovidersponsor, url, repository
       FROM autoricapp.projects
       ORDER BY timestamp ASC
     `;

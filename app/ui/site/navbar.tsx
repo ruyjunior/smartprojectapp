@@ -36,7 +36,7 @@ const Navbar = () => {
         <div className="hidden md:flex space-x-6 text-white text-lg font-semibold">
           <Link href="#services">Services</Link>
           <Link href="#clients">Clients</Link>
-          <Link href="#techs">Technologies</Link>
+          <Link href="#projects">Projects</Link>
           <Link href="#team">Team</Link>
           <Link href="#call">Contact Us</Link>
         </div>
