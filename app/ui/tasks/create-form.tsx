@@ -279,7 +279,7 @@ const initialState: State = { message: '', errors: {} };
         >
           Cancel
         </Link>
-        <Button type="submit">Create Invoice</Button>
+        <Button type="submit">Create Task</Button>
       </div>
     </form>
   );

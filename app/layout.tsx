@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     template: '%s | AUTORIC AUTOMATION',
     default: 'AUTORIC AUTOMATION',
   },
-  description: 'The APP for automation projects',
+  description: 'YOU IMAGINE IT, WE MAKE IT WORK.',
   metadataBase: new URL('https://www.autoric.com.br')
 };
 

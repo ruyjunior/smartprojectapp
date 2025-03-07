@@ -1,5 +1,8 @@
 
 # 🚀 Autoric App
+## Application with a Home Page to Present the Company.
+## After logging in, some functions are available
+
 
 > Presentation page, application for project and activity management.
 
