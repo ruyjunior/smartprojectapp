@@ -5,8 +5,8 @@ import { Project } from '@/app/lib/projects/definitions';
 
 export default function Projects({ projects }: { projects: Project[] }) {
     return (
-        <section id="projects" className="py-20 text-center">
-            <h2 className="text-3xl font-bold mb-10">Projects and Deliveries</h2>
+        <section id="dev" className="py-20 text-center">
+            <h2 className="text-3xl font-bold mb-10">Developed Projects</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
                 {projects
                     .filter((project) => project.url !== null)

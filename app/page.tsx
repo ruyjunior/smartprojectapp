@@ -8,8 +8,9 @@ import Footer from "@/app/ui/site/footer";
 import { Metadata } from 'next';
 import CallToAction from "./ui/site/call_to_action";
 import Team from "./ui/site/team";
-import Projects from "./ui/site/projects";
+import Projects from "./ui/site/dev";
 import { fetchProjects } from "./lib/projects/data";
+import Deliveries from "./ui/site/deliveries";
 
 export const metadata: Metadata = {
   title: 'AUTORIC AUTOMATION',
@@ -24,9 +25,9 @@ export default async function Page() {
         <Navbar />
         <Hero />
         <Services />
-        <Projects projects={projects} />
         <About />
         <Clients />
+        <Deliveries />
         <Team />
         <CallToAction />
         <Footer />

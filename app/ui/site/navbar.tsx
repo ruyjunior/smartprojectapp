@@ -24,29 +24,32 @@ const Navbar = () => {
   return (
     <nav className={`fixed w-full top-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-blue-400 shadow-md' : 'bg-transparent'}`}>
       <div className="container mx-auto flex justify-between items-center p-4">
-        <Image
-          src="/img/logos/logo.jpg"
-          width={60}
-          height={60}
-          alt="Logo da Empresa"
-          className="rounded-md"
-        />
-        
+        <Link href={"/"}>
+          <Image
+            src="/img/logos/logo.jpg"
+            width={60}
+            height={60}
+            alt="Logo da Empresa"
+            className="rounded-md"
+          />
+
+        </Link>
+
         {/* Menu Desktop */}
         <div className="hidden md:flex space-x-6 text-white text-lg font-semibold">
-          <Link href="#services">Services</Link>
-          <Link href="#clients">Clients</Link>
-          <Link href="#projects">Projects</Link>
-          <Link href="#team">Team</Link>
-          <Link href="#call">Contact Us</Link>
+          <Link href="/#services">Services</Link>
+          <Link href="/#clients">Clients</Link>
+          <Link href="/#projects">Projects</Link>
+          <Link href="/#team">Team</Link>
+          <Link href="/#call">Contact Us</Link>
         </div>
-        
+
         {/* Botão Menu Mobile */}
         <button onClick={toggleMenu} className="md:hidden text-white focus:outline-none">
           {isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
         </button>
       </div>
-      
+
       {/* Menu Mobile */}
       {isOpen && (
         <div className="md:hidden bg-[#020d1f] text-white text-lg font-semibold py-4 flex flex-col items-center space-y-4">

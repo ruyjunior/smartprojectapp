@@ -14,8 +14,8 @@ const Team: React.FC = () => {
                 <div className="flex flex-col items-center justify-center bg-gray-100 px-2 py-3 rounded-lg shadow-md">
                     <Image
                         src="/img/team/ruy.jpg"
-                        width={100}
-                        height={100}
+                        width={80}
+                        height={80}
                         alt="Membro da Equipe 1"
                         className="rounded-full w-auto h-auto"
                     />
