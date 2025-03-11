@@ -1,24 +1,21 @@
 import Navbar from "@/app/ui/site/navbar";
-import Hero from "@/app/ui/site/hero";
+import Hero from "@/app/ui/site/sections/hero";
 import Footer from "@/app/ui/site/footer";
 import { Metadata } from 'next';
-import Projects from "@/app/ui/site/dev";
-import Automation from "@/app/ui/site/automation";
-import { fetchProjects } from "@/app/lib/projects/data";
+import Devs from "@/app/ui/site/deliveries/devs";
+import Automation from "@/app/ui/site/deliveries/automation";
 
 export const metadata: Metadata = {
   title: 'AUTORIC AUTOMATION',
 };
 
 export default async function Page() {
-  const projects = await fetchProjects();
-
   return (
     <main >
       <div className="bg-gray text-gray-900">
         <Navbar />
         <Hero />
-        <Projects projects={projects} />
+        <Devs />
         <Automation />
         <Footer />
       </div>

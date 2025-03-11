@@ -1,9 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
 import { FaLink, FaGithub } from 'react-icons/fa';
-import { Project } from '@/app/lib/projects/definitions';
+import { fetchProjects } from "@/app/lib/projects/data";
 
-export default function Projects({ projects }: { projects: Project[] }) {
+export default async function Devs() {
+    const projects = await fetchProjects();
+
     return (
         <section id="dev" className="py-20 text-center">
             <h2 className="text-3xl font-bold mb-10">Developed Projects</h2>
