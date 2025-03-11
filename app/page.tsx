@@ -7,7 +7,6 @@ import Footer from "@/app/ui/site/footer";
 import { Metadata } from 'next';
 import CallToAction from "./ui/site/sections/call_to_action";
 import Team from "./ui/site/sections/team";
-import { fetchProjects } from "./lib/projects/data";
 import Deliveries from "./ui/site/deliveries/deliveries";
 
 export const metadata: Metadata = {
@@ -15,8 +14,6 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  const projects = await fetchProjects();
-
   return (
     <main >
       <div className="bg-gray text-gray-900">
