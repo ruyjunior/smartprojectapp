@@ -55,7 +55,7 @@ const Navbar = () => {
         <div className="md:hidden bg-[#020d1f] text-white text-lg font-semibold py-4 flex flex-col items-center space-y-4">
           <Link href="/#services" onClick={toggleMenu}>Services</Link>
           <Link href="/#clients" onClick={toggleMenu}>Clients</Link>
-          <Link href="/#projects" onClick={toggleMenu}>Technologies</Link>
+          <Link href="/#projects" onClick={toggleMenu}>Projects</Link>
           <Link href="/#team" onClick={toggleMenu}>Team</Link>
           <Link href="/#call" onClick={toggleMenu}>Contact Us</Link>
         </div>
