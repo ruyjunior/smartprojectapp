@@ -13,7 +13,7 @@ const Team: React.FC = () => {
             <div className="flex justify-center flex-wrap gap-6">
                 <div className="flex flex-col items-center justify-center bg-gray-100 px-2 py-3 rounded-lg shadow-md">
                     <Image
-                        src="/img/team/ruy.jpg"
+                        src="/images/team/ruy.jpg"
                         width={80}
                         height={80}
                         alt="Membro da Equipe 1"

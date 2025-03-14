@@ -1,14 +1,14 @@
 import Image from 'next/image';
 
 const logos = [
-  '/img/techs/abb.jpg',
-  '/img/techs/beckoff.png',
-  '/img/techs/Codesys.png',
-  '/img/techs/omron.png',
-  '/img/techs/Rockwell.png',
-  '/img/techs/twincat.png',
-  '/img/techs/tiaportal.png',
-  '/img/techs/weg.png',
+  '/images/techs/abb.jpg',
+  '/images/techs/beckoff.png',
+  '/images/techs/Codesys.png',
+  '/images/techs/omron.png',
+  '/images/techs/Rockwell.png',
+  '/images/techs/twincat.png',
+  '/images/techs/tiaportal.png',
+  '/images/techs/weg.png',
 ];
 
 const Technologies = () => {

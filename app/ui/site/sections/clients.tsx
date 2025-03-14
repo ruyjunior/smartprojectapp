@@ -1,11 +1,11 @@
 import Image from 'next/image';
 
 const logos = [
-  '/img/clients/ambev.jpg',
-  '/img/clients/assaabloy.png',
-  '/img/clients/gestamp.jpg',
-  '/img/clients/gm.jpg',
-  '/img/clients/zegla.jpg',
+  '/images/clients/ambev.jpg',
+  '/images/clients/assaabloy.png',
+  '/images/clients/gestamp.jpg',
+  '/images/clients/gm.jpg',
+  '/images/clients/zegla.jpg',
 ];
 
 const Clients = () => {

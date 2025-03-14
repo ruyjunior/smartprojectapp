@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { FaLink, FaGithub } from 'react-icons/fa';
 import { fetchProjects } from "@/app/lib/projects/data";
-import { Project } from '@/app/lib/projects/definitions';
+import Image  from 'next/image';
 
 export async function getStaticProps() {
     const projects = await fetchProjects();
@@ -25,14 +25,20 @@ export default async function Devs() {
                 {projects
                     .filter((project) => project.url !== null)
                     .map((project, index) => (
-                        <div key={index} className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center text-center">
+                        <div key={index} className="bg-blue-100 p-6 rounded-lg shadow-lg flex flex-col items-center text-center">
                             <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
                             <p className="text-gray-600 text-sm mb-4">{project.comments}</p>
-                            <iframe
+                            {/*<iframe
                                 src={project.url}
                                 className="w-full h-40 rounded-md border"
                             >
-                            </iframe>
+                            </iframe>*/}
+                            <Image 
+                                src={project.url + "images/logo.png"} 
+                                alt={project.title} 
+                                width={100} height={100}
+                                className='rounded-full border'
+                             />
                             <Link
                                 href={project.url}
                                 className="mt-4 text-blue-500 hover:underline flex items-center gap-2"

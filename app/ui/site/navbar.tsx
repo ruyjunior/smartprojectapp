@@ -26,7 +26,7 @@ const Navbar = () => {
       <div className="container mx-auto flex justify-between items-center p-4">
         <Link href={"/"}>
           <Image
-            src="/img/logos/logo.jpg"
+            src="/images/logos/logo.jpg"
             width={60}
             height={60}
             alt="Logo da Empresa"

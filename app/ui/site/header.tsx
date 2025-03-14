@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-const logo = "/img/logos/logo.jpg";
+const logo = "/images/logos/logo.jpg";
 
 
 const Header: React.FC = () => {

@@ -12,10 +12,10 @@ const Deliveries: React.FC = () => {
                 Projects e Deliveries
             </h2>
             <div className="flex justify-center flex-wrap gap-6">
-                <div className="flex flex-col items-center justify-center bg-gray-100 px-2 py-3 rounded-lg shadow-md">
+                <div className="flex flex-col items-center justify-center bg-blue-100 px-2 py-3 rounded-lg shadow-md">
                     <Link href="/deliveries/#automation" >
                         <Image
-                            src="/img/icons/automation.png"
+                            src="/images/icons/automation.png"
                             width={300}
                             height={300}
                             alt="automation"
@@ -26,10 +26,10 @@ const Deliveries: React.FC = () => {
                         <FaIndustry size={24} />
                     </Link>
                 </div>
-                <div className="flex flex-col items-center justify-center bg-gray-100 px-2 py-3 rounded-lg shadow-md">
+                <div className="flex flex-col items-center justify-center bg-blue-100 px-2 py-3 rounded-lg shadow-md">
                     <Link href="/deliveries/#dev" >
                         <Image
-                            src="/img/icons/dev.png"
+                            src="/images/icons/dev.png"
                             width={300}
                             height={300}
                             alt="developed"
