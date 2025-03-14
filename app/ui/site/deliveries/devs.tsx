@@ -41,6 +41,8 @@ export default async function Devs() {
                              />
                             <Link
                                 href={project.url}
+                                target="_blank"
+
                                 className="mt-4 text-blue-500 hover:underline flex items-center gap-2"
                             >
                                 <FaLink size={24} />
@@ -48,6 +50,8 @@ export default async function Devs() {
                             </Link>
                             <Link
                                 href={project.repository}
+                                target="_blank"
+
                                 className="mt-4 text-blue-500 hover:underline flex items-center gap-2"
                             >
                                 <FaGithub size={24} />

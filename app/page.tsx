@@ -8,6 +8,8 @@ import { Metadata } from 'next';
 import CallToAction from "./ui/site/sections/call_to_action";
 import Team from "./ui/site/sections/team";
 import Deliveries from "./ui/site/deliveries/deliveries";
+import WhatsappButton from "./ui/site/WhatsappButton";
+import TopButton from "./ui/site/TopButton"; 
 
 export const metadata: Metadata = {
   title: 'AUTORIC AUTOMATION',
@@ -25,6 +27,8 @@ export default async function Page() {
         <Deliveries />
         <Team />
         <CallToAction />
+        <WhatsappButton />
+        <TopButton />
         <Footer />
       </div>
     </main>

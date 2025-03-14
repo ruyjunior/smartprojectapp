@@ -4,6 +4,8 @@ import Footer from "@/app/ui/site/footer";
 import { Metadata } from 'next';
 import Devs from "@/app/ui/site/deliveries/devs";
 import Automation from "@/app/ui/site/deliveries/automation";
+import WhatsappButton from "@/app/ui/site/WhatsappButton";
+import TopButton from "@/app/ui/site/TopButton";
 
 export const metadata: Metadata = {
   title: 'AUTORIC AUTOMATION',
@@ -18,6 +20,8 @@ export default async function Page() {
         <Devs />
         <Automation />
         <Footer />
+        <WhatsappButton />
+        <TopButton />
       </div>
     </main>
   );
