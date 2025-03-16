@@ -5,7 +5,7 @@ import { deleteProject } from '@/app/lib/projects/actions';
 export function CreateProject() {
   return (
     <Link
-      href="/dashboard/projects/create"
+      href="/projects/create"
       className="flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
     >
       <span className="hidden md:block">Create Project</span>{' '}
@@ -17,7 +17,7 @@ export function CreateProject() {
 export function UpdateProject({ id }: { id: string }) {
   return (
     <Link
-      href={`/dashboard/projects/${id}/edit`}
+      href={`/projects/${id}/edit`}
       className="rounded-md border p-2 hover:bg-gray-100"
     >
       <PencilIcon className="w-5" />
@@ -28,7 +28,7 @@ export function UpdateProject({ id }: { id: string }) {
 export function PdfProject({ id }: { id: string }) {
   return (
     <Link
-      href={`/dashboard/projects/${id}/pdf`}
+      href={`/projects/${id}/pdf`}
       className="rounded-md border p-2 hover:bg-gray-100"
     >
       <PrinterIcon className="w-5" />
@@ -39,7 +39,7 @@ export function PdfProject({ id }: { id: string }) {
 export function ViewProject({ id }: { id: string }) {
   return (
     <Link
-      href={`/dashboard/projects/${id}/view`}
+      href={`/projects/${id}/view`}
       className="rounded-md border p-2 hover:bg-gray-100"
     >
       <EyeIcon className="w-5" />

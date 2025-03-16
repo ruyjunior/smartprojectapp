@@ -1,23 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
 import { FaLink, FaGithub } from 'react-icons/fa';
-import { fetchProjects } from "@/app/lib/projects/data";
 import Image  from 'next/image';
+import { Project } from '@/app/lib/projects/definitions';
 
-export async function getStaticProps() {
-    const projects = await fetchProjects();
-    
-    return {
-      props: {
-        projects: projects || [],
-      },
-      revalidate: 10, // Opcional: para revalidar e atualizar os dados de tempos em tempos
-    };
-  }
-
-export default async function Devs() {
-    const projects = await fetchProjects();
-    //console.log(projects);
+export default async function Devs( {projects} : { projects : Project[] }) {
+  
     return (
         <section id="dev" className="py-20 text-center">
             <h2 className="text-3xl font-bold mb-10">Developed Projects</h2>

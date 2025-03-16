@@ -45,8 +45,8 @@ export async function createCompanie(prevState: State, formData: FormData) {
         message: 'Database Error: Failed to Create Companie.',
       };
     }
-    revalidatePath('/dashboard/companies');
-    redirect('/dashboard/companies');
+    revalidatePath('/companies');
+    redirect('/companies');
 }
  
 export async function updateCompanie(
@@ -78,13 +78,13 @@ export async function updateCompanie(
   return { message: 'Database Error: Failed to Update Companie.' };
  }
  
-  revalidatePath('/dashboard/companies');
-  redirect('/dashboard/companies');
+  revalidatePath('/companies');
+  redirect('/companies');
 }
 
 export async function deleteCompanie(id: string) {
     //throw new Error('Failed to Delete Invoice');
     
     await sql`DELETE FROM autoricapp.companies WHERE id = ${id}`;
-    revalidatePath('/dashboard/companies');
+    revalidatePath('/companies');
   }

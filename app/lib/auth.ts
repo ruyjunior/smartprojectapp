@@ -101,6 +101,13 @@ export const authOptions: NextAuthConfig = {
         }
       return session;
     },
+    async redirect({ url, baseUrl }) {
+      // Redireciona para /dashboard após login
+      if (url === '/') {
+        return `${baseUrl}/dashboard`;
+      }
+      return baseUrl;
+    },
   },
   secret: process.env.NEXTAUTH_SECRET,
 };

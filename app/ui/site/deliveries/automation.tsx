@@ -1,7 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
-import { FaLink, FaGithub } from 'react-icons/fa';
-import { Project } from '@/app/lib/projects/definitions';
 
 export default function Automation() {
     const folderId = "1LsKL_LmR3tjkCT0eyn3Imx6N3UyVriCO"

@@ -53,8 +53,8 @@ export async function createUser(prevState: State, formData: FormData) {
         message: 'Database Error: Failed to Create User.',
       };
     }
-    revalidatePath('/dashboard/users');
-    redirect('/dashboard/users');
+    revalidatePath('/users');
+    redirect('/users');
 }
  
 export async function updateUser(
@@ -88,13 +88,13 @@ export async function updateUser(
   return { message: 'Database Error: Failed to Update User.' };
  }
  
-  revalidatePath('/dashboard/users');
-  redirect('/dashboard/users');
+  revalidatePath('/users');
+  redirect('/users');
 }
 
 export async function deleteUser(id: string) {
     //throw new Error('Failed to Delete Invoice');
     
     await sql`DELETE FROM autoricapp.users WHERE id = ${id}`;
-    revalidatePath('/dashboard/users');
+    revalidatePath('/users');
   }

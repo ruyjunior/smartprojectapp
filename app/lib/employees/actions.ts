@@ -72,8 +72,8 @@ export async function createEmployee(prevState: State, formData: FormData) {
       message: 'Database Error: Failed to Create Employee.',
     };
   }
-  revalidatePath('/dashboard/employees');
-  redirect('/dashboard/employees');
+  revalidatePath('/employees');
+  redirect('/employees');
 }
 
 export async function updateEmployee(
@@ -125,13 +125,13 @@ export async function updateEmployee(
     return { message: 'Database Error: Failed to Update Employee.' };
   }
 
-  revalidatePath('/dashboard/employees');
-  redirect('/dashboard/employees');
+  revalidatePath('/employees');
+  redirect('/employees');
 }
 
 export async function deleteEmployee(id: string) {
   //throw new Error('Failed to Delete Invoice');
 
   await sql`DELETE FROM autoricapp.employees WHERE id = ${id}`;
-  revalidatePath('/dashboard/employees');
+  revalidatePath('/employees');
 }

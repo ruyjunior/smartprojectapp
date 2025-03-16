@@ -5,10 +5,9 @@ const Hero = () => {
       <section className="relative h-[40vh] md:h-[80vh]">
         <Image
           src="/images/banners/banner.png"
-          layout="fill"
-          objectFit="cover"
-          objectPosition="center"
           alt="Background"
+          width={1024}
+          height={840}
           className="absolute inset-0 w-full h-auto max-h-[80vh] object-cover opacity-90"
           />
           {/* Video Background 

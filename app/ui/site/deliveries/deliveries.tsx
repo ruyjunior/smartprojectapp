@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FaLinkedin, FaIndustry } from 'react-icons/fa';
+import { FaIndustry } from 'react-icons/fa';
 import { MdDevices } from 'react-icons/md'
 
 const Deliveries: React.FC = () => {

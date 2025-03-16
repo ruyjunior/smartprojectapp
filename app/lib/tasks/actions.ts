@@ -69,8 +69,8 @@ export async function createTask(prevState: State, formData: FormData) {
         message: 'Database Error: Failed to Create Task.',
       };
     }
-    revalidatePath('/dashboard/tasks');
-    redirect('/dashboard/projects/' + idproject + '/view' );
+    revalidatePath('/tasks');
+    redirect('/projects/' + idproject + '/view' );
   }
  
 export async function updateTask(
@@ -125,13 +125,13 @@ export async function updateTask(
   return { message: 'Database Error: Failed to Update Task.' };
  }
  
-  revalidatePath('/dashboard/tasks');
-  redirect('/dashboard/projects/' + idproject + '/view' );
+  revalidatePath('/tasks');
+  redirect('/projects/' + idproject + '/view' );
 }
 
 export async function deleteTask(id: string) {
     //throw new Error('Failed to Delete Invoice');
     
     await sql`DELETE FROM autoricapp.tasks WHERE id = ${id}`;
-    revalidatePath('/dashboard/tasks');
+    revalidatePath('/tasks');
   }

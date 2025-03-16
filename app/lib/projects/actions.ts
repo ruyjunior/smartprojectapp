@@ -57,8 +57,8 @@ export async function createProject(prevState: State, formData: FormData) {
         message: 'Database Error: Failed to Create Project.',
       };
     }
-    revalidatePath('/dashboard/projects');
-    redirect('/dashboard/projects');
+    revalidatePath('/projects');
+    redirect('/projects');
 }
  
 export async function updateProject(
@@ -97,11 +97,11 @@ export async function updateProject(
   return { message: 'Database Error: Failed to Update Project.' };
  }
  
-  revalidatePath('/dashboard/projects');
-  redirect('/dashboard/projects');
+  revalidatePath('/projects');
+  redirect('/projects');
 }
 
 export async function deleteProject(id: string) {
   await sql`DELETE FROM autoricapp.projects WHERE id = ${id}`;
-  revalidatePath('/dashboard/projects');
+  revalidatePath('/projects');
 }
