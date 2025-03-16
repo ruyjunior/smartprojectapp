@@ -34,7 +34,7 @@ export const DocPDF = ({ data }: { data: ProjectPDF }) => {
       <Page size="A4" style={styles.page}>
         {/* Header */}
         <View style={styles.headerSection}>
-          <Image src="/img/logos/logo.jpg" style={styles.logo} />
+          <Image src="/images/logos/logo.jpg" style={styles.logo} />
           <View style={styles.headerTextContainer}>
             <Text style={styles.subtitle}>YOU IMAGINE IT, WE MAKE IT WORK.</Text>
             <Text style={styles.title}>PROJECT REPORT</Text>
