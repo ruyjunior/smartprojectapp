@@ -30,6 +30,7 @@ export default async function TasksTable({
                             <div className="md:hidden space-y-4">
                                 {tasks?.map((task) => {
                                     const employee = employees.find((e) => e.id === task.who);
+                                    const taskSprints = sprints.filter((sprint) => sprint.idtask === task.id);
                                     return (
                                         <div key={task.id} className="p-4 rounded-lg bg-blue-100 shadow-md">
                                             <div className="flex flex-col gap-2 border-b pb-2">
@@ -52,8 +53,24 @@ export default async function TasksTable({
                                                 <p className="text-xs font-medium text-gray-700">Status: {task.status}</p>
                                                 <p className="text-xs font-medium text-gray-700">Grade: {task.grade}</p>
                                             </div>
-                                            <div className="flex justify-end mt-2">
+                                            <div className="flex justify-end mt-2 gap-2">
                                                 <UpdateTask id={task.id} />
+                                                <CreateSprintBasic id={task.id} />
+                                            </div>
+                                            <div className="mt-1">
+                                                <p>{taskSprints[0] ? 'Sprints' : ''}</p>
+                                                {taskSprints.map((sprint, index) => (
+                                                    <div key={sprint.id} className="flex flex-col gap-1 border-t pt-1 mt-1">
+                                                        <div className="flex justify-between text-xs text-gray-600 text-center ">
+                                                            <p className="font-medium align-middle">{index + 1}</p>
+                                                            <UpdateSprint id={sprint.id} />
+                                                            <p><span className="font-medium">Date</span> {formatDateToLocal(sprint.date)}</p>
+                                                            <p><span className="font-medium">Start</span> {formatTime(sprint.starttime)}</p>
+                                                            <p><span className="font-medium">End</span> {formatTime(sprint.endtime)}</p>
+                                                            <DeleteSprint id={sprint.id} />
+                                                        </div>
+                                                    </div>
+                                                ))}
                                             </div>
                                         </div>
                                     )
@@ -76,7 +93,7 @@ export default async function TasksTable({
                                         return (
                                             <React.Fragment key={task.id}>
                                                 <tr className="hover:bg-gray-400">
-                                                    <td className="py-2 px-2 flex gap-1 itens-start">
+                                                    <td className="py-2 px-2 flex gap-1 items-start">
                                                         <UpdateTask id={task.id} />
                                                         <CreateSprintBasic id={task.id} />
                                                     </td>
@@ -95,14 +112,14 @@ export default async function TasksTable({
                                                     </td>
                                                 </tr>
                                                 {taskSprints.map((sprint, index) => (
-                                                    <tr key={sprint.id} className="hover:bg-gray-200 text-xs m-10">
-                                                        <td className="py-2 px-2 flex gap-2">
+                                                    <tr key={sprint.id} className="hover:bg-gray-200 text-xs">
+                                                        <td className="px-1 py-0.5">
                                                             <UpdateSprint id={sprint.id} />
                                                         </td>
-                                                        <td className="px-1 py-0.5 text-gray-600">{index + 1}</td>
-                                                        <td className="px-1 py-0.5 text-gray-600">{formatDateToLocal(sprint.date)}</td>
-                                                        <td className="px-1 py-0.5 text-gray-600">{formatTime(sprint.starttime)}</td>
-                                                        <td className="px-1 py-0.5 text-gray-600">{formatTime(sprint.endtime)}</td>
+                                                        <td className="px-1 py-0.5 text-gray-600 text-center">{index + 1}</td>
+                                                        <td className="px-1 py-0.5 text-gray-600 text-center">{formatDateToLocal(sprint.date)}</td>
+                                                        <td className="px-1 py-0.5 text-gray-600 text-center">{formatTime(sprint.starttime)}</td>
+                                                        <td className="px-1 py-0.5 text-gray-600 text-center">{formatTime(sprint.endtime)}</td>
                                                         <td className="px-1 py-0.5">
                                                             <DeleteSprint id={sprint.id} />
                                                         </td>
