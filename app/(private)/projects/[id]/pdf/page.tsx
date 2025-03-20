@@ -6,6 +6,7 @@ import { fetchTasksByProject } from '@/app/lib/tasks/data';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { fetchEmployees } from '@/app/lib/employees/data';
+import { fetchSprints } from '@/app/lib/sprints/data';
 
 export const metadata: Metadata = {
   title: 'Print PDF Projects',
@@ -20,6 +21,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     fetchTasksByProject(id),
     fetchEmployees()
   ]);
+  const sprints = await fetchSprints();
   if (!project) {
     notFound();
   }
@@ -46,6 +48,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         tasks={tasks}
         companies={companies}
         employees={employees}
+        sprints={sprints}
       />
     </main>
   );

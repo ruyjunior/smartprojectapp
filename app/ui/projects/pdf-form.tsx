@@ -5,17 +5,20 @@ import { Company } from '@/app/lib/companies/definitions';
 import { Employee } from '@/app/lib/employees/definitions';
 import { Task } from '@/app/lib/tasks/definitions';
 import { PagePDF } from './docPDF';
+import { Sprint } from '@/app/lib/sprints/definitions';
 
-export default function PdfProposalForm({
+export default function PdfForm({
   project,
   companies,
   employees,
   tasks,
+  sprints
 }: {
   project: Project;
   companies: Company[];
   employees: Employee[];
   tasks: Task[];
+  sprints: Sprint[];
 }) {
 
   const data: ProjectPDF = {
@@ -25,6 +28,7 @@ export default function PdfProposalForm({
     taker: companies.find((c) => c.id === project.idtaker) as Company,
     takerSponsor: employees.find((e) => e.id === project.idtakersponsor) as Employee,
     tasks,
+    sprints,
     employees
   };
 

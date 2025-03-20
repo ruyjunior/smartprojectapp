@@ -1,6 +1,7 @@
+import React from 'react';
 import { Page, Text, View, Document, Font, StyleSheet, Image } from '@react-pdf/renderer';
 import styles from '@/app/ui/projects/stylesPDF';
-import { formatCNPJ, formatDateToLocal, formatPhone } from '@/app/lib/utils/utils';
+import { formatCNPJ, formatDateToLocal, formatPhone, formatTime } from '@/app/lib/utils/utils';
 import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
 import { DocumentArrowDownIcon } from '@heroicons/react/24/outline';
 import { ProjectPDF } from '@/app/lib/projects/definitions';
@@ -22,13 +23,13 @@ export const PagePDF = ({ data }: { data: ProjectPDF }) => (
   </div>
 );
 
-
 export const DocPDF = ({ data }: { data: ProjectPDF }) => {
   const totalTasks = data.tasks.length;
   const completedTasks = data.tasks.filter(task => task.status === "done").length;
   const totalHours = data.tasks.reduce((sum, task) => sum + (parseFloat(task.timeprevision) || 0), 0);
   const progress = totalTasks > 0 ? ((completedTasks / totalTasks) * 100).toFixed(2) : "0.00";
   const reportDate = new Date().toLocaleDateString();
+
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -82,19 +83,32 @@ export const DocPDF = ({ data }: { data: ProjectPDF }) => {
           </View>
           {data.tasks.map((task, index) => {
             const employee = data.employees.find(emp => emp.id === task.who);
+            const taskSprints = data.sprints.filter((sprint) => sprint.idtask === task.id);
+
             return (
-              <View style={[styles.tableRow, index % 2 === 0 ? styles.tableRowAlt : {}]} key={index}>
-                <Text style={styles.tableCell}>{task.title}</Text>
-                <Text style={styles.tableCell}>{task.status}</Text>
-                <Text style={styles.tableCell}>{formatDateToLocal(task.startdate)}</Text>
-                <Text style={styles.tableCell}>{formatDateToLocal(task.enddate)}</Text>
-                <Text style={styles.tableCellWide}>{task.what}</Text>
-                <Text style={styles.tableCellWide}>{task.how}</Text>
-                <Text style={styles.tableCell}>{employee ? employee.name : "Unknown"}</Text>
-                <Text style={styles.tableCell}>{task.grade}</Text>
-                <Text style={styles.tableCell}>{task.timeprevision}</Text>
-                <Text style={styles.tableCell}>{task.timespend}</Text>
-              </View>
+              <React.Fragment key={index}>
+                <View style={[styles.tableRow, index % 2 === 0 ? styles.tableRowAlt : {}]}>
+                  <Text style={styles.tableCell}>{task.title}</Text>
+                  <Text style={styles.tableCell}>{task.status}</Text>
+                  <Text style={styles.tableCell}>{formatDateToLocal(task.startdate)}</Text>
+                  <Text style={styles.tableCell}>{formatDateToLocal(task.enddate)}</Text>
+                  <Text style={styles.tableCellWide}>{task.what}</Text>
+                  <Text style={styles.tableCellWide}>{task.how}</Text>
+                  <Text style={styles.tableCell}>{employee ? employee.name : "Unknown"}</Text>
+                  <Text style={styles.tableCell}>{task.grade}</Text>
+                  <Text style={styles.tableCell}>{task.timeprevision}</Text>
+                  <Text style={styles.tableCell}>{task.timespend}</Text>
+                </View>
+                {/* Sprint */}
+                {taskSprints.map((sprint, sprintIndex) => (
+                  <View style={[styles.tableRowSprints, styles.sprintRow]} key={sprintIndex}>
+                    <Text style={styles.tableSprints}>{sprintIndex + 1}</Text>
+                    <Text style={styles.tableSprints}>Date: {formatDateToLocal(sprint.date)}</Text>
+                    <Text style={styles.tableSprints}>Start: {formatTime(sprint.starttime)}</Text>
+                    <Text style={styles.tableSprints}>End: {formatTime(sprint.endtime)}</Text>
+                  </View>
+                ))}
+              </React.Fragment>
             );
           })}
         </View>

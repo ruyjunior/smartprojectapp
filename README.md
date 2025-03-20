@@ -64,3 +64,4 @@ Presentation page, application for project and activity management.
 ├── 📜 tailwind.config.ts
 ├── 📜 tsconfig.json
 └── 📜 README.md
+|___ uskdjsd

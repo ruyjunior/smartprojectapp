@@ -26,8 +26,8 @@ export type State = {
   message?: string;
   errors?: {
     title?: string[];
-    startdate?: String[];
-    timeprevision?: String[];
+    startdate?: string[];
+    timeprevision?: string[];
     what?: string[];
     //how?: string[];
     who?: string[];

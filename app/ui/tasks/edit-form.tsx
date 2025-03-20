@@ -302,7 +302,10 @@ export default function EditTaskForm({
         </div>
 
         {/* Project*/}
-        <div className="mb-4">
+        {/* Hidden Field for Sprint ID Task */}
+        <input type="hidden" name="idproject" value={task.idproject} />
+         {/* Project*
+                 <div className="mb-4">
           <label htmlFor="idproject" className="mb-2 block text-sm font-medium">
             Choose Project
           </label>
@@ -334,6 +337,8 @@ export default function EditTaskForm({
               ))}
           </div>
         </div>
+
+         */}     
 
       </div>
       <div className="mt-6 flex justify-end gap-4">
