@@ -41,7 +41,7 @@ export default async function TasksTable({
                                                 </div>
                                                 <div className="text-xs text-gray-600">
                                                     <p><span className="font-medium">Prevision:</span> {formatTime(task.timeprevision)}</p>
-                                                    <p><span className="font-medium">Spent:</span> {formatTime(task.timespend)}</p>
+                                                    <p><span className="font-medium">Spent:</span> {task.timespend}</p>
                                                 </div>
                                             </div>
                                             <div className="text-xs text-gray-700 pt-2">
@@ -106,14 +106,14 @@ export default async function TasksTable({
                                                     <td className="px-1 py-1 text-xs">{task.how}</td>
                                                     <td className="px-1 py-1 text-xs font-medium">{employee?.name}</td>
                                                     <td className="px-1 py-1 text-xs text-gray-600">{formatTime(task.timeprevision)}</td>
-                                                    <td className="px-1 py-1 text-xs text-gray-600">{formatTime(task.timespend)}</td>
+                                                    <td className="px-1 py-1 text-xs text-gray-600">{task.timespend}</td>
                                                     <td className="px-1 py-1">
                                                         <DeleteTask id={task.id} />
                                                     </td>
                                                 </tr>
                                                 {taskSprints.map((sprint, index) => (
                                                     <tr key={sprint.id} className="hover:bg-gray-200 text-xs">
-                                                        <td className="px-1 py-0.5">
+                                                        <td className="py-0.5 px-2 flex gap-1 items-start">
                                                             <UpdateSprint id={sprint.id} />
                                                         </td>
                                                         <td className="px-1 py-0.5 text-gray-600 text-center">{index + 1}</td>

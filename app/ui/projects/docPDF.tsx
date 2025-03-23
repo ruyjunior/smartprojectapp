@@ -26,9 +26,23 @@ export const PagePDF = ({ data }: { data: ProjectPDF }) => (
 export const DocPDF = ({ data }: { data: ProjectPDF }) => {
   const totalTasks = data.tasks.length;
   const completedTasks = data.tasks.filter(task => task.status === "done").length;
-  const totalHours = data.tasks.reduce((sum, task) => sum + (parseFloat(task.timeprevision) || 0), 0);
+  const totalHoursEstimed = data.tasks.reduce((sum, task) => sum + (parseFloat(task.timeprevision) || 0), 0);
   const progress = totalTasks > 0 ? ((completedTasks / totalTasks) * 100).toFixed(2) : "0.00";
   const reportDate = new Date().toLocaleDateString();
+
+  function timeToDecimal(time: string) {
+    const [hours, minutes, seconds] = time.split(":").map(Number);
+    return hours + minutes / 60 + seconds / 3600;
+  }
+
+  const totalHoursRealized = data.tasks.reduce((sum, task) => sum + timeToDecimal(task.timespend), 0);
+
+  // Converte para HH:MM corretamente
+  const hours = Math.floor(totalHoursRealized);
+  const minutes = Math.round((totalHoursRealized - hours) * 60);
+
+  const formattedTime = `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
+  console.log(formattedTime); // Exemplo: "07:30"
 
   return (
     <Document>
@@ -37,49 +51,50 @@ export const DocPDF = ({ data }: { data: ProjectPDF }) => {
         <View style={styles.headerSection}>
           <Image src="/images/logos/logo.jpg" style={styles.logo} />
           <View style={styles.headerTextContainer}>
-            <Text style={styles.subtitle}>YOU IMAGINE IT, WE MAKE IT WORK.</Text>
-            <Text style={styles.title}>PROJECT REPORT</Text>
-            <Text style={styles.reportDate}>Report Date: {reportDate}</Text>
+            <Text style={styles.subtitle}>VOCÊ IMAGINA, NÓS FAZEMOS ACONTECER.</Text>
+            <Text style={styles.title}>Relatório de Projeto</Text>
+            <Text style={styles.reportDate}>Data de impressão: {reportDate}</Text>
           </View>
         </View>
 
         {/* Project Data */}
         <View style={styles.section}>
-          <Text style={styles.chapter}>Project Data</Text>
-          <Text style={styles.field}><Text style={styles.label}>Title:</Text> {data.project.title}</Text>
-          <Text style={styles.field}><Text style={styles.label}>Comments:</Text> {data.project.comments}</Text>
-          <Text style={styles.field}><Text style={styles.label}>Start Date:</Text> {formatDateToLocal(data.project.timestamp)}</Text>
-          <Text style={styles.field}><Text style={styles.label}>Total Hours Planned:</Text> {totalHours}h</Text>
-          <Text style={styles.field}><Text style={styles.label}>Progress:</Text> {progress}%</Text>
+          <Text style={styles.chapter}>PROJETO</Text>
+          <Text style={styles.field}><Text style={styles.label}></Text>{data.project.title}</Text>
+          <Text style={styles.field}><Text style={styles.label}>Comentários:</Text> {data.project.comments}</Text>
+          <Text style={styles.field}><Text style={styles.label}>Início:</Text> {formatDateToLocal(data.project.timestamp)}</Text>
+          <Text style={styles.field}><Text style={styles.label}>Horas Planejadas:</Text>{totalHoursEstimed}h</Text>
+          <Text style={styles.field}><Text style={styles.label}>Horas Realizadas:</Text>{formattedTime}h</Text>
+          <Text style={styles.field}><Text style={styles.label}>Progresso:</Text> {progress}%</Text>
         </View>
 
         {/* Taker Project */}
         <View style={styles.section}>
-          <Text style={styles.chapter}>Taker Project</Text>
-          <Text style={styles.field}><Text style={styles.label}>Company:</Text> {data.taker.name}</Text>
+          <Text style={styles.chapter}>SOLICITANTE</Text>
+          <Text style={styles.field}><Text style={styles.label}>Empresa:</Text> {data.taker.name}</Text>
           <Text style={styles.field}><Text style={styles.label}>CNPJ:</Text> {formatCNPJ(data.taker.cnpj)}</Text>
-          <Text style={styles.field}><Text style={styles.label}>Sponsor:</Text> {data.takerSponsor.name}</Text>
-          <Text style={styles.field}><Text style={styles.label}>Phone:</Text> {formatPhone(data.takerSponsor.phone)}</Text>
+          <Text style={styles.field}><Text style={styles.label}>Responsável:</Text> {data.takerSponsor.name}</Text>
+          <Text style={styles.field}><Text style={styles.label}>Telefone:</Text> {formatPhone(data.takerSponsor.phone)}</Text>
           <Text style={styles.field}><Text style={styles.label}>Email:</Text> {data.takerSponsor.email}</Text>
         </View>
 
         {/* Tasks */}
         <View style={styles.section}>
-          <Text style={styles.chapter}>Tasks</Text>
+          <Text style={styles.chapter}>Tarefas</Text>
         </View>
 
         <View style={styles.table}>
           <View style={styles.tableRowHeader}>
-            <Text style={styles.tableCellHeader}>Title</Text>
-            <Text style={styles.tableCellHeader}>Status</Text>
-            <Text style={styles.tableCellHeader}>Start Date</Text>
-            <Text style={styles.tableCellHeader}>End Date</Text>
-            <Text style={styles.tableCellHeaderWide}>What Do</Text>
-            <Text style={styles.tableCellHeaderWide}>How Do</Text>
-            <Text style={styles.tableCellHeader}>Who</Text>
-            <Text style={styles.tableCellHeader}>Grade</Text>
-            <Text style={styles.tableCellHeader}>Prevision</Text>
-            <Text style={styles.tableCellHeader}>Spent</Text>
+            <Text style={styles.tableCellHeader}>Nome</Text>
+            <Text style={styles.tableCellHeader}>Stado</Text>
+            <Text style={styles.tableCellHeader}>Data Inical</Text>
+            <Text style={styles.tableCellHeader}>Data Final</Text>
+            <Text style={styles.tableCellHeaderWide}>O que?</Text>
+            <Text style={styles.tableCellHeaderWide}>Como?</Text>
+            <Text style={styles.tableCellHeader}>Quem?</Text>
+            <Text style={styles.tableCellHeader}>Criticidade</Text>
+            <Text style={styles.tableCellHeader}>Tempo Precisto</Text>
+            <Text style={styles.tableCellHeader}>Tempo Gasto</Text>
           </View>
           {data.tasks.map((task, index) => {
             const employee = data.employees.find(emp => emp.id === task.who);

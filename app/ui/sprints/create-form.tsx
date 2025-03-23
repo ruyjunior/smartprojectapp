@@ -8,12 +8,13 @@ import { Button } from '@/app/ui/button';
 import { createSprint, State } from '@/app/lib/sprints/actions';
 import { formatDateBr } from '@/app/lib/utils/utils';
 
-export default function Form({ task, project } : { task: Task, project: Project }) {
+export default function Form({ task, project }: { task: Task, project: Project }) {
 
-const initialState: State = { message: '', errors: {} };
+  const initialState: State = { message: '', errors: {} };
   const [state, formAction] = useActionState(createSprint, initialState);
 
-  const [date, setDate] = useState('');
+  const today = new Date();
+  const [date, setDate] = useState(today.toISOString().split('T')[0]);
 
   const handleChangeDate = (event: React.ChangeEvent<HTMLInputElement>) => {
     const formattedDate = formatDateBr(event.target.value);
@@ -23,8 +24,8 @@ const initialState: State = { message: '', errors: {} };
   return (
     <form action={formAction}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
-
-        {/* Task*/}
+        <input type="hidden" name="idtask" value={task.id} />
+        {/* Task
         <div className="mb-4">
           <label htmlFor="idproject" className="mb-2 block text-sm font-medium">
             Choose Task
@@ -55,6 +56,7 @@ const initialState: State = { message: '', errors: {} };
               ))}
           </div>
         </div>
+        */}
 
         {/* DATE */}
         <div className="mb-4">
@@ -69,6 +71,7 @@ const initialState: State = { message: '', errors: {} };
                 type="date"
                 //value={sprint.startdate}
                 maxLength={10}
+                defaultValue={date}
                 onChange={handleChangeDate}
                 placeholder="Enter a date"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
@@ -82,7 +85,7 @@ const initialState: State = { message: '', errors: {} };
         {/* Start Time */}
         <div className="mb-4">
           <label htmlFor="starttime" className="mb-2 block text-sm font-medium">
-            Enter End Time
+            Start Time
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -90,6 +93,7 @@ const initialState: State = { message: '', errors: {} };
                 id="starttime"
                 name="starttime"
                 type="time"
+                defaultValue="08:00"
                 placeholder="Enter a start time"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 aria-describedby="enddate-error"
@@ -102,7 +106,7 @@ const initialState: State = { message: '', errors: {} };
         {/* End Time */}
         <div className="mb-4">
           <label htmlFor="endtime" className="mb-2 block text-sm font-medium">
-            Enter End Time
+            End Time
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -110,6 +114,7 @@ const initialState: State = { message: '', errors: {} };
                 id="endtime"
                 name="endtime"
                 type="time"
+                defaultValue="12:00"
                 placeholder="Enter a start time"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 aria-describedby="enddate-error"

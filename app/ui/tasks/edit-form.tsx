@@ -27,8 +27,11 @@ export default function EditTaskForm({
   const updateTaskWithId = (state: State = initialState, formData: FormData) => updateTask(task.id, state, formData);
   const [state, formAction] = useActionState(updateTaskWithId, initialState);
 
+  const today = new Date();
+  const formattedEndDate = task.enddate ? formatDateDb(task.enddate) : today.toISOString().split('T')[0];
+  const [enddate, setEndDate] = useState(formattedEndDate);
+
   const startdate = formatDateDb(task.startdate);
-  const enddate = formatDateDb(task.enddate);
   const timeprevision = formatTime(task.timeprevision);
   const timespend = formatTime(task.timespend);
 
@@ -92,6 +95,7 @@ export default function EditTaskForm({
                 id="timeprevision"
                 name="timeprevision"
                 type="time"
+                step="60"
                 defaultValue={task.timeprevision}
                 //maxLength={5}
                 //onChange={handleChangeEndDate}
@@ -104,7 +108,7 @@ export default function EditTaskForm({
           </div>
         </div>
 
-        {/* Time Spend */}
+        {/* Time Spend 
         <div className="mb-4">
           <label htmlFor="timespend" className="mb-2 block text-sm font-medium">
             Enter Time spend
@@ -126,7 +130,7 @@ export default function EditTaskForm({
             </div>
           </div>
         </div>
-
+        */}
 
         {/* Employee*/}
         <div className="mb-4">

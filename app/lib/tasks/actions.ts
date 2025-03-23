@@ -16,10 +16,9 @@ const FormSchema = z.object({
   status: z.string(),
   idproject: z.string(),
   timeprevision: z.string(),
-  timespend: z.string(),
 });
 
-const CreateTask = FormSchema.omit({ id: true, enddate: true, how: true, timespend: true });
+const CreateTask = FormSchema.omit({ id: true, enddate: true, how: true });
 const UpdateTask = FormSchema.omit({ id: true });
 
 export type State = {
@@ -31,8 +30,8 @@ export type State = {
     what?: string[];
     //how?: string[];
     who?: string[];
-    grade?: string[]; 
-    status?: string[]; 
+    grade?: string[];
+    status?: string[];
     idproject?: string[];
   };
 };
@@ -48,36 +47,36 @@ export async function createTask(prevState: State, formData: FormData) {
     grade: formData.get('grade'),
     status: formData.get('status'),
     idproject: formData.get('idproject'),
-    });
+  });
 
-    if (!validatedFields.success) {
-      return {
-        errors: validatedFields.error.flatten().fieldErrors,
-        message: 'Missing Fields. Failed to Create.',
-      };
-    }
-    const { title, startdate, timeprevision, status, what, who, grade, idproject} = validatedFields.data;
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Create.',
+    };
+  }
+  const { title, startdate, timeprevision, status, what, who, grade, idproject } = validatedFields.data;
 
-    try {
-        await sql`
+  try {
+    await sql`
         INSERT INTO autoricapp.tasks ( 
           title, startdate, timeprevision, status, what, who, grade, idproject)
         VALUES (${title}, ${startdate}, ${timeprevision}, ${status}, ${what}, ${who}, ${grade}, ${idproject})
-        `;  
-    } catch (error){
-      return {
-        message: 'Database Error: Failed to Create Task.',
-      };
-    }
-    revalidatePath('/tasks');
-    redirect('/projects/' + idproject + '/view' );
+        `;
+  } catch (error) {
+    return {
+      message: 'Database Error: Failed to Create Task.',
+    };
   }
- 
+  revalidatePath('/tasks');
+  redirect('/projects/' + idproject + '/view');
+}
+
 export async function updateTask(
   id: string,
-  prevState: State, 
+  prevState: State,
   formData: FormData
-  ){
+) {
   const validatedFields = UpdateTask.safeParse({
     title: formData.get('title'),
     what: formData.get('what'),
@@ -89,20 +88,20 @@ export async function updateTask(
     status: formData.get('status'),
     idproject: formData.get('idproject'),
     timeprevision: formData.get('timeprevision'),
-    timespend: formData.get('timespend'),
-});
+    //timespend: formData.get('timespend'),
+  });
   if (!validatedFields.success) {
+    //console.log(validatedFields.error.flatten().fieldErrors);
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: 'Missing Fields. Failed to Update Task.',
     };
   }
-  
-  const { title, what, how, who, grade, startdate, 
-          enddate, status, idproject, timeprevision, timespend
-        } = validatedFields.data;
-        const sanitizedEndDate = enddate || null;
-        const sanitizedTimeSpend = timespend || null;
+  //console.log(validatedFields.data);
+  const { title, what, how, who, grade, startdate,
+    enddate, status, idproject, timeprevision
+  } = validatedFields.data;
+  const sanitizedEndDate = enddate || null;
 
   try {
     await sql`
@@ -117,21 +116,21 @@ export async function updateTask(
       startdate = ${startdate}, 
       enddate = ${sanitizedEndDate}, 
       status = ${status},
-      timeprevision = ${timeprevision},
-      timespend = ${sanitizedTimeSpend}
+      timeprevision = ${timeprevision}
     WHERE id = ${id}
   `;
-} catch (error){
-  return { message: 'Database Error: Failed to Update Task.' };
- }
- 
+  } catch (error) {
+    console.error(error);
+    return { message: 'Database Error: Failed to Update Task.' };
+  }
+
   revalidatePath('/tasks');
-  redirect('/projects/' + idproject + '/view' );
+  redirect('/projects/' + idproject + '/view');
 }
 
 export async function deleteTask(id: string) {
-    //throw new Error('Failed to Delete Invoice');
-    
-    await sql`DELETE FROM autoricapp.tasks WHERE id = ${id}`;
-    revalidatePath('/tasks');
-  }
+  //throw new Error('Failed to Delete Invoice');
+
+  await sql`DELETE FROM autoricapp.tasks WHERE id = ${id}`;
+  revalidatePath('/tasks');
+}

@@ -23,26 +23,29 @@ export async function fetchTasks() {
 
 export async function fetchFilteredTasks(
   query: string | undefined | null,
-  currentPnumber: number | undefined | null) {
-
+  currentPnumber: number | undefined | null
+) {
   const offset = currentPnumber ? (currentPnumber - 1) * ITEMS_PER_PAGE : 0;
+  
   try {
-    const data = await sql<Task>`
-    SELECT 
+    const data = await sql<Task & { timespend: string }>`
+      SELECT 
         id, title, what, how, who, grade, 
         startdate, enddate, status, idproject, 
-        timeprevision, timespend 
+        timeprevision, 
+        TO_CHAR(timespend, 'HH24:MI:SS') AS timespend  -- Converte INTERVAL/TIME para string
       FROM autoricapp.tasks
       WHERE idproject::text ILIKE ${`%${query}%`}
       ORDER BY startdate DESC
-       `;
-    const tasks = data.rows;
-    return tasks;
+    `;
+
+    return data.rows;
   } catch (err) {
-    console.error('Database Error:', err);
-    throw new Error('Failed to search tasks.');
+    console.error("Database Error:", err);
+    throw new Error("Failed to search tasks.");
   }
 }
+
 const ITEMS_PER_PAGE = 6;
 
 export async function fetchTasksPages(query: string) {
@@ -70,11 +73,12 @@ export async function fetchTaskById(id: string) {
     const task = data.rows.map((task) => ({
       ...task,
       timeprevision: formatTime(task.timeprevision),
-      timespend: formatTime(task.timespend),
+      //timespend: formatTime(task.timespend),
     }));
     return task[0];
     //console.log('Task: ' + task[0]);
   } catch (error) {
+    console.error('Database Error:', error);
     console.error('Database Error:', error);
     throw new Error('Failed to fetch proposal.');
   }
@@ -93,7 +97,7 @@ export async function fetchTasksByProject(id: string) {
     const tasks = data.rows.map((task) => ({
       ...task,
       timeprevision: formatTime(task.timeprevision),
-      timespend: formatTime(task.timespend),
+      //timespend: formatTime(task.timespend),
     }));
     return tasks;
   } catch (error) {

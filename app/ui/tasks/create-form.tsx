@@ -8,14 +8,16 @@ import { Button } from '@/app/ui/button';
 import { createTask, State } from '@/app/lib/tasks/actions';
 import { formatDateBr } from '@/app/lib/utils/utils';
 
-export default function Form({ 
-  employees, project } : { 
-  employees: Employee[], project: Project }) {
+export default function Form({
+  employees, project }: {
+    employees: Employee[], project: Project
+  }) {
 
-const initialState: State = { message: '', errors: {} };
+  const initialState: State = { message: '', errors: {} };
   const [state, formAction] = useActionState(createTask, initialState);
-
-  const [startdate, setStartDate] = useState('');
+  
+  const today = new Date();
+  const [startdate, setStartDate] = useState(today.toISOString().split('T')[0]);
 
   const handleChangeStartDate = (event: React.ChangeEvent<HTMLInputElement>) => {
     const formattedStartDate = formatDateBr(event.target.value);
@@ -26,7 +28,8 @@ const initialState: State = { message: '', errors: {} };
     <form action={formAction}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
 
-        {/* Project*/}
+        <input type="hidden" name="idproject" value={project.id} />
+        {/* Project*
         <div className="mb-4">
           <label htmlFor="idproject" className="mb-2 block text-sm font-medium">
             Choose Project
@@ -57,7 +60,7 @@ const initialState: State = { message: '', errors: {} };
               ))}
           </div>
         </div>
-
+*/}
         {/* Employee*/}
         <div className="mb-4">
           <label htmlFor="who" className="mb-2 block text-sm font-medium">
@@ -103,6 +106,7 @@ const initialState: State = { message: '', errors: {} };
                 id="startdate"
                 name="startdate"
                 type="date"
+                defaultValue={startdate}
                 //value={task.startdate}
                 maxLength={10}
                 onChange={handleChangeStartDate}
@@ -126,6 +130,8 @@ const initialState: State = { message: '', errors: {} };
                 id="timeprevision"
                 name="timeprevision"
                 type="time"
+                defaultValue="02:00"
+                step="60"
                 placeholder="Enter a time prevision"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 aria-describedby="enddate-error"

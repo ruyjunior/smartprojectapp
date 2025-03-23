@@ -49,6 +49,7 @@ export async function createSprint(prevState: State, formData: FormData) {
         VALUES (${idtask}, ${date}, ${starttime}, ${endtime})
         `;
   } catch (error) {
+    console.error('Database Error:', error);
     return {
       message: 'Database Error: Failed to Create sprint.',
     };
