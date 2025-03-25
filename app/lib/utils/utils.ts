@@ -121,10 +121,13 @@ export const formatDateDb = (dateStr: string | null | undefined) => {
     return '';
   }
   const date = new Date(dateStr);
-  const year = date.getFullYear();
+  const timezoneOffset = date.getTimezoneOffset() * 60000;
+  /*const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
+  return `${year}-${month}-${day}`;*/
+  const localISOTime = new Date(date.getTime() - timezoneOffset).toISOString().split('T')[0];
+  return localISOTime;
 };
 
 export const formatCurrencyInput = (value: string) => {
