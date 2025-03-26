@@ -81,7 +81,7 @@ export default async function TasksTable({
                             <table className="hidden min-w-full text-gray-900 md:table">
                                 <thead className="bg-blue-100 text-left text-xs font-medium uppercase">
                                     <tr>
-                                        {['Edit', 'Title', 'Status', 'Grade', 'Start Date', 'End Date', 'What', 'How', 'Who', 'Prevision', 'Spent', 'Delete'].map((header) => (
+                                        {['Edit', 'Details', 'What', 'How', 'Who', 'Prevision', 'Spent', 'Delete'].map((header) => (
                                             <th key={header} className="px-1 py-1">{header}</th>
                                         ))}
                                     </tr>
@@ -93,20 +93,26 @@ export default async function TasksTable({
                                         return (
                                             <React.Fragment key={task.id}>
                                                 <tr className="hover:bg-gray-400">
-                                                    <td className="py-2 px-2 flex gap-1 items-start">
+                                                    <td className="py-2 px-2">                                                        <div className="flex gap-2 items-center">
                                                         <UpdateTask id={task.id} />
                                                         <CreateSprintBasic id={task.id} />
+                                                    </div>
+                                                        <div className="mt-2">
+                                                            <TaskStatus status={task.status} />
+                                                        </div>                                                    </td>
+                                                    {/* Details Column */}
+                                                    <td className="px-1 py-1 text-xs text-gray-700">
+                                                        <p className="font-bold text-sm text-gray-900"><span className="font-medium"></span> {task.title}</p>
+                                                        <p><span className="font-medium">Start:</span> {formatDateToLocal(task.startdate)}</p>
+                                                        <p><span className="font-medium">End:</span> {formatDateToLocal(task.enddate)}</p>
                                                     </td>
-                                                    <td className="px-1 py-1 font-sm text-gray-700">{task.title}</td>
-                                                    <td className="px-1 py-1"><TaskStatus status={task.status} /></td>
-                                                    <td className="px-1 py-1 text-center">{task.grade}</td>
-                                                    <td className="px-1 py-1 text-xs text-gray-600">{formatDateToLocal(task.startdate)}</td>
-                                                    <td className="px-1 py-1 text-xs text-gray-600">{formatDateToLocal(task.enddate)}</td>
-                                                    <td className="px-1 py-1 text-xs">{task.what}</td>
-                                                    <td className="px-1 py-1 text-xs">{task.how}</td>
+                                                    {/* What Column */}
+                                                    <td className="px-1 py-1 text-xs text-gray-700">{task.what}</td>
+                                                    {/* How Column */}
+                                                    <td className="px-1 py-1 text-xs text-gray-700">{task.how}</td>
                                                     <td className="px-1 py-1 text-xs font-medium">{employee?.name}</td>
                                                     <td className="px-1 py-1 text-xs text-gray-600">{formatTime(task.timeprevision)}</td>
-                                                    <td className="px-1 py-1 text-xs text-gray-600">{task.timespend}</td>
+                                                    <td className="px-1 py-1 text-xs text-gray-600">{formatTime(task.timespend)}</td>
                                                     <td className="px-1 py-1">
                                                         <DeleteTask id={task.id} />
                                                     </td>
