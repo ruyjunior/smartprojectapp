@@ -1,4 +1,4 @@
-import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { PencilIcon, PlusIcon, TrashIcon, FireIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { deleteCompanie } from '@/app/lib/companies/actions';
 
@@ -34,5 +34,16 @@ export function DeleteCompanie({ id }: { id: string }) {
         <TrashIcon className="w-5" />
       </button>
     </form>
+  );
+}
+
+export function ViewInvoice({ id }: { id: string }) {
+  return (
+    <Link
+      href={`/companies/${id}/invoice`}
+      className="rounded-md border p-2 hover:bg-gray-100"
+    >
+      <FireIcon className="w-5" />
+    </Link>
   );
 }

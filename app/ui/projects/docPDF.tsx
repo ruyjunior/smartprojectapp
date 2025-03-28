@@ -42,7 +42,7 @@ export const DocPDF = ({ data }: { data: ProjectPDF }) => {
   const minutes = Math.round((totalHoursRealized - hours) * 60);
 
   const formattedTime = `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
-  console.log(formattedTime); // Exemplo: "07:30"
+  //console.log(formattedTime); // Exemplo: "07:30"
 
   return (
     <Document>
@@ -93,7 +93,7 @@ export const DocPDF = ({ data }: { data: ProjectPDF }) => {
             <Text style={styles.tableCellHeaderWide}>Como?</Text>
             <Text style={styles.tableCellHeader}>Quem?</Text>
             <Text style={styles.tableCellHeader}>Criticidade</Text>
-            <Text style={styles.tableCellHeader}>Tempo Precisto</Text>
+            <Text style={styles.tableCellHeader}>Tempo Previsto</Text>
             <Text style={styles.tableCellHeader}>Tempo Gasto</Text>
           </View>
           {data.tasks.map((task, index) => {

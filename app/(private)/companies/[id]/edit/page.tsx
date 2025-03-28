@@ -1,6 +1,6 @@
 import Form from '@/app/ui/companies/edit-form';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
-import {fetchCompanieById } from '@/app/lib/companies/data';
+import {fetchCompanyById } from '@/app/lib/companies/data';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 
@@ -12,7 +12,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     const params = await props.params;
     const id = params.id;
     const [companie] = await Promise.all([
-        fetchCompanieById(id),
+        fetchCompanyById(id),
       ]);
       if (!companie) {
     notFound();

@@ -52,7 +52,7 @@ export async function fetchCompaniesPages(query: string) {
   }
 }
 
-export async function fetchCompanieById(id: string) {
+export async function fetchCompanyById(id: string) {
   try {
     const data = await sql<Company>`
       SELECT
