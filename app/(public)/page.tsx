@@ -14,16 +14,14 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   return (
-    <main >
-      <div className="bg-gray text-gray-900">
-        <Hero />
-        <Services />
-        <About />
-        <Clients />
-        <Deliveries />
-        <Team />
-        <CallToAction />
-      </div>
-    </main>
+    <div className="bg-gray text-gray-900">
+      <Hero />
+      <Services />
+      <About />
+      <Clients />
+      <Deliveries />
+      <Team />
+      <CallToAction />
+    </div>
   );
 }

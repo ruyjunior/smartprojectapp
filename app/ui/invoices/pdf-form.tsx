@@ -1,65 +1,31 @@
 'use client';
-import { useState } from 'react';
-import { Project } from '@/app/lib/projects/definitions';
 import { InvoicePDF } from '@/app/lib/companies/definitions';
-import { Company } from '@/app/lib/companies/definitions';
-import { Employee } from '@/app/lib/employees/definitions';
-import { Task } from '@/app/lib/tasks/definitions';
-import { Sprint } from '@/app/lib/sprints/definitions';
+import { DocPDF } from './docPDF';
+import { PDFViewer } from '@react-pdf/renderer';
+import { LinkPDF } from './linkPDF';
+import { useEffect, useState } from 'react';
 
-import { PagePDF } from './docPDF';
-import { DateFilter } from './DateFilter';
+export default function PdfForm() {
 
-export default function PdfForm({
-  company,
-  projects,
-  companies,
-  employees,
-  tasks,
-  sprints
-}: {
-  company: Company;
-  projects: Project[];
-  companies: Company[];
-  employees: Employee[];
-  tasks: Task[];
-  sprints: Sprint[];
-}
-) {
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const [data, setData] = useState<InvoicePDF | null>(null);
 
-  const filteredSprints = sprints.filter((sprint) => {
-    const sprintDate = new Date(sprint.date);
-    const filterStart = startDate ? new Date(startDate) : null;
-    const filterEnd = endDate ? new Date(endDate) : null;
+  useEffect(() => {
+    const storedData = localStorage.getItem('invoiceData');
+    if (storedData) {
+      setData(JSON.parse(storedData));
+    }
+  }, []);
 
-    return (
-      (!filterStart || sprintDate >= filterStart) &&
-      (!filterEnd || sprintDate <= filterEnd)
-    );
-  });
-
-  const data: InvoicePDF = {
-    projectsInvoice: projects.filter((p) => p.idtaker === company.id) as Project[],
-    taker: company,
-    companies: companies,
-    tasks: tasks,
-    sprints: filteredSprints,
-    employees: employees,
-  } as InvoicePDF;
+  if (!data) return <p>Carregando...</p>;
 
   return (
     <div>
-    {/* Componente de Filtro de Data */}
-    <DateFilter
-      startDate={startDate}
-      endDate={endDate}
-      onStartDateChange={setStartDate}
-      onEndDateChange={setEndDate}
-    />
 
-    {/* Renderizar o PDF */}
-    <PagePDF data={data} />
-  </div>  );
+      <LinkPDF data={data} />
+
+      <PDFViewer style={{ width: '100%', height: '500px', marginTop: 20 }}>
+        <DocPDF data={data} />
+      </PDFViewer>
+
+    </div>);
 }

@@ -6,6 +6,7 @@ interface DateFilterProps {
   endDate: string;
   onStartDateChange: (value: string) => void;
   onEndDateChange: (value: string) => void;
+
 }
 
 export const DateFilter: React.FC<DateFilterProps> = ({
@@ -14,6 +15,7 @@ export const DateFilter: React.FC<DateFilterProps> = ({
   onStartDateChange,
   onEndDateChange,
 }) => {
+
   return (
     <div className="mb-4 flex gap-4">
       <div>

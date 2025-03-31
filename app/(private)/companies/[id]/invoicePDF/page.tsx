@@ -1,4 +1,4 @@
-import Form from '@/app/ui/invoices/table';
+import Form from '@/app/ui/invoices/pdf-form';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
 import { fetchCompanyById } from '@/app/lib/companies/data';
 import { notFound } from 'next/navigation';
@@ -47,22 +47,15 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
       <Breadcrumbs
         breadcrumbs={[
           { label: 'Companies', href: '/companies' },
-          { label: company.name, href: '/companies/ ' },
+          { label: `${company.name}` + ' Invoice' , href:  `/companies/${id}/invoice`, active: true },
           {
             label: 'Invoice',
-            href: `/companies/${id}/invoice`,
+            href: `/companies/${id}/invoicePDF`,
             active: true,
           },
         ]}
       />
-      <Form
-        company={company}
-        projects={filteredProjects}
-        companies={companies}
-        tasks={filteredTasks}
-        sprints={filteredSprints}
-        employees={employees}
-      />
+      <Form/>
     </main>
   );
 }

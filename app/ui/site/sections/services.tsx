@@ -11,12 +11,12 @@ const Services = () => {
   ];
 
   return (
-    <section id="services" 
-    className="py-20 text-center">
+    <section id="services"
+      className="py-20 text-center">
       <h2 className="text-3xl font-bold mb-6">
-      Services we offer
-        </h2>
-        <div className="flex justify-center flex-wrap gap-6">
+        Services we offer
+      </h2>
+      <div className="flex justify-center flex-wrap gap-6">
         {services.map((service, index) => (
           <div key={index} className="flex flex-col items-center justify-center bg-gray-100 px-2 py-3 rounded-lg shadow-md">
             {service.icon}

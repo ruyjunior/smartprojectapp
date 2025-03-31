@@ -1,5 +1,4 @@
 import '@/app/ui/global.css';
-import { inter } from '@/app/ui/fonts';
 import { Metadata } from 'next';
 import { SessionProvider } from "next-auth/react";
 import WhatsappButton from "@/app/ui/site/WhatsappButton";
@@ -36,16 +35,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} antialiased`}>
-        <SessionProvider>
-          <Navbar />
-          {children}
-          <Footer />
-          <WhatsappButton />
-          <TopButton />
-        </SessionProvider>
-        </body>
-    </html>
+    <main>
+      <SessionProvider>
+        <Navbar />
+        {children}
+        <Footer />
+        <WhatsappButton />
+        <TopButton />
+      </SessionProvider>
+    </main>
   );
 }

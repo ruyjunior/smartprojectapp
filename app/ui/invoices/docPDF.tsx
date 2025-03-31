@@ -1,27 +1,8 @@
 import React from 'react';
-import { Page, Text, View, Document, Font, StyleSheet, Image } from '@react-pdf/renderer';
-import styles from '@/app/ui/projects/stylesPDF';
+import * as PDF from '@react-pdf/renderer';
+import styles from '@/app/ui/invoices/stylesPDF';
 import { formatCNPJ, formatDateToLocal, formatPhone, formatTime } from '@/app/lib/utils/utils';
-import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
-import { DocumentArrowDownIcon } from '@heroicons/react/24/outline';
 import { InvoicePDF } from '@/app/lib/companies/definitions';
-
-export const PagePDF = ({ data }: { data: InvoicePDF }) => (
-  <div>
-    <PDFDownloadLink
-      document={<DocPDF data={data} />}
-      fileName={
-        'Invoice_' + data.taker.name + '_from' + 'dateIN' + 'to' + 'dateOUT' + '.pdf'
-      }>
-      {({ loading }) => (loading ? 'Gerando PDF...' : 'Download ')}
-    </PDFDownloadLink>
-    <DocumentArrowDownIcon className="h-5 w-5 text-gray-500" />
-
-    <PDFViewer style={{ width: '100%', height: '500px', marginTop: 20 }}>
-      <DocPDF data={data} />
-    </PDFViewer>
-  </div>
-);
 
 function timeToDecimal(time: string | null | undefined) {
   if (!time) {
@@ -34,39 +15,41 @@ function timeToDecimal(time: string | null | undefined) {
 export const DocPDF = ({ data }: { data: InvoicePDF }) => {
   const InvoiceDate = new Date().toLocaleDateString();
 
-  const tasks = data.projectsInvoice.map((project, index) => ({
-    project,
-    tasksInvoice: data.tasks.filter((t) => t.idproject === project.id),
-  }));
-
-
+  const filteredTasks = data.tasks.filter((t) =>
+    data.sprints.some((s) => s.idtask === t.id)
+  );
+  const filteredProjects = data.projects.filter((p) =>
+    filteredTasks.some((t) => t.idproject === p.id)
+  );
+  console.log(filteredProjects);
 
   return (
-    <Document>
-      <Page size="A4" style={styles.page}>
+    <PDF.Document>
+      <PDF.Page size="A4" style={styles.page}>
         {/* Header */}
-        <View style={styles.headerSection}>
-          <Image src="/images/logos/logo.jpg" style={styles.logo} />
-          <View style={styles.headerTextContainer}>
-            <Text style={styles.subtitle}>VOCÊ IMAGINA, NÓS FAZEMOS ACONTECER.</Text>
-            <Text style={styles.title}>Relatório de Serviços</Text>
-            <Text style={styles.reportDate}>Data de impressão: {InvoiceDate}</Text>
-          </View>
-        </View>
+        <PDF.View style={styles.headerSection}>
+          <PDF.Image src="/images/logos/logo.jpg" style={styles.logo} />
+          <PDF.View style={styles.headerTextContainer}>
+            <PDF.Text style={styles.subtitle}>VOCÊ IMAGINA, NÓS FAZEMOS ACONTECER.</PDF.Text>
+            <PDF.Text style={styles.title}>Relatório de Serviços</PDF.Text>
+            <PDF.Text style={styles.reportDate}>
+              Período: de  {data.datein} a {data.dateout}
+            </PDF.Text>
+          </PDF.View>
+        </PDF.View>
 
         {/*Solicitante*/}
-        <View style={styles.section}>
-          <Text style={styles.chapter}>SOLICITANTE</Text>
-          <Text style={styles.field}><Text style={styles.label}></Text> {data.taker.name}</Text>
-          <Text style={styles.field}><Text style={styles.label}>CNPJ:</Text> {formatCNPJ(data.taker.cnpj)}</Text>
-        </View>
-
+        <PDF.View style={styles.section}>
+            <PDF.Text style={styles.chapter}>SOLICITANTE</PDF.Text>
+            <PDF.Text style={styles.field}>{data.taker.name}</PDF.Text>
+            <PDF.Text style={styles.field}>CNPJ: {formatCNPJ(data.taker.cnpj)}</PDF.Text>
+        </PDF.View>
 
         {/* RESUMO */}
-        <View style={styles.section}>
-          <Text style={styles.chapter}>RESUMO</Text>
+        <PDF.View style={styles.section}>
+          <PDF.Text style={styles.chapter}>RESUMO</PDF.Text>
 
-          {data.projectsInvoice.map((project, index) => {
+          {filteredProjects.map((project, index) => {
             const tasks = data.tasks.filter((t) => t.idproject === project.id);
             const totalHoursEstimed = tasks.reduce((sum, task) => sum + (parseFloat(task.timeprevision) || 0), 0);
             const totalHoursRealized = tasks.reduce((sum, task) => sum + timeToDecimal(task.timespend), 0);
@@ -76,22 +59,17 @@ export const DocPDF = ({ data }: { data: InvoicePDF }) => {
             const formattedTime = `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
 
             return (
-              <div>
-
-                <React.Fragment key={index}>
-                  <Text style={styles.field}>
-                    PROJETO {index + 1} / {data.projectsInvoice.length} - {project.title} - {formattedTime}H
-                  </Text>
-                </React.Fragment>
-
-              </div>
-
+              <PDF.View key={index}>
+                <PDF.Text style={styles.field}>
+                  PROJETO {index + 1} / {filteredProjects.length} - {project.title} - {formattedTime}H
+                </PDF.Text>
+              </PDF.View>
             )
           })}
-        </View>
+        </PDF.View>
 
         {/* Project Data */}
-        {data.projectsInvoice.map((project, index) => {
+        {filteredProjects.map((project, index) => {
 
           const tasks = data.tasks.filter((t) => t.idproject === project.id);
           const totalHoursEstimed = tasks.reduce((sum, task) => sum + (parseFloat(task.timeprevision) || 0), 0);
@@ -107,91 +85,99 @@ export const DocPDF = ({ data }: { data: InvoicePDF }) => {
           const totalTasks = tasks.length;
           const completedTasks = tasks.filter(task => task.status === "done").length;
           const progress = totalTasks > 0 ? ((completedTasks / totalTasks) * 100).toFixed(2) : "0.00";
-          const takerSponsor = data.employees.find(emp => emp.id === data.projectsInvoice[index].idtakersponsor);
-          const providerSponsor = data.employees.find(emp => emp.id === data.projectsInvoice[index].idprovidersponsor);
+          const takerSponsor = data.employees.find(emp => emp.id === data.projects[index].idtakersponsor);
+          const providerSponsor = data.employees.find(emp => emp.id === data.projects[index].idprovidersponsor);
 
           return (
-            <React.Fragment key={index}>
-              <View style={styles.section}>
-                <Text style={styles.chapter}>PROJETO {index + 1} / {data.projectsInvoice.length}</Text>
-                <Text style={styles.field}><Text style={styles.label}></Text>{data.projectsInvoice[index].title}</Text>
-                <Text style={styles.field}><Text style={styles.label}>Comentários:</Text> {data.projectsInvoice[index].comments}</Text>
-                <Text style={styles.field}><Text style={styles.label}>Início:</Text> {formatDateToLocal(data.projectsInvoice[index].timestamp)}</Text>
-                <Text style={styles.field}><Text style={styles.label}>Horas Planejadas:</Text>{totalHoursEstimed}h</Text>
-                <Text style={styles.field}><Text style={styles.label}>Horas Realizadas:</Text>{formattedTime}h</Text>
-                <Text style={styles.field}><Text style={styles.label}>Progresso:</Text> {progress}%</Text>
-              </View>
+            <PDF.View key={index}>
+              <PDF.View style={styles.section}>
+                <PDF.Text style={styles.chapter}>PROJETO {index + 1} / {filteredProjects.length}</PDF.Text>
+                <PDF.Text style={styles.field}>{filteredProjects[index].title}</PDF.Text>
+                <PDF.Text style={styles.field}>Comentários: {filteredProjects[index].comments}</PDF.Text>
+                <PDF.Text style={styles.field}>Início: {formatDateToLocal(filteredProjects[index].timestamp)}</PDF.Text>
+                <PDF.Text style={styles.field}>Horas Planejadas:{totalHoursEstimed}h</PDF.Text>
+                <PDF.Text style={styles.field}>Horas Realizadas:{formattedTime}h</PDF.Text>
+                <PDF.Text style={styles.field}>Progresso: {progress}%</PDF.Text>
+              </PDF.View>
 
               {/* Taker Project */}
-              <View style={styles.section}>
-                <Text style={styles.chapter}>Responsável</Text>
-                <Text style={styles.field}><Text style={styles.label}>Responsável:</Text> {takerSponsor?.name}</Text>
-                <Text style={styles.field}><Text style={styles.label}>Telefone:</Text> {formatPhone(takerSponsor?.phone)}</Text>
-                <Text style={styles.field}><Text style={styles.label}>Email:</Text> {takerSponsor?.email}</Text>
-              </View>
+              <PDF.View style={styles.section}>
+                <PDF.Text style={styles.chapter}>RESPONSÁVEL</PDF.Text>
+                <PDF.Text style={styles.field}>{takerSponsor?.name}</PDF.Text>
+                <PDF.Text style={styles.field}>Telefone: {formatPhone(takerSponsor?.phone)}</PDF.Text>
+                <PDF.Text style={styles.field}>Email: {takerSponsor?.email}</PDF.Text>
+              </PDF.View>
 
               {/* Tasks */}
-              <View style={styles.section}>
-                <Text style={styles.chapter}>Tarefas</Text>
-              </View>
+              <PDF.View style={styles.section}>
+                <PDF.Text style={styles.chapter}>TAREFAS</PDF.Text>
+              </PDF.View>
 
-              <View style={styles.table}>
-                <View style={styles.tableRowHeader}>
-                  <Text style={styles.tableCellHeader}>Nome</Text>
-                  <Text style={styles.tableCellHeader}>Stado</Text>
-                  <Text style={styles.tableCellHeader}>Data Inical</Text>
-                  <Text style={styles.tableCellHeader}>Data Final</Text>
-                  <Text style={styles.tableCellHeaderWide}>O que?</Text>
-                  <Text style={styles.tableCellHeaderWide}>Como?</Text>
-                  <Text style={styles.tableCellHeader}>Quem?</Text>
-                  <Text style={styles.tableCellHeader}>Criticidade</Text>
-                  <Text style={styles.tableCellHeader}>Tempo Precisto</Text>
-                  <Text style={styles.tableCellHeader}>Tempo Gasto</Text>
-                </View>
+              <PDF.View style={styles.table}>
+                <PDF.View style={styles.tableRowHeader}>
+                  <PDF.Text style={styles.tableCellHeader}>Nome</PDF.Text>
+                  <PDF.Text style={styles.tableCellHeader}>Stado</PDF.Text>
+                  <PDF.Text style={styles.tableCellHeader}>Data Inical</PDF.Text>
+                  <PDF.Text style={styles.tableCellHeader}>Data Final</PDF.Text>
+                  <PDF.Text style={styles.tableCellHeaderWide}>O que?</PDF.Text>
+                  <PDF.Text style={styles.tableCellHeaderWide}>Como?</PDF.Text>
+                  <PDF.Text style={styles.tableCellHeader}>Quem?</PDF.Text>
+                  <PDF.Text style={styles.tableCellHeader}>Criticidade</PDF.Text>
+                  <PDF.Text style={styles.tableCellHeader}>Tempo Previsto</PDF.Text>
+                  <PDF.Text style={styles.tableCellHeader}>Tempo Gasto</PDF.Text>
+                </PDF.View>
                 {tasks.map((task, index) => {
                   const employee = data.employees.find(emp => emp.id === task.who);
-                  const taskSprints = data.sprints.filter((sprint) => sprint.idtask === task.id);
+                  const taskSprints = data.sprints && data.tasks ? data.sprints.filter((sprint) => sprint.idtask === task.id) : [];
 
                   return (
-                    <React.Fragment key={index}>
-                      <View style={[styles.tableRow, index % 2 === 0 ? styles.tableRowAlt : {}]}>
-                        <Text style={styles.tableCell}>{task.title}</Text>
-                        <Text style={styles.tableCell}>{task.status}</Text>
-                        <Text style={styles.tableCell}>{formatDateToLocal(task.startdate)}</Text>
-                        <Text style={styles.tableCell}>{formatDateToLocal(task.enddate)}</Text>
-                        <Text style={styles.tableCellWide}>{task.what}</Text>
-                        <Text style={styles.tableCellWide}>{task.how}</Text>
-                        <Text style={styles.tableCell}>{employee ? employee.name : "Unknown"}</Text>
-                        <Text style={styles.tableCell}>{task.grade}</Text>
-                        <Text style={styles.tableCell}>{task.timeprevision}</Text>
-                        <Text style={styles.tableCell}>{task.timespend}</Text>
-                      </View>
-                      {/* Sprint */}
-                      {taskSprints.map((sprint, sprintIndex) => (
-                        <View style={[styles.tableRowSprints, styles.sprintRow]} key={sprintIndex}>
-                          <Text style={styles.tableSprints}>{sprintIndex + 1}</Text>
-                          <Text style={styles.tableSprints}>Date: {formatDateToLocal(sprint.date)}</Text>
-                          <Text style={styles.tableSprints}>Start: {formatTime(sprint.starttime)}</Text>
-                          <Text style={styles.tableSprints}>End: {formatTime(sprint.endtime)}</Text>
-                        </View>
-                      ))}
-                    </React.Fragment>
+                    <PDF.View key={index}>
+
+                      <PDF.View style={[styles.tableRow, index % 2 === 0 ? styles.tableRowAlt : {}]}>
+                        <PDF.Text style={styles.tableCell}>{task.title}</PDF.Text>
+                        <PDF.Text style={styles.tableCell}>{task.status}</PDF.Text>
+                        <PDF.Text style={styles.tableCell}>{formatDateToLocal(task.startdate)}</PDF.Text>
+                        <PDF.Text style={styles.tableCell}>{formatDateToLocal(task.enddate)}</PDF.Text>
+                        <PDF.Text style={styles.tableCellWide}>{task.what}</PDF.Text>
+                        <PDF.Text style={styles.tableCellWide}>{task.how}</PDF.Text>
+                        <PDF.Text style={styles.tableCell}>{employee ? employee.name : "Unknown"}</PDF.Text>
+                        <PDF.Text style={styles.tableCell}>{task.grade}</PDF.Text>
+                        <PDF.Text style={styles.tableCell}>{task.timeprevision}</PDF.Text>
+                        <PDF.Text style={styles.tableCell}>{task.timespend}</PDF.Text>
+                      </PDF.View>
+
+                      {/* Sprints */}
+
+                      <PDF.View>
+                        {taskSprints.map((sprint, index) => (
+                          <PDF.View style={[styles.tableRowSprints, styles.sprintRow]} key={index}>
+                            <PDF.Text style={styles.tableSprints}>{index + 1}</PDF.Text>
+                            <PDF.Text style={styles.tableSprints}>Date: {sprint.date ? formatDateToLocal(sprint.date) : "N/A"}</PDF.Text>
+                            <PDF.Text style={styles.tableSprints}>Start: {sprint.starttime ? formatTime(sprint.starttime) : "N/A"}</PDF.Text>
+                            <PDF.Text style={styles.tableSprints}>End: {sprint.endtime ? formatTime(sprint.endtime) : "N/A"}</PDF.Text>
+                          </PDF.View>
+                        ))}
+                      </PDF.View>
+
+                    </PDF.View>
                   );
                 })}
-              </View>
-            </React.Fragment>
+              </PDF.View>
+            </PDF.View>
           );
         }
         )}
 
         {/* Footer */}
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>Autoric Automation</Text>
-          <Text style={styles.footerText}>www.autoric.com.br</Text>
-          <Text style={styles.footerText}>(71) - 99125-8769</Text>
-          <Text style={styles.footerText}>CNPJ: 33.019.320/0001-42</Text>
-        </View>
-      </Page>
-    </Document>
+        <PDF.View style={styles.footer}>
+          <PDF.Text style={styles.footerText}>Autoric Automation</PDF.Text>
+          <PDF.Text style={styles.footerText}>www.autoric.com.br</PDF.Text>
+          <PDF.Text style={styles.footerText}>(71) 99125-8769</PDF.Text>
+          <PDF.Text style={styles.footerText}>CNPJ: 33.019.320/0001-42</PDF.Text>
+          <PDF.Text style={styles.reportDate}>Data de impressão: {InvoiceDate}</PDF.Text>
+        </PDF.View>
+
+      </PDF.Page>
+    </PDF.Document>
   );
 };

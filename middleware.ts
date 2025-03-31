@@ -1,6 +1,5 @@
 import { auth } from "@/app/lib/auth"; // Certifique-se de que auth está exportado corretamente
 import { NextResponse } from "next/server";
-import NextAuth from 'next-auth';
 
 export async function middleware(request: Request) {
   const session = await auth(); // auth() já retorna os dados da sessão corretamente

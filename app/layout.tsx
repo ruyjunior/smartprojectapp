@@ -2,11 +2,6 @@ import '@/app/ui/global.css';
 import { inter } from '@/app/ui/fonts';
 import { Metadata } from 'next';
 import { SessionProvider } from "next-auth/react";
-import WhatsappButton from "@/app/ui/site/WhatsappButton";
-import TopButton from "@/app/ui/site/TopButton";
-import Footer from "@/app/ui/site/footer";
-import Navbar from "@/app/ui/site/navbar";
-
 
 export const metadata: Metadata = {
   title: {
@@ -36,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en-US">
       <body className={`${inter.className} antialiased`}>
         <SessionProvider>
           {children}

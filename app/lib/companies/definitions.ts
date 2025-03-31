@@ -12,7 +12,7 @@ export type Company = {
 };
 
 export type InvoicePDF = {
-  projectsInvoice: Project[];
+  projects: Project[];
   companies: Company[];
   taker: Company;
   tasks: Task[];

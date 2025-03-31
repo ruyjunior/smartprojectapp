@@ -29,7 +29,6 @@ const Team: React.FC = () => {
                         <FaGithub size={24} />
                         <span>Github</span>
                     </Link>
-
                 </div>
             </div>
         </section>
