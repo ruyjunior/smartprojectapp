@@ -15,16 +15,16 @@ export const formatDateToLocal = (
     return '';
   }
 
-  // Garante que a data seja interpretada como local
-  const date = new Date(`${dateStr}T00:00:00`);
+  const date = new Date(dateStr);
+  
+  // Ajuste para garantir que a data esteja correta
+  date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
 
-  const options: Intl.DateTimeFormatOptions = {
+  return date.toLocaleDateString(locale, {
     day: 'numeric',
     month: 'numeric',
     year: 'numeric',
-  };
-
-  return new Intl.DateTimeFormat(locale, options).format(date);
+  });
 };
 
 export const formatTime = (time: string | null | undefined) => {
