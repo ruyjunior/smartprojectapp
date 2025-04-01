@@ -14,14 +14,17 @@ export const formatDateToLocal = (
   if (!dateStr) {
     return '';
   }
-  const date = new Date(dateStr);
+
+  // Garante que a data seja interpretada como local
+  const date = new Date(`${dateStr}T00:00:00`);
+
   const options: Intl.DateTimeFormatOptions = {
     day: 'numeric',
     month: 'numeric',
     year: 'numeric',
   };
-  const formatter = new Intl.DateTimeFormat(locale, options);
-  return formatter.format(date);
+
+  return new Intl.DateTimeFormat(locale, options).format(date);
 };
 
 export const formatTime = (time: string | null | undefined) => {
