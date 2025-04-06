@@ -1,16 +1,9 @@
 import React from 'react';
 import * as PDF from '@react-pdf/renderer';
 import styles from '@/app/ui/invoices/stylesPDF';
-import { formatCNPJ, formatDateToLocal, formatPhone, formatTime } from '@/app/lib/utils/utils';
+import { formatCNPJ, formatDateToLocal, formatPhone, formatTime, timeToDecimal } from '@/app/lib/utils/utils';
 import { InvoicePDF } from '@/app/lib/companies/definitions';
 
-function timeToDecimal(time: string | null | undefined) {
-  if (!time) {
-    return 0; // Retorna 0 se o valor for null ou undefined
-  }
-  const [hours, minutes, seconds] = time.split(":").map(Number);
-  return hours + minutes / 60 + (seconds || 0) / 3600;
-}
 
 export const DocPDF = ({ data }: { data: InvoicePDF }) => {
   const InvoiceDate = new Date().toLocaleDateString();
@@ -85,7 +78,7 @@ export const DocPDF = ({ data }: { data: InvoicePDF }) => {
           const totalTasks = tasks.length;
           const completedTasks = tasks.filter(task => task.status === "done").length;
           const progress = totalTasks > 0 ? ((completedTasks / totalTasks) * 100).toFixed(2) : "0.00";
-          const takerSponsor = data.employees.find(emp => emp.id === data.projects[index].idtakersponsor);
+          const takerSponsor = data.employees.find(emp => emp.id === filteredProjects[index].idtakersponsor);
           const providerSponsor = data.employees.find(emp => emp.id === data.projects[index].idprovidersponsor);
 
           return (

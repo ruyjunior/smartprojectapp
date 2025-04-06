@@ -1,7 +1,7 @@
 import React from 'react';
 import { Page, Text, View, Document, Font, StyleSheet, Image } from '@react-pdf/renderer';
 import styles from '@/app/ui/projects/stylesPDF';
-import { formatCNPJ, formatDateToLocal, formatPhone, formatTime } from '@/app/lib/utils/utils';
+import { formatCNPJ, formatDateToLocal, formatPhone, formatTime, timeToDecimal } from '@/app/lib/utils/utils';
 import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
 import { DocumentArrowDownIcon } from '@heroicons/react/24/outline';
 import { ProjectPDF } from '@/app/lib/projects/definitions';
@@ -29,11 +29,6 @@ export const DocPDF = ({ data }: { data: ProjectPDF }) => {
   const totalHoursEstimed = data.tasks.reduce((sum, task) => sum + (parseFloat(task.timeprevision) || 0), 0);
   const progress = totalTasks > 0 ? ((completedTasks / totalTasks) * 100).toFixed(2) : "0.00";
   const reportDate = new Date().toLocaleDateString();
-
-  function timeToDecimal(time: string) {
-    const [hours, minutes, seconds] = time.split(":").map(Number);
-    return hours + minutes / 60 + seconds / 3600;
-  }
 
   const totalHoursRealized = data.tasks.reduce((sum, task) => sum + timeToDecimal(task.timespend), 0);
 

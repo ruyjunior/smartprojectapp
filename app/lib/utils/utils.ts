@@ -7,6 +7,14 @@ export const formatCurrency = (amount: number) => {
   });
 };
 
+export function timeToDecimal(time: string | null | undefined) {
+  if (!time) {
+    return 0; // Retorna 0 se o valor for null ou undefined
+  }
+  const [hours, minutes, seconds] = time.split(":").map(Number);
+  return hours + minutes / 60 + (seconds || 0) / 3600;
+}
+
 export const formatDateToLocal = (
   dateStr: string | null | undefined,
   locale: string = 'pt-BR',
