@@ -33,9 +33,9 @@ export const DocPDF = ({ data }: { data: InvoicePDF }) => {
 
         {/*Solicitante*/}
         <PDF.View style={styles.section}>
-            <PDF.Text style={styles.chapter}>SOLICITANTE</PDF.Text>
-            <PDF.Text style={styles.field}>{data.taker.name}</PDF.Text>
-            <PDF.Text style={styles.field}>CNPJ: {formatCNPJ(data.taker.cnpj)}</PDF.Text>
+          <PDF.Text style={styles.chapter}>SOLICITANTE</PDF.Text>
+          <PDF.Text style={styles.field}>{data.taker.name}</PDF.Text>
+          <PDF.Text style={styles.field}>CNPJ: {formatCNPJ(data.taker.cnpj)}</PDF.Text>
         </PDF.View>
 
         {/* RESUMO */}
@@ -160,6 +160,31 @@ export const DocPDF = ({ data }: { data: InvoicePDF }) => {
           );
         }
         )}
+        <PDF.View style={styles.section}>
+          <PDF.Text style={styles.chapter}>CORRIDAS</PDF.Text>
+        </PDF.View>
+
+        <PDF.View style={styles.table}>
+          <PDF.View style={styles.tableRowHeader}>
+            <PDF.Text style={styles.tableCellHeader}>Projeto</PDF.Text>
+            <PDF.Text style={styles.tableCellHeader}>Data</PDF.Text>
+            <PDF.Text style={styles.tableCellHeader}>Hora Inicio</PDF.Text>
+            <PDF.Text style={styles.tableCellHeader}>Hora Final</PDF.Text>
+          </PDF.View>
+
+          {data.sprints.map((sprint, index) => {
+            const task = data.tasks.find((task) => task.id === sprint.idtask);
+            const project = data.projects.find((project) => project.id === task?.idproject);
+            return (
+              <PDF.View style={[styles.tableRowSprints, styles.sprintRow]} key={index}>
+                <PDF.Text style={styles.tableSprints}>{project?.title}</PDF.Text>
+                <PDF.Text style={styles.tableSprints}>{sprint.date ? formatDateToLocal(sprint.date) : "N/A"}</PDF.Text>
+                <PDF.Text style={styles.tableSprints}>{sprint.starttime ? formatTime(sprint.starttime) : "N/A"}</PDF.Text>
+                <PDF.Text style={styles.tableSprints}>{sprint.endtime ? formatTime(sprint.endtime) : "N/A"}</PDF.Text>
+              </PDF.View>
+            );
+          })}
+        </PDF.View>
 
         {/* Footer */}
         <PDF.View style={styles.footer}>

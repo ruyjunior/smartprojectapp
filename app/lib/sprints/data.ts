@@ -9,7 +9,7 @@ export async function fetchSprints() {
       SELECT 
         id, idtask, date, starttime, endtime 
       FROM autoricapp.sprints
-      ORDER BY starttime ASC
+      ORDER BY date, starttime ASC
     `;
     const sprints = data.rows;
     return sprints;
