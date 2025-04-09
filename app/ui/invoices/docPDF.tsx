@@ -109,8 +109,8 @@ export const DocPDF = ({ data }: { data: InvoicePDF }) => {
               <PDF.View style={styles.table}>
                 <PDF.View style={styles.tableRowHeader}>
                   <PDF.Text style={styles.tableCellHeader}>Nome</PDF.Text>
-                  <PDF.Text style={styles.tableCellHeader}>Stado</PDF.Text>
-                  <PDF.Text style={styles.tableCellHeader}>Data Inical</PDF.Text>
+                  <PDF.Text style={styles.tableCellHeader}>Status</PDF.Text>
+                  <PDF.Text style={styles.tableCellHeader}>Data Inicial</PDF.Text>
                   <PDF.Text style={styles.tableCellHeader}>Data Final</PDF.Text>
                   <PDF.Text style={styles.tableCellHeaderWide}>O que?</PDF.Text>
                   <PDF.Text style={styles.tableCellHeaderWide}>Como?</PDF.Text>
@@ -170,6 +170,7 @@ export const DocPDF = ({ data }: { data: InvoicePDF }) => {
             <PDF.Text style={styles.tableCellHeader}>Data</PDF.Text>
             <PDF.Text style={styles.tableCellHeader}>Hora Inicio</PDF.Text>
             <PDF.Text style={styles.tableCellHeader}>Hora Final</PDF.Text>
+            <PDF.Text style={styles.tableCellHeader}>Total</PDF.Text>
           </PDF.View>
 
           {data.sprints.map((sprint, index) => {
@@ -178,12 +179,40 @@ export const DocPDF = ({ data }: { data: InvoicePDF }) => {
             return (
               <PDF.View style={[styles.tableRowSprints, styles.sprintRow]} key={index}>
                 <PDF.Text style={styles.tableSprints}>{project?.title}</PDF.Text>
-                <PDF.Text style={styles.tableSprints}>{sprint.date ? formatDateToLocal(sprint.date) : "N/A"}</PDF.Text>
+                <PDF.Text style={styles.tableSprints}>
+                  {index === 0 || data.sprints[index].date !== data.sprints[index - 1].date
+                    ? sprint.date
+                      ? formatDateToLocal(sprint.date)
+                      : ""
+                    : ""}
+                </PDF.Text>
                 <PDF.Text style={styles.tableSprints}>{sprint.starttime ? formatTime(sprint.starttime) : "N/A"}</PDF.Text>
                 <PDF.Text style={styles.tableSprints}>{sprint.endtime ? formatTime(sprint.endtime) : "N/A"}</PDF.Text>
+                <PDF.Text style={styles.tableSprints}>{sprint.totaltime ? formatTime(sprint.totaltime) : "N/A"}</PDF.Text>
               </PDF.View>
             );
           })}
+          {/* Soma total na última linha */}
+          <PDF.View style={[styles.tableRowSprints, styles.sprintRow, styles.sprintRow]}>
+            <PDF.Text style={styles.tableSprints} />
+            <PDF.Text style={styles.tableSprints} />
+            <PDF.Text style={styles.tableSprints} />
+            <PDF.Text style={styles.tableSprints}>Total Geral:</PDF.Text>
+            <PDF.Text style={styles.tableSprints}>
+              {(() => {
+                const totalMinutes = data.sprints.reduce((sum, sprint) => {
+                  if (!sprint.totaltime) return sum;
+                  const [hours, minutes] = sprint.totaltime.split(":").map(Number);
+                  return sum + hours * 60 + minutes;
+                }, 0);
+
+                const totalHours = Math.floor(totalMinutes / 60);
+                const remainingMinutes = totalMinutes % 60;
+
+                return `${String(totalHours).padStart(2, "0")}:${String(remainingMinutes).padStart(2, "0")}`;
+              })()}
+            </PDF.Text>
+          </PDF.View>
         </PDF.View>
 
         {/* Footer */}

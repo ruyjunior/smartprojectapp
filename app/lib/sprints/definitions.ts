@@ -5,5 +5,6 @@ export type Sprint = {
   date: string;
   starttime: string;
   endtime: string;
+  totaltime: string;
 };
 

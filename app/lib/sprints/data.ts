@@ -6,11 +6,15 @@ export async function fetchSprints() {
 
   try {
     const data = await sql<Sprint>`
-      SELECT 
-        id, idtask, date, starttime, endtime 
-      FROM autoricapp.sprints
-      ORDER BY date, starttime ASC
-    `;
+SELECT 
+  id, 
+    idtask, 
+      date, 
+        starttime, 
+          endtime,
+            (endtime - starttime)::TIME AS totaltime
+            FROM autoricapp.sprints
+            ORDER BY date, starttime ASC    `;
     const sprints = data.rows;
     return sprints;
   } catch (err) {
