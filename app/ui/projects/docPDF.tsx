@@ -11,7 +11,7 @@ export const PagePDF = ({ data }: { data: ProjectPDF }) => (
     <PDFDownloadLink
       document={<DocPDF data={data} />}
       fileName={
-        'Report_' + data.taker.name + '_' + data.project.title
+        'Report_' + data.taker.name + '_' + data.project.title + '.pdf'
       }>
       {({ loading }) => (loading ? 'Gerando PDF...' : 'Download ')}
     </PDFDownloadLink>
