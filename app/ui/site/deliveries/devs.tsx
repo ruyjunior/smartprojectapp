@@ -1,11 +1,10 @@
-'use client';
 import React from 'react';
 import Link from 'next/link';
 import { FaLink, FaGithub } from 'react-icons/fa';
 import Image from 'next/image';
 import { Project } from '@/app/lib/projects/definitions';
 
-export default function Devs({ projects }: { projects: Project[] }) {
+export default async function Devs({ projects }: { projects: Project[] }) {
 
     return (
         <section id="dev" className="py-20 text-center">
