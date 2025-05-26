@@ -81,7 +81,7 @@ export default async function TasksTable({
                             <table className="hidden min-w-full text-gray-900 md:table">
                                 <thead className="bg-blue-100 text-left text-xs font-medium uppercase">
                                     <tr>
-                                        {['Edit', 'Details', 'What', 'How', 'Who', 'Prevision', 'Spent', 'Delete'].map((header) => (
+                                        {['Edit', 'Criticidade', 'Details', 'What', 'How', 'Who', 'Prevision', 'Spent', 'Delete'].map((header) => (
                                             <th key={header} className="px-1 py-1">{header}</th>
                                         ))}
                                     </tr>
@@ -93,13 +93,18 @@ export default async function TasksTable({
                                         return (
                                             <React.Fragment key={task.id}>
                                                 <tr className="hover:bg-gray-400">
-                                                    <td className="py-2 px-2">                                                        <div className="flex gap-2 items-center">
-                                                        <UpdateTask id={task.id} />
-                                                        <CreateSprintBasic id={task.id} />
-                                                    </div>
+                                                    <td className="py-2 px-2">
+                                                        <div className="flex gap-2 items-center">
+                                                            <UpdateTask id={task.id} />
+                                                            <CreateSprintBasic id={task.id} />
+                                                        </div>
                                                         <div className="mt-2">
                                                             <TaskStatus status={task.status} />
-                                                        </div>                                                    </td>
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-1 py-1 text-xs text-gray-600 text-center">
+                                                        <span className="font-medium">{task.grade}</span>
+                                                    </td>
                                                     {/* Details Column */}
                                                     <td className="px-1 py-1 text-xs text-gray-700">
                                                         <p className="font-bold text-sm text-gray-900"><span className="font-medium"></span> {task.title}</p>

@@ -28,46 +28,46 @@ export type State = {
 
 export async function createUser(prevState: State, formData: FormData) {
   const validatedFields = CreateUser.safeParse({
-      name: formData.get('name'),
-      email: formData.get('email'),
-      password: formData.get('password'),
-      role: formData.get('role'),
-    });
+    name: formData.get('name'),
+    email: formData.get('email'),
+    password: formData.get('password'),
+    role: formData.get('role'),
+  });
 
-    if (!validatedFields.success) {
-      return {
-        errors: validatedFields.error.flatten().fieldErrors,
-        message: 'Missing Fields. Failed to Create.',
-      };
-    }
-    const { name, email, password, role} = validatedFields.data;
-    const hashedPassword = await bcrypt.hash(password, 10);
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Create.',
+    };
+  }
+  const { name, email, password, role } = validatedFields.data;
+  const hashedPassword = await bcrypt.hash(password, 10);
 
-    try {
-        await sql`
+  try {
+    await sql`
         INSERT INTO autoricapp.users ( name, email, password, role)
         VALUES (${name}, ${email}, ${hashedPassword}, ${role})
-        `;  
-    } catch (error){
-      return {
-        message: 'Database Error: Failed to Create User.',
-      };
-    }
-    revalidatePath('/users');
-    redirect('/users');
+        `;
+  } catch (error) {
+    return {
+      message: 'Database Error: Failed to Create User.',
+    };
+  }
+  revalidatePath('/users');
+  redirect('/users');
 }
- 
+
 export async function updateUser(
   id: string,
-  prevState: State, 
+  prevState: State,
   formData: FormData
-  ){
+) {
   const validatedFields = UpdateUser.safeParse({
     name: formData.get('name'),
     email: formData.get('email'),
     password: formData.get('password'),
     role: formData.get('role'),
-});
+  });
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
@@ -75,26 +75,40 @@ export async function updateUser(
     };
   }
 
-  const { name, email, password, role} = validatedFields.data;
+  const { name, email, password, role } = validatedFields.data;
   const hashedPassword = await bcrypt.hash(password, 10);
-   
+
   try {
-  await sql`
-    UPDATE autoricapp.users
-    SET name = ${name}, email = ${email}, password = ${hashedPassword}, role = ${role} 
-    WHERE id = ${id}
-  `;
- } catch (error){
-  return { message: 'Database Error: Failed to Update User.' };
- }
- 
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      //console.log('Senha' + password);
+      //console.log('Senha Criptografada' + hashedPassword);
+
+      await sql`
+        UPDATE autoricapp.users
+        SET name = ${name}, email = ${email}, password = ${hashedPassword}, role = ${role}
+        WHERE id = ${id}
+      `;
+    } else {
+      //console.log(password);
+
+      await sql`
+        UPDATE autoricapp.users
+        SET name = ${name}, email = ${email}, role = ${role}
+        WHERE id = ${id}
+      `;
+    }
+  } catch (error) {
+    return { message: 'Database Error: Failed to Update User.' };
+  }
+
   revalidatePath('/users');
   redirect('/users');
 }
 
 export async function deleteUser(id: string) {
-    //throw new Error('Failed to Delete Invoice');
-    
-    await sql`DELETE FROM autoricapp.users WHERE id = ${id}`;
-    revalidatePath('/users');
-  }
+  //throw new Error('Failed to Delete Invoice');
+
+  await sql`DELETE FROM autoricapp.users WHERE id = ${id}`;
+  revalidatePath('/users');
+}

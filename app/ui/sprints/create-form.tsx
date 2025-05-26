@@ -93,7 +93,7 @@ export default function Form({ task, project }: { task: Task, project: Project }
                 id="starttime"
                 name="starttime"
                 type="time"
-                defaultValue="08:00"
+                defaultValue="07:00"
                 placeholder="Enter a start time"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 aria-describedby="enddate-error"

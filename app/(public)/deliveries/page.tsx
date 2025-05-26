@@ -17,7 +17,7 @@ export default async function Page() {
     <main >
       <div className="bg-gray text-gray-900">
         <Hero />
-        <Devs projects={projects} />
+        <Devs projects={projects} /> 
         <Automation />
       </div>
     </main>

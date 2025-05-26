@@ -11,7 +11,14 @@ export async function fetchTasks() {
         startdate, enddate, status, idproject, 
         timeprevision, timespend 
       FROM autoricapp.tasks
-      ORDER BY startdate ASC
+      ORDER BY
+        CASE 
+          WHEN status = 'doing' THEN 1
+          WHEN status = 'stopped' THEN 2
+          WHEN status = 'done' THEN 3
+          ELSE 4
+        END,
+        startdate DESC
     `;
     const tasks = data.rows;
     return tasks;
@@ -26,7 +33,7 @@ export async function fetchFilteredTasks(
   currentPnumber: number | undefined | null
 ) {
   const offset = currentPnumber ? (currentPnumber - 1) * ITEMS_PER_PAGE : 0;
-  
+
   try {
     const data = await sql<Task & { timespend: string }>`
       SELECT 
@@ -36,7 +43,14 @@ export async function fetchFilteredTasks(
         TO_CHAR(timespend, 'HH24:MI:SS') AS timespend  -- Converte INTERVAL/TIME para string
       FROM autoricapp.tasks
       WHERE idproject::text ILIKE ${`%${query}%`}
-      ORDER BY startdate DESC
+      ORDER BY
+        CASE 
+          WHEN status = 'doing' THEN 1
+          WHEN status = 'stopped' THEN 2
+          WHEN status = 'done' THEN 3
+          ELSE 4
+        END,
+        startdate DESC
     `;
 
     return data.rows;
@@ -92,7 +106,16 @@ export async function fetchTasksByProject(id: string) {
         startdate, enddate, status, idproject, 
         timeprevision, timespend 
       FROM autoricapp.tasks
-      WHERE tasks.idproject = ${id} `;
+      WHERE tasks.idproject = ${id} 
+      ORDER BY
+        CASE 
+          WHEN status = 'doing' THEN 1
+          WHEN status = 'stopped' THEN 2
+          WHEN status = 'done' THEN 3
+          ELSE 4
+        END,
+        startdate DESC
+      `;
 
     const tasks = data.rows.map((task) => ({
       ...task,

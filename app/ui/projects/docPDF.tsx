@@ -5,6 +5,7 @@ import { formatCNPJ, formatDateToLocal, formatPhone, formatTime, timeToDecimal }
 import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
 import { DocumentArrowDownIcon } from '@heroicons/react/24/outline';
 import { ProjectPDF } from '@/app/lib/projects/definitions';
+import logo from '@/public/images/logo.png';
 
 export const PagePDF = ({ data }: { data: ProjectPDF }) => (
   <div>
@@ -24,10 +25,13 @@ export const PagePDF = ({ data }: { data: ProjectPDF }) => (
 );
 
 export const DocPDF = ({ data }: { data: ProjectPDF }) => {
+
   const totalTasks = data.tasks.length;
-  const completedTasks = data.tasks.filter(task => task.status === "done").length;
+  const highTasks = data.tasks.filter(task => task.grade === "high");
+  const completedTasks = highTasks.filter(task => (task.status === "done" ));  
+  const progress = highTasks.length > 0 ? ((completedTasks.length / highTasks.length) * 100).toFixed(2) : "0.00";
+
   const totalHoursEstimed = data.tasks.reduce((sum, task) => sum + (parseFloat(task.timeprevision) || 0), 0);
-  const progress = totalTasks > 0 ? ((completedTasks / totalTasks) * 100).toFixed(2) : "0.00";
   const reportDate = new Date().toLocaleDateString();
 
   const totalHoursRealized = data.tasks.reduce((sum, task) => sum + timeToDecimal(task.timespend), 0);
@@ -58,8 +62,8 @@ export const DocPDF = ({ data }: { data: ProjectPDF }) => {
           <Text style={styles.field}><Text style={styles.label}></Text>{data.project.title}</Text>
           <Text style={styles.field}><Text style={styles.label}>Comentários:</Text> {data.project.comments}</Text>
           <Text style={styles.field}><Text style={styles.label}>Início:</Text> {formatDateToLocal(data.project.timestamp)}</Text>
-          <Text style={styles.field}><Text style={styles.label}>Horas Planejadas:</Text>{totalHoursEstimed}h</Text>
-          <Text style={styles.field}><Text style={styles.label}>Horas Realizadas:</Text>{formattedTime}h</Text>
+          <Text style={styles.field}><Text style={styles.label}>Horas Planejadas: </Text>{totalHoursEstimed}h</Text>
+          <Text style={styles.field}><Text style={styles.label}>Horas Realizadas: </Text>{formattedTime}h</Text>
           <Text style={styles.field}><Text style={styles.label}>Progresso:</Text> {progress}%</Text>
         </View>
 
@@ -124,11 +128,24 @@ export const DocPDF = ({ data }: { data: ProjectPDF }) => {
         </View>
 
         {/* Footer */}
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>Autoric Automation</Text>
-          <Text style={styles.footerText}>www.autoric.com.br</Text>
-          <Text style={styles.footerText}>(71) - 99125-8769</Text>
-          <Text style={styles.footerText}>CNPJ: 33.019.320/0001-42</Text>
+        <View style={ styles.footer }
+          fixed
+        >
+          {/* Esquerda */}
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Image src={logo.src} style={styles.logoApp} />
+            <View style={{ marginLeft: 12 }}>
+              <Text style={styles.footerText}>Smart Project - Seu App de Projetos</Text>
+            </View>
+          </View>
+          {/* Direita */}
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{ marginRight: 12, textAlign: 'right' }}>
+              <Text style={styles.footerTextDev}>Desenvolvido por Autoric Automation</Text>
+              <Text style={styles.footerTextDev}>www.autoric.com.br</Text>
+            </View>
+            <Image src="https://www.autoric.com.br/images/logo.png" style={styles.logoDev} />
+          </View>
         </View>
       </Page>
     </Document>

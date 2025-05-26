@@ -1,11 +1,12 @@
+'use client';
 import React from 'react';
 import Link from 'next/link';
 import { FaLink, FaGithub } from 'react-icons/fa';
-import Image  from 'next/image';
+import Image from 'next/image';
 import { Project } from '@/app/lib/projects/definitions';
 
-export default async function Devs( {projects} : { projects : Project[] }) {
-  
+export default function Devs({ projects }: { projects: Project[] }) {
+
     return (
         <section id="dev" className="py-20 text-center">
             <h2 className="text-3xl font-bold mb-10">Developed Projects</h2>
@@ -16,19 +17,14 @@ export default async function Devs( {projects} : { projects : Project[] }) {
                         <div key={index} className="bg-blue-100 p-6 rounded-lg shadow-lg flex flex-col items-center text-center">
                             <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
                             <p className="text-gray-600 text-sm mb-4">{project.comments}</p>
-                            {/*<iframe
-                                src={project.url}
-                                className="w-full h-40 rounded-md border"
-                            >
-                            </iframe>*/}
-                            <Image 
-                                src={project.url + "images/logo.png"} 
-                                alt={project.title} 
+                            <Image
+                                src={project.url + "images/logo.png"}
+                                alt={project.title}
                                 width={100} height={100}
                                 className='rounded-full border'
-                             />
+                            />
                             <Link
-                                href={project.url}
+                                href={project.url || '#'}
                                 target="_blank"
 
                                 className="mt-4 text-blue-500 hover:underline flex items-center gap-2"
@@ -37,7 +33,7 @@ export default async function Devs( {projects} : { projects : Project[] }) {
                                 <span>Web Site</span>
                             </Link>
                             <Link
-                                href={project.repository}
+                                href={project.repository || '#'}
                                 target="_blank"
 
                                 className="mt-4 text-blue-500 hover:underline flex items-center gap-2"
