@@ -8,7 +8,7 @@ const Team: React.FC = () => {
         <section id="team"
             className="py-20 text-center">
             <h2 className="text-3xl font-bold mb-6">
-                Our Team
+                NOSSO TIME
             </h2>
             <div className="flex justify-center flex-wrap gap-6">
                 <div className="flex flex-col items-center justify-center bg-gray-100 px-2 py-3 rounded-lg shadow-md">
@@ -20,7 +20,7 @@ const Team: React.FC = () => {
                         className="rounded-full w-auto h-auto"
                     />
                     <h3 className="text-xl font-semibold text-gray-800">Ruy Junior</h3>
-                    <p className="mt-2 text-gray-600">Automation Analyst and Systems Developer.</p>
+                    <p className="mt-2 text-gray-600">Analista de Automação e Desenvolvedor de Sistemas.</p>
                     <Link href="https://www.linkedin.com/in/ruyjunior21" className="mt-4 text-blue-500 hover:underline flex items-center gap-2">
                         <FaLinkedin size={24} />
                         <span>LinkedIn</span>

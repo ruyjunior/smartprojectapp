@@ -37,11 +37,11 @@ const Navbar = () => {
 
         {/* Menu Desktop */}
         <div className="hidden md:flex space-x-6 text-white text-lg font-semibold">
-          <Link href="/#services">Services</Link>
-          <Link href="/#clients">Clients</Link>
-          <Link href="/#projects">Projects</Link>
-          <Link href="/#team">Team</Link>
-          <Link href="/#call">Contact Us</Link>
+          <Link href="/#services">Serviços</Link>
+          <Link href="/#clients">Clientes</Link>
+          <Link href="/#projects">Projetos</Link>
+          <Link href="/#team">Time</Link>
+          <Link href="/#call">Contato</Link>
         </div>
 
         {/* Botão Menu Mobile */}
@@ -53,11 +53,11 @@ const Navbar = () => {
       {/* Menu Mobile */}
       {isOpen && (
         <div className="md:hidden bg-[#020d1f] text-white text-lg font-semibold py-4 flex flex-col items-center space-y-4">
-          <Link href="/#services" onClick={toggleMenu}>Services</Link>
-          <Link href="/#clients" onClick={toggleMenu}>Clients</Link>
-          <Link href="/#projects" onClick={toggleMenu}>Projects</Link>
-          <Link href="/#team" onClick={toggleMenu}>Team</Link>
-          <Link href="/#call" onClick={toggleMenu}>Contact Us</Link>
+          <Link href="/#services" onClick={toggleMenu}>Serviços</Link>
+          <Link href="/#clients" onClick={toggleMenu}>Clientes</Link>
+          <Link href="/#projects" onClick={toggleMenu}>Projetos</Link>
+          <Link href="/#team" onClick={toggleMenu}>Time</Link>
+          <Link href="/#call" onClick={toggleMenu}>Contato</Link>
         </div>
       )}
     </nav>

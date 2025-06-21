@@ -13,7 +13,7 @@ const Clients = () => {
     <section id="clients"
       className="py-20 text-center">
       <h2 className="text-3xl font-bold mb-6">
-        Each and every client is important.
+        Cada cliente é importante.
       </h2>
       <div className="flex justify-center flex-wrap gap-6">
         {logos.map((logo, index) => (

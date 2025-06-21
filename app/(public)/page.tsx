@@ -9,7 +9,7 @@ import Deliveries from "../ui/site/deliveries/deliveries";
 
 export const metadata: Metadata = {
   title: 'HOME',
-  description: 'AUTORIC AUTOMATION',
+  description: 'Página inicial do site AUTORIC AUTOMAÇÃO',
 };
 
 export default async function Page() {

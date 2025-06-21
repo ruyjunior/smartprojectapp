@@ -7,8 +7,8 @@ const CallToAction: React.FC = () => {
     <section id="call"
       className="py-20 text-center">
       <h2 className="text-3xl font-bold">
-        Contact Us</h2>
-      <p className="mt-4 text-center">We are ready to help transform your company with our technological solutions.</p>
+        ENTRE EM CONTATO</h2>
+      <p className="mt-4 text-center">Estamos prontos para ajudar a transformar sua empresa com nossas soluções tecnológicas.</p>
       <div className="flex justify-center flex-wrap mt-10 gap-6">
         <div className="flex items-center justify-center bg-gray-100 px-2 py-3 rounded-lg shadow-md">
           <Link href="mailto:autoricbr@gmail.com" className="flex items-center gap-2 bg-gray-100 p-4 rounded-lg shadow-md">

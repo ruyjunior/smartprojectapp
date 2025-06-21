@@ -4,17 +4,32 @@ import { FaCogs, FaLaptopCode, FaLightbulb, FaChartLine } from 'react-icons/fa';
 
 const Services = () => {
   const services = [
-    { title: "Industrial Machine Programming", desc: "Specialized in PLCs and automation systems.", icon: <FaCogs size={32} /> },
-    { title: "System and Website Development", desc: "Custom software and automation systems.", icon: <FaLaptopCode size={32} /> },
-    { title: "Consulting", desc: "Helping with decision-making and efficiency.", icon: <FaLightbulb size={32} /> },
-    { title: "Process Improvement", desc: "Optimizing workflows and operations.", icon: <FaChartLine size={32} /> }
-  ];
+    {
+      title: "Programação de Máquinas Industriais",
+      desc: "Especializado em PLCs e sistemas de automação.",
+      icon: <FaCogs size={32} />
+    },
+    {
+      title: "Desenvolvimento de Sistemas e Sites",
+      desc: "Software personalizado e sistemas de automação.",
+      icon: <FaLaptopCode size={32} />
+    },
+    {
+      title: "Consultoria",
+      desc: "Ajudando com tomada de decisões e eficiência.",
+      icon: <FaLightbulb size={32} />
+    },
+    {
+      title: "Melhoria de Processos",
+      desc: "Otimizando fluxos de trabalho e operações.",
+      icon: <FaChartLine size={32} />
+    }];
 
   return (
     <section id="services"
       className="py-20 text-center">
-      <h2 className="text-3xl font-bold mb-6">
-        Services we offer
+      <h2 className="text-3xl font-bold mb-6 mt-20">
+        Nossos Serviços
       </h2>
       <div className="flex justify-center flex-wrap gap-6">
         {services.map((service, index) => (

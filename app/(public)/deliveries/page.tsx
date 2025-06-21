@@ -7,8 +7,8 @@ import {fetchProjects} from "@/app/lib/projects/data";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: 'DELIVERIES',
-  description: 'AUTORIC DELIVERIES',
+  title: 'ENTREGAS | AUTORIC',
+  description: 'AUTORIC ENTREGAS',
 };
 
 export default async function Page() {

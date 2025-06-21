@@ -9,7 +9,7 @@ const Deliveries: React.FC = () => {
         <section id="projects"
             className="py-20 text-center">
             <h2 className="text-3xl font-bold mb-6">
-                Projects e Deliveries
+                Projetos e Entregas
             </h2>
             <div className="flex justify-center flex-wrap gap-6">
                 <div className="flex flex-col items-center justify-center bg-blue-100 px-2 py-3 rounded-lg shadow-md">
@@ -21,8 +21,8 @@ const Deliveries: React.FC = () => {
                             alt="automation"
                             className="rounded-full w-auto h-auto"
                         />
-                        <h3 className="text-xl font-semibold text-gray-800">AUTOMATION</h3>
-                        <p className="mt-2 text-gray-600">Software Development for Industrial Machinery.</p>
+                        <h3 className="text-xl font-semibold text-gray-800">AUTOMAÇÃO</h3>
+                        <p className="mt-2 text-gray-600">Desenvolvimento de Software para Máquinas Industriais.</p>
                         <FaIndustry size={24} />
                     </Link>
                 </div>
@@ -35,8 +35,8 @@ const Deliveries: React.FC = () => {
                             alt="developed"
                             className="rounded-full w-auto h-auto"
                         />
-                        <h3 className="text-xl font-semibold text-gray-800">SYSTEMS</h3>
-                        <p className="mt-2 text-gray-600">Systems and website development</p>
+                        <h3 className="text-xl font-semibold text-gray-800">SISTEMAS</h3>
+                        <p className="mt-2 text-gray-600">Desenvolvimento de sistemas e sites.</p>
                         <MdDevices size={24} />
                     </Link>
                 </div>

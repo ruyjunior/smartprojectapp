@@ -3,7 +3,7 @@ const Footer = () => {
   return (
     <footer className="bg-blue-400 text-white py-10 text-center relative">
       <div className="container mx-auto px-6">
-        <p className="text-sm">&copy; 2025 Autoric Automation. All rights reserved.</p>
+        <p className="text-sm">&copy; 2025 Autoric Automação. Todos os direitos reservados.</p>
         <div className="mt-1 mb-5 flex flex-col items-center justify-center gap-4 md:flex-row">
           <p className="text-sm">CNPJ: 33.019.320/0001-42</p>
         </div>
@@ -17,7 +17,7 @@ const Footer = () => {
           className="mr-2 rounded-md"
         />
         <p>
-          Developed by <a href="https://www.autoric.com.br" className="underline">Autoric Automation</a>
+          Desenvolvido por <a href="https://www.autoric.com.br" className="underline">Autoric Automation</a>
         </p>
       </div>
     </footer>

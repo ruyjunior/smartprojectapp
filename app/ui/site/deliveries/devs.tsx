@@ -8,7 +8,7 @@ export default async function Devs({ projects }: { projects: Project[] }) {
 
     return (
         <section id="dev" className="py-20 text-center">
-            <h2 className="text-3xl font-bold mb-10">Developed Projects</h2>
+            <h2 className="text-3xl font-bold mb-10 mt-20">Developed Projects</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
                 {projects
                     .filter((project) => project.url !== null)
