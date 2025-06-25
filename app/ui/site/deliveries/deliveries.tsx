@@ -1,10 +1,37 @@
+'use client'
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaIndustry } from 'react-icons/fa';
 import { MdDevices } from 'react-icons/md'
 
+// Extend the Window interface to include gtag
+declare global {
+    interface Window {
+        gtag?: (...args: any[]) => void;
+    }
+}
+
 const Deliveries: React.FC = () => {
+
+    const handleAutomationClick = () => {
+        // Envia o evento para o Google Analytics
+        if (typeof window !== 'undefined' && window.gtag) {
+            window.gtag('event', 'clique_automation', {
+                event_category: 'Navegação',
+                event_label: 'Botão Automação',
+            });
+        }
+    };
+    const handleDevClick = () => {
+        if (typeof window !== 'undefined' && window.gtag) {
+            window.gtag('event', 'clique_dev', {
+                event_category: 'Navegação',
+                event_label: 'Botão Desenvolvimento',
+            });
+        }
+    };
+
     return (
         <section id="projects"
             className="py-20 text-center">
@@ -13,7 +40,9 @@ const Deliveries: React.FC = () => {
             </h2>
             <div className="flex justify-center flex-wrap gap-6">
                 <div className="flex flex-col items-center justify-center bg-blue-100 px-2 py-3 rounded-lg shadow-md">
-                    <Link href="/deliveries/#automation" >
+                    <Link
+                        href="/deliveries/#automation"
+                        onClick={handleAutomationClick} >
                         <Image
                             src="/images/icons/automation.png"
                             width={300}
@@ -27,7 +56,10 @@ const Deliveries: React.FC = () => {
                     </Link>
                 </div>
                 <div className="flex flex-col items-center justify-center bg-blue-100 px-2 py-3 rounded-lg shadow-md">
-                    <Link href="/deliveries/#dev" >
+                    <Link
+                        href="/deliveries/#dev"
+                        onClick={handleDevClick}
+                    >
                         <Image
                             src="/images/icons/dev.png"
                             width={300}
