@@ -5,8 +5,8 @@ import WhatsappButton from "@/app/ui/site/WhatsappButton";
 import TopButton from "@/app/ui/site/TopButton";
 import Footer from "@/app/ui/site/footer";
 import Navbar from "@/app/ui/site/navbar";
-import { Analytics } from "@vercel/analytics/next"
-
+import { Analytics } from "@vercel/analytics/next";
+import Script from 'next/script';
 
 export const metadata: Metadata = {
   title: {
@@ -36,15 +36,35 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main>
-      <SessionProvider>
-        <Navbar />
-        {children}
-        <Analytics />
-        <Footer />
-        <WhatsappButton />
-        <TopButton />
-      </SessionProvider>
-    </main>
+    <html lang="pt-BR">
+      <head>
+        {/* Google Analytics */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-JE15WEX47G"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-JE15WEX47G');
+          `}
+        </Script>
+      </head>
+      <body>
+        <main>
+          <SessionProvider>
+            <Navbar />
+            {children}
+            <Analytics /> {/* Vercel Analytics */}
+            <Footer />
+            <WhatsappButton />
+            <TopButton />
+          </SessionProvider>
+        </main>
+      </body>
+    </html>
   );
 }
+
