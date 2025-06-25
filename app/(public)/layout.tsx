@@ -5,6 +5,7 @@ import WhatsappButton from "@/app/ui/site/WhatsappButton";
 import TopButton from "@/app/ui/site/TopButton";
 import Footer from "@/app/ui/site/footer";
 import Navbar from "@/app/ui/site/navbar";
+import { Analytics } from "@vercel/analytics/next"
 
 
 export const metadata: Metadata = {
@@ -39,6 +40,7 @@ export default function RootLayout({
       <SessionProvider>
         <Navbar />
         {children}
+        <Analytics />
         <Footer />
         <WhatsappButton />
         <TopButton />

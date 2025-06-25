@@ -6,6 +6,7 @@ import { Metadata } from 'next';
 import CallToAction from "../ui/site/sections/call_to_action";
 import Team from "../ui/site/sections/team";
 import Deliveries from "../ui/site/deliveries/deliveries";
+import Techs from "../ui/site/sections/techs";
 
 export const metadata: Metadata = {
   title: 'HOME',
@@ -18,6 +19,7 @@ export default async function Page() {
       <Hero />
       <Services />
       <About />
+      <Techs />
       <Clients />
       <Deliveries />
       <Team />

@@ -38,6 +38,7 @@ const Navbar = () => {
         {/* Menu Desktop */}
         <div className="hidden md:flex space-x-6 text-white text-lg font-semibold">
           <Link href="/#services">Serviços</Link>
+          <Link href="/#techs">Tecnologias</Link>
           <Link href="/#clients">Clientes</Link>
           <Link href="/#projects">Projetos</Link>
           <Link href="/#team">Time</Link>
@@ -54,6 +55,7 @@ const Navbar = () => {
       {isOpen && (
         <div className="md:hidden bg-[#020d1f] text-white text-lg font-semibold py-4 flex flex-col items-center space-y-4">
           <Link href="/#services" onClick={toggleMenu}>Serviços</Link>
+          <Link href="/#techs" onClick={toggleMenu}>Tecnologias</Link>
           <Link href="/#clients" onClick={toggleMenu}>Clientes</Link>
           <Link href="/#projects" onClick={toggleMenu}>Projetos</Link>
           <Link href="/#team" onClick={toggleMenu}>Time</Link>
