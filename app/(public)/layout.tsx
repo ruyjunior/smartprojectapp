@@ -1,4 +1,3 @@
-import '@/app/ui/global.css';
 import { Metadata } from 'next';
 import { SessionProvider } from "next-auth/react";
 import WhatsappButton from "@/app/ui/site/WhatsappButton";
@@ -40,15 +39,18 @@ export default function RootLayout({
       <head>
         {/* Google Analytics */}
         <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-JE15WEX47G"
+          src="https://www.googletagmanager.com/gtag/js?id=G-WY7EJ45YSF"
           strategy="afterInteractive"
         />
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+        >
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'G-JE15WEX47G');
+            gtag('config', 'G-WY7EJ45YSF');
           `}
         </Script>
       </head>
