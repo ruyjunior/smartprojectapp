@@ -5,6 +5,7 @@ const Footer = () => {
       <div className="container mx-auto px-6">
         <p className="text-sm">&copy; 2025 Autoric Automação. Todos os direitos reservados.</p>
         <div className="mt-1 mb-5 flex flex-col items-center justify-center gap-4 md:flex-row">
+          <p className="text-sm">Gravataí - RS</p>
           <p className="text-sm">CNPJ: 33.019.320/0001-42</p>
         </div>
       </div>
