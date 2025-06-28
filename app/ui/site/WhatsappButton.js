@@ -1,7 +1,7 @@
 'use client'
 import { FaWhatsapp } from "react-icons/fa";
 
-const href = 'https://wa.me/' + '51992274105';
+const href = 'https://wa.me/' + '5551992274105';
 
 const WhatsappButton = () => {
 
