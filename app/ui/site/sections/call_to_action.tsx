@@ -4,40 +4,39 @@ import { FaEnvelope, FaWhatsapp, FaInstagram } from 'react-icons/fa';
 
 const CallToAction: React.FC = () => {
   return (
-    <section id="call"
-      className="py-20 text-center">
-      <h2 className="text-3xl font-bold">
-        ENTRE EM CONTATO</h2>
-      <p className="mt-4 text-center">Estamos prontos para ajudar a transformar sua empresa com nossas soluções tecnológicas.</p>
+    <section id="call" className="py-20 text-center bg-gradient-to-b from-blue-50 to-white">
+      <h2 className="text-3xl md:text-4xl font-extrabold mb-4 text-blue-900 tracking-tight drop-shadow">
+        ENTRE EM CONTATO
+      </h2>
+      <p className="mt-4 text-lg text-gray-700 max-w-2xl mx-auto">
+        Estamos prontos para ajudar a transformar sua empresa com nossas soluções tecnológicas.
+      </p>
       <div className="flex justify-center flex-wrap mt-10 gap-6">
-        <div className="flex items-center justify-center bg-gray-100 px-2 py-3 rounded-lg shadow-md">
-          <Link
-            href="mailto:autoricbr@gmail.com"
-            className="flex items-center gap-2 bg-gray-100 p-4 rounded-lg shadow-md">
-            <FaEnvelope className="text-blue-500" size={24} />
-            <h3 className="text-gray-800">autoricbr@gmail.com</h3>
-          </Link>
-        </div>
-        <div className="flex items-center justify-center bg-gray-100 px-2 py-3 rounded-lg shadow-md">
-          <Link
-            href="https://wa.me/5551992274105"
-            className="flex items-center gap-2 bg-gray-100 p-4 rounded-lg shadow-md"
-            target="_blank"
-          >
-            <FaWhatsapp className="text-green-500" size={24} />
-            <h3 className="text-gray-800">+55  51 99227-4105</h3>
-          </Link>
-        </div>
-        <div className="flex items-center justify-center bg-gray-100 px-2 py-3 rounded-lg shadow-md">
-          <Link
-            href="https://www.instagram.com/autoricbr"
-            className="flex items-center gap-2 bg-gray-100 p-4 rounded-lg shadow-md"
-            target="_blank"
-          >
-            <FaInstagram className="text-pink-500" size={24} />
-            <h3 className="text-gray-800">@autoricbr</h3>
-          </Link>
-        </div>
+        <Link
+          href="mailto:autoricbr@gmail.com"
+          className="flex items-center gap-3 bg-white hover:bg-blue-50 transition p-5 rounded-xl shadow-lg border border-blue-100 min-w-[260px] justify-center"
+        >
+          <FaEnvelope className="text-blue-500" size={28} />
+          <span className="text-gray-800 font-semibold text-lg">autoricbr@gmail.com</span>
+        </Link>
+        <Link
+          href="https://wa.me/5551992274105"
+          className="flex items-center gap-3 bg-white hover:bg-green-50 transition p-5 rounded-xl shadow-lg border border-green-100 min-w-[260px] justify-center"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <FaWhatsapp className="text-green-500" size={28} />
+          <span className="text-gray-800 font-semibold text-lg">+55 51 99227-4105</span>
+        </Link>
+        <Link
+          href="https://www.instagram.com/autoricbr"
+          className="flex items-center gap-3 bg-white hover:bg-pink-50 transition p-5 rounded-xl shadow-lg border border-pink-100 min-w-[260px] justify-center"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <FaInstagram className="text-pink-500" size={28} />
+          <span className="text-gray-800 font-semibold text-lg">@autoricbr</span>
+        </Link>
       </div>
     </section>
   );

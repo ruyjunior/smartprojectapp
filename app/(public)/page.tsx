@@ -7,6 +7,7 @@ import CallToAction from "../ui/site/sections/call_to_action";
 import Team from "../ui/site/sections/team";
 import Deliveries from "../ui/site/deliveries/deliveries";
 import Techs from "../ui/site/sections/techs";
+import Evaluation from "../ui/site/sections/evaluation";
 
 export const metadata: Metadata = {
   title: 'HOME',
@@ -23,6 +24,7 @@ export default async function Page() {
       <Clients />
       <Deliveries />
       <Team />
+      <Evaluation />
       <CallToAction />
     </div>
   );

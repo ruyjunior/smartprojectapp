@@ -10,24 +10,34 @@ const logos = [
 
 const Clients = () => {
   return (
-    <section id="clients"
-      className="py-20 text-center">
-      <h2 className="text-3xl font-bold mb-6">
-        Cada cliente é importante.
+    <section id="clients" className="py-20 bg-gradient-to-b from-white to-blue-50 text-center">
+      <h1 className="text-4xl font-extrabold mb-4 text-blue-900 tracking-tight drop-shadow">
+        Nossos Clientes
+      </h1>
+      <h2 className="text-lg font-medium mb-10 text-gray-700">
+        Cada cliente é fundamental para nossa equipe e nossa história.
       </h2>
-      <div className="flex justify-center flex-wrap gap-6">
+      <div className="flex flex-wrap justify-center gap-8">
         {logos.map((logo, index) => (
-          <div key={index} className="flex items-center justify-center bg-gray-100 px-2 py-3 rounded-lg shadow-md">
+          <div
+            key={index}
+            className="flex items-center justify-center bg-white px-6 py-4 rounded-xl shadow-lg border border-blue-100 hover:scale-105 transition-transform duration-200"
+          >
             <Image
               src={logo}
-              width={100} height={100}
-              alt="Clients"
-              className="rounded-md w-auto h -auto"
+              width={120}
+              height={60}
+              alt="Logo do cliente"
+              className="object-contain h-16 w-32"
             />
           </div>
         ))}
       </div>
+      <p className="mt-10 text-base text-gray-500">
+        Obrigado por confiarem na <span className="font-bold text-blue-800">AUTORIC</span>.
+      </p>
     </section>
   );
 };
+
 export default Clients;
