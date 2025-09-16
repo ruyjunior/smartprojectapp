@@ -1,10 +1,11 @@
 import Image from 'next/image';
 
 const logos = [
+  '/images/clients/khs.png',
   '/images/clients/ambev.jpg',
-  '/images/clients/assaabloy.png',
   '/images/clients/gestamp.jpg',
   '/images/clients/gm.jpg',
+  '/images/clients/parker.png',
   '/images/clients/zegla.jpg',
 ];
 
@@ -25,10 +26,10 @@ const Clients = () => {
           >
             <Image
               src={logo}
-              width={120}
-              height={60}
+              width={200}
+              height={200}
               alt="Logo do cliente"
-              className="object-contain h-16 w-32"
+              className="object-contain h-32 w-32"
             />
           </div>
         ))}
