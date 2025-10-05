@@ -7,7 +7,7 @@ export async function fetchProjects() {
   try {
     const data = await sql<Project>`
       SELECT id, title, comments, idprovider, idtaker, timestamp, idtakersponsor, idprovidersponsor, url, repository
-      FROM autoricapp.projects
+      FROM smartprojectsapp.projects
       ORDER BY timestamp ASC
     `;
     const projects = data.rows;
@@ -30,8 +30,8 @@ export async function fetchFilteredProjects(
              projects.idtaker, projects.timestamp, projects.idtakersponsor, idprovidersponsor,
              EXTRACT(EPOCH FROM COALESCE(SUM(tasks.timeprevision), INTERVAL '0 seconds')) / 3600 AS timeprevision,
              EXTRACT(EPOCH FROM COALESCE(SUM(tasks.timespend), INTERVAL '0 seconds')) / 3600 AS timespend
-      FROM autoricapp.projects
-      LEFT JOIN autoricapp.tasks ON projects.id = tasks.idproject
+      FROM smartprojectsapp.projects
+      LEFT JOIN smartprojectsapp.tasks ON projects.id = tasks.idproject
       WHERE projects.title::text ILIKE ${`%${query}%`} OR
             projects.id::text ILIKE ${`%${query}%`} 
       GROUP BY projects.id, projects.title, projects.comments, projects.idprovider,
@@ -58,7 +58,7 @@ const ITEMS_PER_PAGE = 6;
 
 export async function fetchProjectsPages(query: string) {
   try {
-    const count = await sql`SELECT COUNT(*) FROM autoricapp.projects`;
+    const count = await sql`SELECT COUNT(*) FROM smartprojectsapp.projects`;
 
     const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
     return totalPages;
@@ -72,7 +72,7 @@ export async function fetchProjectById(id: string) {
   try {
     const data = await sql<Project>`
       SELECT id, title, comments, idprovider, idtaker, timestamp, idtakersponsor, idprovidersponsor
-      FROM autoricapp.projects
+      FROM smartprojectsapp.projects
       WHERE projects.id = ${id} `;
 
     const project = data.rows.map((project) => ({

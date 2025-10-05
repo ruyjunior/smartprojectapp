@@ -59,7 +59,7 @@ export async function createTask(prevState: State, formData: FormData) {
 
   try {
     await sql`
-        INSERT INTO autoricapp.tasks ( 
+        INSERT INTO smartprojectsapp.tasks ( 
           title, startdate, timeprevision, status, what, who, grade, idproject)
         VALUES (${title}, ${startdate}, ${timeprevision}, ${status}, ${what}, ${who}, ${grade}, ${idproject})
         `;
@@ -105,7 +105,7 @@ export async function updateTask(
 
   try {
     await sql`
-    UPDATE autoricapp.tasks
+    UPDATE smartprojectsapp.tasks
     SET 
       title = ${title}, 
       what = ${what}, 
@@ -131,6 +131,6 @@ export async function updateTask(
 export async function deleteTask(id: string) {
   //throw new Error('Failed to Delete Invoice');
 
-  await sql`DELETE FROM autoricapp.tasks WHERE id = ${id}`;
+  await sql`DELETE FROM smartprojectsapp.tasks WHERE id = ${id}`;
   revalidatePath('/tasks');
 }

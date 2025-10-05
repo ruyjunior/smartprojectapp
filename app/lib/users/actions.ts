@@ -45,7 +45,7 @@ export async function createUser(prevState: State, formData: FormData) {
 
   try {
     await sql`
-        INSERT INTO autoricapp.users ( name, email, password, role)
+        INSERT INTO smartprojectsapp.users ( name, email, password, role)
         VALUES (${name}, ${email}, ${hashedPassword}, ${role})
         `;
   } catch (error) {
@@ -85,7 +85,7 @@ export async function updateUser(
       //console.log('Senha Criptografada' + hashedPassword);
 
       await sql`
-        UPDATE autoricapp.users
+        UPDATE smartprojectsapp.users
         SET name = ${name}, email = ${email}, password = ${hashedPassword}, role = ${role}
         WHERE id = ${id}
       `;
@@ -93,7 +93,7 @@ export async function updateUser(
       //console.log(password);
 
       await sql`
-        UPDATE autoricapp.users
+        UPDATE smartprojectsapp.users
         SET name = ${name}, email = ${email}, role = ${role}
         WHERE id = ${id}
       `;
@@ -109,6 +109,6 @@ export async function updateUser(
 export async function deleteUser(id: string) {
   //throw new Error('Failed to Delete Invoice');
 
-  await sql`DELETE FROM autoricapp.users WHERE id = ${id}`;
+  await sql`DELETE FROM smartprojectsapp.users WHERE id = ${id}`;
   revalidatePath('/users');
 }

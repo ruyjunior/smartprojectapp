@@ -6,7 +6,7 @@ export async function fetchCompanies() {
   try {
     const data = await sql<Company>`
       SELECT id, name, cnpj, cep
-      FROM autoricapp.companies
+      FROM smartprojectsapp.companies
       ORDER BY name ASC
     `;
     const companies = data.rows;
@@ -25,7 +25,7 @@ export async function fetchFilteredCompanies(
   try {
     const data = await sql<Company>`
       SELECT id, name, cnpj, cep
-      FROM autoricapp.companies
+      FROM smartprojectsapp.companies
       WHERE
         companies.name ILIKE ${`%${query}%`} OR
         companies.cnpj ILIKE ${`%${query}%`} 
@@ -42,7 +42,7 @@ const ITEMS_PER_PAGE = 6;
 
 export async function fetchCompaniesPages(query: string) {
   try {
-    const count = await sql`SELECT COUNT(*) FROM autoricapp.companies`;
+    const count = await sql`SELECT COUNT(*) FROM smartprojectsapp.companies`;
 
     const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
     return totalPages;
@@ -59,7 +59,7 @@ export async function fetchCompanyById(id: string) {
         companies.id,
         companies.name,
         companies.cnpj
-        FROM autoricapp.companies
+        FROM smartprojectsapp.companies
         WHERE companies.id = ${id} `;
 
     const companie = data.rows.map((companie) => ({

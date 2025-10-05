@@ -18,7 +18,7 @@ export async function fetchLatestTasks() {
         id, title, what, how, who, grade, 
                 startdate, enddate, status, idproject, 
                         timeprevision, timespend 
-                              FROM autoricapp.tasks
+                              FROM smartprojectsapp.tasks
                                     ORDER BY startdate DESC
                                           LIMIT 5`;
 
@@ -37,9 +37,9 @@ export async function fetchCardData() {
     // You can probably combine these into a single SQL query
     // However, we are intentionally splitting them to demonstrate
     // how to initialize multiple queries in parallel with JS.
-    const countTasksDone = sql`SELECT COUNT(*) FROM autoricapp.tasks WHERE tasks.status = 'done'`;
-    const countTasksStop = sql`SELECT COUNT(*) FROM autoricapp.tasks WHERE tasks.status = 'stopped'`;
-    const countCompanies = sql`SELECT COUNT(*) FROM autoricapp.companies`;
+    const countTasksDone = sql`SELECT COUNT(*) FROM smartprojectsapp.tasks WHERE tasks.status = 'done'`;
+    const countTasksStop = sql`SELECT COUNT(*) FROM smartprojectsapp.tasks WHERE tasks.status = 'stopped'`;
+    const countCompanies = sql`SELECT COUNT(*) FROM smartprojectsapp.companies`;
 
     const data = await Promise.all([
       countTasksDone,

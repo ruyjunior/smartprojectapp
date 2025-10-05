@@ -37,7 +37,7 @@ export async function createCompanie(prevState: State, formData: FormData) {
 
     try {
         await sql`
-        INSERT INTO autoricapp.companies ( name, cnpj)
+        INSERT INTO smartprojectsapp.companies ( name, cnpj)
         VALUES (${name}, ${cnpj})
         `;  
     } catch (error){
@@ -69,7 +69,7 @@ export async function updateCompanie(
    
   try {
   await sql`
-    UPDATE autoricapp.companies
+    UPDATE smartprojectsapp.companies
     SET name = ${name}, cnpj = ${cnpj} 
     WHERE id = ${id}
   `;
@@ -85,6 +85,6 @@ export async function updateCompanie(
 export async function deleteCompanie(id: string) {
     //throw new Error('Failed to Delete Invoice');
     
-    await sql`DELETE FROM autoricapp.companies WHERE id = ${id}`;
+    await sql`DELETE FROM smartprojectsapp.companies WHERE id = ${id}`;
     revalidatePath('/companies');
   }

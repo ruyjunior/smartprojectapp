@@ -44,7 +44,7 @@ export async function createSprint(prevState: State, formData: FormData) {
 
   try {
     await sql`
-        INSERT INTO autoricapp.sprints ( 
+        INSERT INTO smartprojectsapp.sprints ( 
           idtask, date, starttime, endtime )
         VALUES (${idtask}, ${date}, ${starttime}, ${endtime})
         `;
@@ -88,7 +88,7 @@ export async function updateSprint(
 
   try {
     await sql`
-    UPDATE autoricapp.sprints
+    UPDATE smartprojectsapp.sprints
     SET 
       date = ${date}, 
       starttime = ${sanitizedStartTime},
@@ -108,6 +108,6 @@ export async function updateSprint(
 export async function deleteSprint(id: string) {
   //throw new Error('Failed to Delete Invoice');
 
-  await sql`DELETE FROM autoricapp.sprints WHERE id = ${id}`;
+  await sql`DELETE FROM smartprojectsapp.sprints WHERE id = ${id}`;
   revalidatePath('/sprints');
 }

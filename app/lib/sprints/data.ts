@@ -13,7 +13,7 @@ SELECT
         starttime, 
           endtime,
             (endtime - starttime)::TIME AS totaltime
-            FROM autoricapp.sprints
+            FROM smartprojectsapp.sprints
             ORDER BY date, starttime ASC    `;
     const sprints = data.rows;
     return sprints;
@@ -32,7 +32,7 @@ export async function fetchFilteredSprints(
     const data = await sql<Sprint>`
     SELECT 
         id, idtask, date, starttime, endtime 
-      FROM autoricapp.sprints
+      FROM smartprojectsapp.sprints
       WHERE idtask::text ILIKE ${`%${query}%`}
       ORDER BY starttime DESC
        `;
@@ -47,7 +47,7 @@ const ITEMS_PER_PAGE = 6;
 
 export async function fetchSprintsPages(query: string) {
   try {
-    const count = await sql`SELECT COUNT(*) FROM autoricapp.sprints`;
+    const count = await sql`SELECT COUNT(*) FROM smartprojectsapp.sprints`;
 
     const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
     return totalPages;
@@ -62,7 +62,7 @@ export async function fetchSprintById(id: string) {
     const data = await sql<Sprint>`
       SELECT 
         id, idtask, date, starttime, endtime 
-      FROM autoricapp.sprints
+      FROM smartprojectsapp.sprints
       WHERE sprints.id = ${id} `;
 
     const sprint = data.rows.map((sprint) => ({
@@ -83,7 +83,7 @@ export async function fetchSprintsByTask(id: string) {
     const data = await sql<Sprint>`
       SELECT 
         id, idtask, date, starttime, endtime 
-      FROM autoricapp.sprints
+      FROM smartprojectsapp.sprints
       WHERE sprints.idtask = ${id} `;
 
     const sprints = data.rows.map((sprint) => ({

@@ -6,7 +6,7 @@ export async function fetchEmployees() {
   try {
     const data = await sql<Employee>`
       SELECT id, cpf, name, birth, email, phone, cep, idcompany
-      FROM autoricapp.employees
+      FROM smartprojectsapp.employees
       ORDER BY name ASC
     `;
     const employees = data.rows;
@@ -25,7 +25,7 @@ export async function fetchFilteredEmployees(
   try {
     const data = await sql<Employee>`
       SELECT id, cpf, name, birth, email, phone, cep, idcompany, price
-      FROM autoricapp.employees
+      FROM smartprojectsapp.employees
       WHERE
         employees.name ILIKE ${`%${query}%`} OR
         employees.email ILIKE ${`%${query}%`} OR
@@ -43,7 +43,7 @@ const ITEMS_PER_PAGE = 6;
 
 export async function fetchEmployeesPages(query: string) {
   try {
-    const count = await sql`SELECT COUNT(*) FROM autoricapp.employees`;
+    const count = await sql`SELECT COUNT(*) FROM smartprojectsapp.employees`;
 
     const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
     return totalPages;
@@ -66,7 +66,7 @@ export async function fetchEmployeeById(id: string) {
         employees.cep,
         employees.idcompany,
         employees.price
-        FROM autoricapp.employees
+        FROM smartprojectsapp.employees
         WHERE employees.id = ${id} `;
 
     const employee = data.rows.map((employee) => ({

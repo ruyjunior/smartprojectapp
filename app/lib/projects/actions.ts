@@ -49,7 +49,7 @@ export async function createProject(prevState: State, formData: FormData) {
 
     try {
         await sql`
-        INSERT INTO autoricapp.projects ( title, comments, idprovider, idtaker, idtakersponsor, idprovidersponsor)
+        INSERT INTO smartprojectsapp.projects ( title, comments, idprovider, idtaker, idtakersponsor, idprovidersponsor)
         VALUES (${title}, ${comments}, ${idprovider}, ${idtaker}, ${idtakersponsor}, ${idprovidersponsor})
         `;  
     } catch (error){
@@ -86,7 +86,7 @@ export async function updateProject(
    
   try {
   await sql`
-    UPDATE autoricapp.projects
+    UPDATE smartprojectsapp.projects
     SET 
     title = ${title}, comments = ${comments}, idprovider = ${idprovider}, idtaker = ${idtaker},
     idtakersponsor = ${idtakersponsor}, idprovidersponsor = ${idprovidersponsor}
@@ -102,6 +102,6 @@ export async function updateProject(
 }
 
 export async function deleteProject(id: string) {
-  await sql`DELETE FROM autoricapp.projects WHERE id = ${id}`;
+  await sql`DELETE FROM smartprojectsapp.projects WHERE id = ${id}`;
   revalidatePath('/projects');
 }

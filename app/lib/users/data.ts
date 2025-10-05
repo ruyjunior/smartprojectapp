@@ -6,7 +6,7 @@ export async function fetchUsers() {
   try {
     const data = await sql<User>`
       SELECT id, name, email, role
-      FROM autoricapp.users
+      FROM smartprojectsapp.users
       ORDER BY name ASC
     `;
     const users = data.rows;
@@ -25,7 +25,7 @@ export async function fetchFilteredUsers(
   try {
     const data = await sql<User>`
       SELECT id, name, email, role
-      FROM autoricapp.users
+      FROM smartprojectsapp.users
       WHERE
         users.name ILIKE ${`%${query}%`} OR
         users.role ILIKE ${`%${query}%`} OR
@@ -43,7 +43,7 @@ const ITEMS_PER_PAGE = 6;
 
 export async function fetchUsersPages(query: string) {
   try {
-    const count = await sql`SELECT COUNT(*) FROM autoricapp.users`;
+    const count = await sql`SELECT COUNT(*) FROM smartprojectsapp.users`;
 
     const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
     return totalPages;
@@ -61,7 +61,7 @@ export async function fetchUserById(id: string) {
         users.name,
         users.email,
         users.role
-        FROM autoricapp.users
+        FROM smartprojectsapp.users
         WHERE users.id = ${id} `;
 
     const user = data.rows.map((user) => ({

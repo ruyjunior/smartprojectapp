@@ -26,23 +26,18 @@ const Navbar = () => {
       <div className="container mx-auto flex justify-between items-center p-4">
         <Link href={"/"} className="flex items-center gap-2">
           <Image
-            src="/images/logos/logo.jpg"
+            src="/images/logos/logo.png"
             width={60}
             height={60}
             alt="Logo da Empresa"
             className="rounded-md shadow border-2 border-blue-200"
           />
-          <span className="hidden md:inline text-white font-extrabold text-2xl tracking-tight drop-shadow">AUTORIC</span>
+          <span className="hidden md:inline text-white font-extrabold text-2xl tracking-tight drop-shadow">Smart Project</span>
         </Link>
 
         {/* Menu Desktop */}
         <div className="hidden md:flex space-x-6 text-white text-lg font-semibold">
-          <Link href="/#services" className="hover:text-blue-200 transition">Serviços</Link>
-          <Link href="/#techs" className="hover:text-blue-200 transition">Tecnologias</Link>
-          <Link href="/#clients" className="hover:text-blue-200 transition">Clientes</Link>
-          <Link href="/#projects" className="hover:text-blue-200 transition">Projetos</Link>
-          <Link href="/#team" className="hover:text-blue-200 transition">Time</Link>
-          <Link href="/#call" className="hover:text-blue-200 transition">Contato</Link>
+          <Link href="/login" className="hover:text-blue-200 transition">Login</Link>
         </div>
 
         {/* Botão Menu Mobile */}
@@ -54,12 +49,7 @@ const Navbar = () => {
       {/* Menu Mobile */}
       {isOpen && (
         <div className="md:hidden bg-blue-900/95 text-white text-lg font-semibold py-8 flex flex-col items-center space-y-6 shadow-lg transition-all duration-300">
-          <Link href="/#services" onClick={toggleMenu} className="hover:text-blue-300 transition">Serviços</Link>
-          <Link href="/#techs" onClick={toggleMenu} className="hover:text-blue-300 transition">Tecnologias</Link>
-          <Link href="/#clients" onClick={toggleMenu} className="hover:text-blue-300 transition">Clientes</Link>
-          <Link href="/#projects" onClick={toggleMenu} className="hover:text-blue-300 transition">Projetos</Link>
-          <Link href="/#team" onClick={toggleMenu} className="hover:text-blue-300 transition">Time</Link>
-          <Link href="/#call" onClick={toggleMenu} className="hover:text-blue-300 transition">Contato</Link>
+          <Link href="/login" onClick={toggleMenu} className="hover:text-blue-300 transition">Login</Link>
         </div>
       )}
     </nav>

@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="flex flex-col items-center md:items-start">
           <div className="flex items-center mb-2">
             <Image
-              src="/images/logos/logo.jpg"
+              src="/images/logos/logodev.jpg"
               width={40}
               height={40}
               alt="Logo da Empresa"
@@ -25,16 +25,6 @@ const Footer = () => {
               <FaWhatsapp size={22} className="hover:text-green-200 transition" />
             </a>
           </div>
-        </div>
-        <div className="mt-6 md:mt-0 flex flex-col items-center md:items-end text-xs gap-1">
-          <p>Gravataí - RS</p>
-          <p>CNPJ: 33.019.320/0001-42</p>
-          <p>
-            Desenvolvido por{' '}
-            <a href="https://www.autoric.com.br" className="underline hover:text-blue-200 transition" target="_blank" rel="noopener noreferrer">
-              Autoric Automation
-            </a>
-          </p>
         </div>
       </div>
     </footer>

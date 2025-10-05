@@ -1,6 +1,6 @@
 import { lusitana } from '@/app/ui/fonts';
 import Image from 'next/image';
-import logo from 'public/images/logos/logo.jpg';
+import logo from 'public/images/logos/logo.png';
 
 export default function Logo() {
   return (

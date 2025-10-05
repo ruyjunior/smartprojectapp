@@ -5,10 +5,10 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | AUTORIC',
-    default: 'AUTORIC AUTOMAÇÃO',
+    template: 'SMART PROJECT',
+    default: 'SMART PROJECT',
   },
-  description: 'AUTORIC, A SOLUÇÃO EM AUTOMAÇÃO PARA O SEU NEGÓCIO E A SUA VIDA',
+  description: 'Seu APP para Projetos, Tudo conectado. Melhores soluções para suas necessidades.',
   metadataBase: new URL('https://www.autoric.com.br'),
   openGraph: {
     type: 'website',

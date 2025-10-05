@@ -63,7 +63,7 @@ export async function createEmployee(prevState: State, formData: FormData) {
 
   try {
     await sql`
-      INSERT INTO autoricapp.employees (cpf, name, birth, email, phone, cep, idcompany, price)
+      INSERT INTO smartprojectsapp.employees (cpf, name, birth, email, phone, cep, idcompany, price)
       VALUES (${sanitizedCpf}, ${sanitizedName}, ${sanitizedBirth}, ${sanitizedEmail}, ${sanitizedPhone}, ${sanitizedCep}, ${sanitizedIdCompany}, ${sanitizedPrice})
     `;
 
@@ -115,7 +115,7 @@ export async function updateEmployee(
 
   try {
     await sql`
-    UPDATE autoricapp.employees
+    UPDATE smartprojectsapp.employees
     SET cpf = ${sanitizedCpf}, name = ${sanitizedName}, birth = ${sanitizedBirth},
         email = ${sanitizedEmail}, phone = ${sanitizedPhone}, cep = ${sanitizedCep}, idcompany = ${sanitizedIdCompany}, price = ${sanitizedPrice}
     WHERE id = ${id}
@@ -132,6 +132,6 @@ export async function updateEmployee(
 export async function deleteEmployee(id: string) {
   //throw new Error('Failed to Delete Invoice');
 
-  await sql`DELETE FROM autoricapp.employees WHERE id = ${id}`;
+  await sql`DELETE FROM smartprojectsapp.employees WHERE id = ${id}`;
   revalidatePath('/employees');
 }

@@ -23,7 +23,7 @@ declare module "next-auth/jwt" {
 }
 async function getUser(email: string): Promise< CustomUser | null> {
   try {
-    const users = await sql<CustomUser>`SELECT * FROM autoricapp.users WHERE email=${email}`;
+    const users = await sql<CustomUser>`SELECT * FROM smartprojectsapp.users WHERE email=${email}`;
     return users.rows[0] || null;
   } catch (error) {
     console.error("Erro ao buscar usuário:", error);

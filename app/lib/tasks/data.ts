@@ -10,7 +10,7 @@ export async function fetchTasks() {
         id, title, what, how, who, grade, 
         startdate, enddate, status, idproject, 
         timeprevision, timespend 
-      FROM autoricapp.tasks
+      FROM smartprojectsapp.tasks
       ORDER BY
         CASE 
           WHEN status = 'doing' THEN 1
@@ -41,7 +41,7 @@ export async function fetchFilteredTasks(
         startdate, enddate, status, idproject, 
         timeprevision, 
         TO_CHAR(timespend, 'HH24:MI:SS') AS timespend  -- Converte INTERVAL/TIME para string
-      FROM autoricapp.tasks
+      FROM smartprojectsapp.tasks
       WHERE idproject::text ILIKE ${`%${query}%`}
       ORDER BY
         CASE 
@@ -64,7 +64,7 @@ const ITEMS_PER_PAGE = 6;
 
 export async function fetchTasksPages(query: string) {
   try {
-    const count = await sql`SELECT COUNT(*) FROM autoricapp.tasks`;
+    const count = await sql`SELECT COUNT(*) FROM smartprojectsapp.tasks`;
 
     const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
     return totalPages;
@@ -81,7 +81,7 @@ export async function fetchTaskById(id: string) {
         id, title, what, how, who, grade, 
         startdate, enddate, status, idproject, 
         timeprevision, timespend 
-      FROM autoricapp.tasks
+      FROM smartprojectsapp.tasks
       WHERE tasks.id = ${id} `;
 
     const task = data.rows.map((task) => ({
@@ -105,7 +105,7 @@ export async function fetchTasksByProject(id: string) {
         id, title, what, how, who, grade, 
         startdate, enddate, status, idproject, 
         timeprevision, timespend 
-      FROM autoricapp.tasks
+      FROM smartprojectsapp.tasks
       WHERE tasks.idproject = ${id} 
       ORDER BY
         CASE 
