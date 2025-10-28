@@ -1,7 +1,7 @@
-import Form from '@/app/ui/sprints/create-form';
+import Form from '../../components/create-form';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
-import { fetchProjectById } from '@/app/lib/projects/data';
-import { fetchTaskById } from '@/app/lib/tasks/data';
+import { fetchProjectById } from '@/app/query/projects/data';
+import { fetchTaskById } from '@/app/query/tasks/data';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

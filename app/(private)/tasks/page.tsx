@@ -2,11 +2,11 @@ import { Suspense } from 'react';
 import { Metadata } from 'next';
 import Pagination from '@/app/ui/pagination';
 import Search from '@/app/ui/search';
-import Table from '@/app/ui/tasks/table';
-import { CreateTask } from '@/app/ui/tasks/buttons';
-import { TasksTableSkeleton } from '@/app/ui/tasks/skeletons';
+import Table from '@/app/(private)/tasks/components/table';
+import { CreateTask } from '@/app/(private)/tasks/components/buttons';
+import { TasksTableSkeleton } from '@/app/(private)/tasks/components/skeletons';
 import { lusitana } from '@/app/ui/fonts';
-import { fetchTasksPages } from '@/app/lib/tasks/data';
+import { fetchTasksPages } from '@/app/query/tasks/data';
 
 export const metadata: Metadata = {
   title: 'Tasks',

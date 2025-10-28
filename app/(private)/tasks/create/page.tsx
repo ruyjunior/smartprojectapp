@@ -1,17 +1,17 @@
-import Form from '@/app/ui/tasks/create-form';
+import Form from '@/app/(private)/tasks/components/create-form';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
-import { fetchCompanies } from '@/app/lib/companies/data';
-import { fetchEmployees } from '@/app/lib/employees/data';
-import { fetchProjects } from '@/app/lib/projects/data';
+import { fetchClients } from '@/app/query/clients/data';
+import { fetchContacts} from '@/app/query/contacts/data';
+import { fetchProjects } from '@/app/query/projects/data';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Creat Task',
+  title: 'Create Task',
 };
 
 export default async function Page() {
-  const employees = await fetchEmployees();
-  const companies = await fetchCompanies();
+  const contacts= await fetchContacts();
+  const clients = await fetchClients();
   const projects = await fetchProjects();
   const project = projects[0];
 
@@ -28,7 +28,7 @@ export default async function Page() {
         ]}
       />
       <Form
-        employees={employees}
+        contacts={contacts}
         project={project}
       />
     </main>

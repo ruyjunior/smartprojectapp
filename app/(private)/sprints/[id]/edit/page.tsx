@@ -1,7 +1,7 @@
-import Form from '@/app/ui/sprints/edit-form';
+import Form from '../../components/edit-form';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
-import { fetchTaskById } from '@/app/lib/tasks/data';
-import { fetchSprintById } from '@/app/lib/sprints/data';
+import { fetchTaskById } from '@/app/query/tasks/data';
+import { fetchSprintById } from '@/app/query/sprints/data';
 
 import { Metadata } from 'next';
 

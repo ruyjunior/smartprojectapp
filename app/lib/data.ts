@@ -8,8 +8,8 @@ import {
   LatestInvoiceRaw,
   Revenue,
 } from './definitions';
-import { formatCurrency } from './utils/utils';
-import { Task } from './tasks/definitions';
+import { CurrentCompanyId, formatCurrency } from '../utils/utils';
+import { Task } from '../query/tasks/definitions';
 
 export async function fetchLatestTasks() {
   try {
@@ -33,28 +33,46 @@ export async function fetchLatestTasks() {
 }
 
 export async function fetchCardData() {
+  const idcompany = await CurrentCompanyId();
   try {
     // You can probably combine these into a single SQL query
     // However, we are intentionally splitting them to demonstrate
     // how to initialize multiple queries in parallel with JS.
-    const countTasksDone = sql`SELECT COUNT(*) FROM smartprojectsapp.tasks WHERE tasks.status = 'done'`;
-    const countTasksStop = sql`SELECT COUNT(*) FROM smartprojectsapp.tasks WHERE tasks.status = 'stopped'`;
-    const countCompanies = sql`SELECT COUNT(*) FROM smartprojectsapp.companies`;
-
+    const countTasksDone = sql`
+      SELECT COUNT(*) 
+      FROM smartprojectsapp.tasks t
+      LEFT JOIN smartprojectsapp.projects p ON t.idproject = p.id
+      WHERE t.status = 'done' AND p.idcompany = ${idcompany}`;
+    const countTasksStop = sql`
+      SELECT COUNT(*) 
+      FROM smartprojectsapp.tasks t
+      LEFT JOIN smartprojectsapp.projects p ON t.idproject = p.id
+      WHERE t.status = 'stopped' AND p.idcompany = ${idcompany}`;
+    const countClients = sql`
+      SELECT COUNT(*) 
+      FROM smartprojectsapp.clients 
+      WHERE clients.idcompany = ${idcompany}`;
+    const countProjects = sql`
+      SELECT COUNT(*) 
+      FROM smartprojectsapp.projects 
+      WHERE projects.idcompany = ${idcompany}`;
     const data = await Promise.all([
       countTasksDone,
       countTasksStop,
-      countCompanies,
+      countClients,
+      countProjects,
     ]);
 
     const numberOfTasksDone = Number(data[0].rows[0].count ?? '0');
     const numberOfTasksStop = Number(data[1].rows[0].count ?? '0');
-    const numberOfCompanies = Number(data[2].rows[0].count ?? '0');
+    const numberOfClients = Number(data[2].rows[0].count ?? '0');
+    const numberOfProjects = Number(data[3].rows[0].count ?? '0');
 
     return {
       numberOfTasksDone,
       numberOfTasksStop,
-      numberOfCompanies,
+      numberOfClients,
+      numberOfProjects,
     };
   } catch (error) {
     console.error('Database Error:', error);

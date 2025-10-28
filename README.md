@@ -1,67 +1,63 @@
+# 🚀 Smart Project App
 
-# 🚀 Autoric App
-## Application with a Home Page to Present the Company.
-## After logging in, some functions are available
-
-
-> Presentation page, application for project and activity management.
+Aplicativo para apresentação da empresa e gerenciamento de projetos e atividades.
 
 ![Badge de Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
 ![Badge de Licença](https://img.shields.io/badge/license-MIT-blue)
 
+## 📋 Sobre o Projeto
 
-## 📋 About the Project
+O **Smart Project App** oferece uma página de apresentação institucional e, após login, funcionalidades para gestão de projetos, tarefas, equipes e documentos. Ideal para conectar clientes, fornecedores e colaboradores em um só ambiente digital.
 
-Presentation page, application for project and activity management.
+## 🔥 Tecnologias Utilizadas
 
-## 🔥 Technologies Used
+- **Next.js**  
+- **Tailwind CSS**  
+- **Neon (Postgres)**  
+- **TypeScript**  
+- **React**  
+- **PDF React**  
 
-- ⚡ **Next.js**  
-  <img src="https://img.shields.io/badge/Next.js-%23000000?style=for-the-badge&logo=next.js&logoColor=white" alt="Next.js Badge"/>
-
-- 🎨 **Tailwind CSS**  
-  <img src="https://img.shields.io/badge/Tailwind%20CSS-%2338B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS Badge"/>
-
-- 💾 **Neon**  
-  <img src="https://img.shields.io/badge/Neon-%23000000?style=for-the-badge&logo=neon&logoColor=white" alt="Neon Badge"/>
-
-- 🖥️ **TypeScript**  
-  <img src="https://img.shields.io/badge/TypeScript-%23007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript Badge"/>
-
-- ⚛️ **React**  
-  <img src="https://img.shields.io/badge/React-%23007ACC?style=for-the-badge&logo=react&logoColor=white" alt="React Badge"/>
-
-- 📄 **PDF React**  
-  <img src="https://img.shields.io/badge/PDF%20React-%23000000?style=for-the-badge&logo=pdf&logoColor=white" alt="PDF React Badge"/>
-
-
-## 📂 Project Structure
+## 📂 Estrutura do Projeto
 
 ```bash
-📦 autoricapp
-├── 📁 public
-├── 📁 app
-│   ├── 📁 api
-│   ├── 📁 assets
-|   ├── 📁 dashboard
-|       ├── 📁 overview
-|       ├── 📁 companies
-|       ├── 📁 employees
-|       ├── 📁 projects
-|       ├── 📁 tasks
-|       ├── 📁 users
-│   ├── 📁 lib
-|   ├── 📁 login
-│   ├── 📁 ui
-│   ├── 📁 styles
-│   ├── 📜 app.js
-│   ├── 📜 index.js
-├── 📜 middleware.ts
-├── 📜 next.config.ts
-├── 📜 package.json
-├── 📜 pnpm-lock.yaml
-├── 📜 postcss.config.js
-├── 📜 tailwind.config.ts
-├── 📜 tsconfig.json
-└── 📜 README.md
-|___ uskdjsd
+📦 smartprojectapp
+├── public
+├── app
+│   ├── api
+│   ├── assets
+│   ├── dashboard
+│   │   ├── overview
+│   │   ├── companies
+│   │   ├── employees
+│   │   ├── projects
+│   │   ├── tasks
+│   │   ├── users
+│   ├── lib
+│   ├── login
+│   ├── ui
+│   ├── styles
+│   ├── app.js
+│   ├── index.js
+├── middleware.ts
+├── next.config.ts
+├── package.json
+├── pnpm-lock.yaml
+├── postcss.config.js
+├── tailwind.config.ts
+├── tsconfig.json
+└── README.md
+```
+
+## 💡 Funcionalidades
+
+- Página institucional de apresentação
+- Autenticação de usuários
+- Gestão de projetos, tarefas e equipes
+- Compartilhamento de documentos
+- Notificações em tempo real
+- Integração com ferramentas industriais
+
+---
+
+> Em desenvolvimento. Contribuições são bem-vindas!

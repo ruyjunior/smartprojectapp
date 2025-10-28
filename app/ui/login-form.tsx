@@ -3,20 +3,30 @@ import { lusitana } from '@/app/ui/fonts';
 import { AtSymbolIcon, KeyIcon, ExclamationCircleIcon, } from '@heroicons/react/24/outline';
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
 import { Button } from './button';
-import { useActionState } from 'react';
+import { useActionState, useTransition } from 'react';
 import { authenticate } from '@/app/lib/actions';
 import { useSearchParams } from 'next/navigation';
 
 export default function LoginForm() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/';
-  const [errorMessage, formAction, isPending] = useActionState(
+  const [errorMessage, formAction] = useActionState(
     authenticate,
     undefined,
   );
 
+  const [isPending, startTransition] = useTransition();
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    startTransition(() => {
+      formAction(new FormData(e.currentTarget));
+    });
+  }
+
+
   return (
-    <form action={formAction} className="space-y-3">
+    <form action={formAction} className="space-y-3" onSubmit={handleSubmit}>
       <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
         <h1 className={`${lusitana.className} mb-3 text-2xl`}>
           Please log in to continue.
@@ -62,10 +72,13 @@ export default function LoginForm() {
             </div>
           </div>
         </div>
+
         <input type="hidden" name="redirectTo" value={callbackUrl} />
-        <Button className="mt-4 w-full" aria-disabled={isPending}>
+
+        <Button type="submit" disabled={isPending} aria-disabled={isPending} isPending={isPending} className="mt-4 w-full">
           Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
         </Button>
+
         <div
           className="flex h-8 items-end space-x-1"
           aria-live="polite"

@@ -1,5 +1,5 @@
-import CardWrapper from '@/app/ui/dashboard/cards';
-import LatestTasks from '@/app/ui/dashboard/latest-tasks';
+import CardWrapper from '@/app/(private)/dashboard/components/cards';
+import LatestTasks from '@/app/(private)/dashboard/components/latest-tasks';
 import { lusitana } from '@/app/ui/fonts';
 import { Suspense } from 'react';
 import { RevenueChartSkeleton,  LatestInvoicesSkeleton, CardsSkeleton} from '@/app/ui/skeletons';

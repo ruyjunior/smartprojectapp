@@ -1,14 +1,14 @@
-import TasksTable from '@/app/ui/tasks/table';
-import ProjectsTable from '@/app/ui/projects/table';
-import { CreateTask } from '@/app/ui/tasks/buttons';
+import TasksTable from '@/app/(private)/tasks/components/table';
+import ProjectsTable from '../../components/table';
+import { CreateTask } from '@/app/(private)/tasks/components/buttons';
 import { Suspense } from 'react';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
-import { fetchProjectById } from '@/app/lib/projects/data';
-import { fetchCompanies } from '@/app/lib/companies/data';
-import { fetchTasksByProject } from '@/app/lib/tasks/data';
+import { fetchProjectById } from '@/app/query/projects/data';
+import { fetchClients } from '@/app/query/clients/data';
+import { fetchTasksByProject } from '@/app/query/tasks/data';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
-import { fetchEmployees } from '@/app/lib/employees/data';
+import { fetchContacts} from '@/app/query/contacts/data';
 
 export const metadata: Metadata = {
   title: 'Project View',
@@ -17,11 +17,11 @@ export const metadata: Metadata = {
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
   const id = params.id;
-  const [project, companies, tasks, employees] = await Promise.all([
+  const [project, clients, tasks, contacts] = await Promise.all([
     fetchProjectById(id),
-    fetchCompanies(),
+    fetchClients(),
     fetchTasksByProject(id),
-    fetchEmployees()
+    fetchContacts()
   ]);
   if (!project) {
     notFound();

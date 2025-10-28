@@ -1,30 +1,30 @@
 'use client'
-import { Project } from '@/app/lib/projects/definitions';
-import { InvoicePDF } from '@/app/lib/companies/definitions';
-import { Company } from '@/app/lib/companies/definitions';
-import { Employee } from '@/app/lib/employees/definitions';
-import { Task } from '@/app/lib/tasks/definitions';
-import { Sprint } from '@/app/lib/sprints/definitions';
+import { Project } from '@/app/query/projects/definitions';
+import { Invoice } from '@/app/query/invoice/definitions';
+import { Client } from '@/app/query/clients/definitions';
+import { Contact } from '@/app/query/contacts/definitions';
+import { Task } from '@/app/query/tasks/definitions';
+import { Sprint } from '@/app/query/sprints/definitions';
 import { DateFilter } from '@/app/ui/invoices/DateFilter';
 import { useState } from 'react';
-import { formatDateDb, formatTime, formatDateToLocal } from '@/app/lib/utils/utils';
-import TaskStatus from '@/app/ui/tasks/status';
+import { formatDateDb, formatTime, formatDateToLocal } from '@/app/utils/utils';
+import TaskStatus from '@/app/(private)/tasks/components/status';
 import React from 'react';
 import { PdfInvoice } from './buttons';
 
 
 export default function InvoiceForm({
-  company,
+  client,
   projects,
-  companies,
-  employees,
+  clients,
+  contacts,
   tasks,
   sprints
-}: {
-  company: Company;
+}: {  
   projects: Project[];
-  companies: Company[];
-  employees: Employee[];
+  client: Client;
+  clients: Client[];
+  contacts: Contact[];
   tasks: Task[];
   sprints: Sprint[];
 }
@@ -47,16 +47,16 @@ export default function InvoiceForm({
   console.log('start: ' + start);
   console.log('end: ' + end);
 
-  const data: InvoicePDF = {
+  const data: Invoice = {
     projects: projects,
-    taker: company,
-    companies: companies,
+    client: client,
+    clients: clients,
     tasks: filteredTasks,
     sprints: filteredSprints,
-    employees: employees,
+    contacts: contacts,
     datein: startDate,
     dateout: endDate
-  } as InvoicePDF;
+  } as Invoice;
 
   return (
     <div>
@@ -67,7 +67,7 @@ export default function InvoiceForm({
         onEndDateChange={setEndDate}
       />
 
-      <PdfInvoice id={company.id} data={data}  />
+      <PdfInvoice id={client.id} data={data}  />
 
       <div className="w-full p-4">
         <div className="mt-6 flow-root">
@@ -77,7 +77,7 @@ export default function InvoiceForm({
                 {/* Mobile Card View */}
                 <div className="md:hidden space-y-4">
                   {filteredTasks?.map((task) => {
-                    const employee = employees.find((e) => e.id === task.who);
+                    const contact = contacts.find((e) => e.id === task.who);
                     const taskSprints = sprints.filter((sprint) => sprint.idtask === task.id);
                     return (
                       <div key={task.id} className="p-4 rounded-lg bg-blue-100 shadow-md">
@@ -95,7 +95,7 @@ export default function InvoiceForm({
                         <div className="text-xs text-gray-700 pt-2">
                           <p><span className="font-medium">What:</span> {task.what}</p>
                           <p><span className="font-medium">How:</span> {task.how}</p>
-                          <p><span className="font-medium">Who:</span> {employee?.name}</p>
+                          <p><span className="font-medium">Who:</span> {contact?.name}</p>
                         </div>
                         <div className="flex justify-between items-center pt-2">
                           <p className="text-xs font-medium text-gray-700">Status: {task.status}</p>
@@ -130,7 +130,7 @@ export default function InvoiceForm({
                   </thead>
                   <tbody className="divide-y divide-gray-200">
                     {filteredTasks?.map((task) => {
-                      const employee = employees.find((e) => e.id === task.who);
+                      const contact = contacts.find((e) => e.id === task.who);
                       const taskSprints = sprints.filter((sprint) => sprint.idtask === task.id);
                       return (
                         <React.Fragment key={task.id}>
@@ -150,7 +150,7 @@ export default function InvoiceForm({
                             <td className="px-1 py-1 text-xs text-gray-700">{task.what}</td>
                             {/* How Column */}
                             <td className="px-1 py-1 text-xs text-gray-700">{task.how}</td>
-                            <td className="px-1 py-1 text-xs font-medium">{employee?.name}</td>
+                            <td className="px-1 py-1 text-xs font-medium">{contact?.name}</td>
                             <td className="px-1 py-1 text-xs text-gray-600">{formatTime(task.timeprevision)}</td>
                             <td className="px-1 py-1 text-xs text-gray-600">{formatTime(task.timespend)}</td>
                           </tr>

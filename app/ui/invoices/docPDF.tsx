@@ -1,11 +1,11 @@
 import React from 'react';
 import * as PDF from '@react-pdf/renderer';
 import styles from '@/app/ui/invoices/stylesPDF';
-import { formatCNPJ, formatDateToLocal, formatPhone, formatTime, timeToDecimal } from '@/app/lib/utils/utils';
-import { InvoicePDF } from '@/app/lib/companies/definitions';
+import { formatCNPJ, formatDateToLocal, formatPhone, formatTime, timeToDecimal } from '@/app/utils/utils';
+import { Invoice } from '@/app/query/invoice/definitions';
 
 
-export const DocPDF = ({ data }: { data: InvoicePDF }) => {
+export const DocPDF = ({ data }: { data: Invoice }) => {
   const InvoiceDate = new Date().toLocaleDateString();
 
   const filteredTasks = data.tasks.filter((t) =>
@@ -34,8 +34,8 @@ export const DocPDF = ({ data }: { data: InvoicePDF }) => {
         {/*Solicitante*/}
         <PDF.View style={styles.section}>
           <PDF.Text style={styles.chapter}>SOLICITANTE</PDF.Text>
-          <PDF.Text style={styles.field}>{data.taker.name}</PDF.Text>
-          <PDF.Text style={styles.field}>CNPJ: {formatCNPJ(data.taker.cnpj)}</PDF.Text>
+          <PDF.Text style={styles.field}>{data.client.name}</PDF.Text>
+          <PDF.Text style={styles.field}>CNPJ: {formatCNPJ(data.client.cnpj)}</PDF.Text>
         </PDF.View>
 
         {/* RESUMO */}
@@ -78,8 +78,8 @@ export const DocPDF = ({ data }: { data: InvoicePDF }) => {
           const totalTasks = tasks.length;
           const completedTasks = tasks.filter(task => task.status === "done").length;
           const progress = totalTasks > 0 ? ((completedTasks / totalTasks) * 100).toFixed(2) : "0.00";
-          const takerSponsor = data.employees.find(emp => emp.id === filteredProjects[index].idtakersponsor);
-          const providerSponsor = data.employees.find(emp => emp.id === data.projects[index].idprovidersponsor);
+          const clientContact = data.contacts.find(emp => emp.id === filteredProjects[index].idclientcontact);
+          const companyContact = data.contacts.find(emp => emp.id === data.projects[index].idcompanycontact);
 
           return (
             <PDF.View key={index}>
@@ -96,9 +96,9 @@ export const DocPDF = ({ data }: { data: InvoicePDF }) => {
               {/* Taker Project */}
               <PDF.View style={styles.section}>
                 <PDF.Text style={styles.chapter}>RESPONSÁVEL</PDF.Text>
-                <PDF.Text style={styles.field}>{takerSponsor?.name}</PDF.Text>
-                <PDF.Text style={styles.field}>Telefone: {formatPhone(takerSponsor?.phone)}</PDF.Text>
-                <PDF.Text style={styles.field}>Email: {takerSponsor?.email}</PDF.Text>
+                <PDF.Text style={styles.field}>{clientContact?.name}</PDF.Text>
+                <PDF.Text style={styles.field}>Telefone: {formatPhone(clientContact?.phone)}</PDF.Text>
+                <PDF.Text style={styles.field}>Email: {clientContact?.email}</PDF.Text>
               </PDF.View>
 
               {/* Tasks */}
@@ -120,7 +120,7 @@ export const DocPDF = ({ data }: { data: InvoicePDF }) => {
                   <PDF.Text style={styles.tableCellHeader}>Tempo Gasto</PDF.Text>
                 </PDF.View>
                 {tasks.map((task, index) => {
-                  const employee = data.employees.find(emp => emp.id === task.who);
+                  const contact = data.contacts.find(emp => emp.id === task.who);
                   const taskSprints = data.sprints && data.tasks ? data.sprints.filter((sprint) => sprint.idtask === task.id) : [];
 
                   return (
@@ -133,7 +133,7 @@ export const DocPDF = ({ data }: { data: InvoicePDF }) => {
                         <PDF.Text style={styles.tableCell}>{formatDateToLocal(task.enddate)}</PDF.Text>
                         <PDF.Text style={styles.tableCellWide}>{task.what}</PDF.Text>
                         <PDF.Text style={styles.tableCellWide}>{task.how}</PDF.Text>
-                        <PDF.Text style={styles.tableCell}>{employee ? employee.name : "Unknown"}</PDF.Text>
+                        <PDF.Text style={styles.tableCell}>{contact ? contact.name : "Unknown"}</PDF.Text>
                         <PDF.Text style={styles.tableCell}>{task.grade}</PDF.Text>
                         <PDF.Text style={styles.tableCell}>{task.timeprevision}</PDF.Text>
                         <PDF.Text style={styles.tableCell}>{task.timespend}</PDF.Text>

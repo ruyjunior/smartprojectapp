@@ -1,12 +1,12 @@
-import Form from '@/app/ui/projects/pdf-form';
+import Form from '../../components/pdf-form';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
-import { fetchProjectById } from '@/app/lib/projects/data';
-import { fetchCompanies } from '@/app/lib/companies/data';
-import { fetchTasksByProject } from '@/app/lib/tasks/data';
+import { fetchProjectById } from '@/app/query/projects/data';
+import { fetchClients } from '@/app/query/clients/data';
+import { fetchTasksByProject } from '@/app/query/tasks/data';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
-import { fetchEmployees } from '@/app/lib/employees/data';
-import { fetchSprints } from '@/app/lib/sprints/data';
+import { fetchContacts } from '@/app/query/contacts/data';
+import { fetchSprints } from '@/app/query/sprints/data';
 
 export const metadata: Metadata = {
   title: 'Print PDF Projects',
@@ -15,11 +15,11 @@ export const metadata: Metadata = {
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
   const id = params.id;
-  const [project, companies, tasks, employees] = await Promise.all([
+  const [project, clients, tasks, contacts] = await Promise.all([
     fetchProjectById(id),
-    fetchCompanies(),
+    fetchClients(),
     fetchTasksByProject(id),
-    fetchEmployees()
+    fetchContacts()
   ]);
   const sprints = await fetchSprints();
   if (!project) {
@@ -46,8 +46,8 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
       <Form
         project={project}
         tasks={tasks}
-        companies={companies}
-        employees={employees}
+        clients={clients}
+        contacts={contacts}
         sprints={sprints}
       />
     </main>

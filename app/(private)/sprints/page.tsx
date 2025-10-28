@@ -2,11 +2,11 @@ import { Suspense } from 'react';
 import { Metadata } from 'next';
 import Pagination from '@/app/ui/pagination';
 import Search from '@/app/ui/search';
-import Table from '@/app/ui/sprints/table';
-import { CreateSprint } from '@/app/ui/sprints/buttons';
+import Table from './components/table';
+import { CreateSprint } from './components/buttons';
 import { lusitana } from '@/app/ui/fonts';
-import { fetchSprintsPages } from '@/app/lib/sprints/data';
-import { SprintsTableSkeleton } from '@/app/ui/sprints/skeletons';
+import { fetchSprintsPages } from '@/app/query/sprints/data';
+import { SprintsTableSkeleton } from './components/skeletons';
 
 export const metadata: Metadata = {
   title: 'Sprints',

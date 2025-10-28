@@ -1,9 +1,9 @@
 import { DocumentIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/navigation';
-import { InvoicePDF } from '@/app/lib/companies/definitions';
+import { Invoice } from '@/app/query/invoice/definitions';
 
 
-export function PdfInvoice({ id, data }: { id: string, data: InvoicePDF }) {
+export function PdfInvoice({ id, data }: { id: string, data: Invoice }) {
   const router = useRouter();
 
   const handleGeneratePDF = () => {
@@ -11,7 +11,7 @@ export function PdfInvoice({ id, data }: { id: string, data: InvoicePDF }) {
     localStorage.setItem('invoiceData', JSON.stringify(data));
 
     // Redirecionar para a página do PDF
-    router.push(`/companies/${id}/invoicePDF`);
+    router.push(`/clients/${id}/invoicePDF`);
   };
 
   return (

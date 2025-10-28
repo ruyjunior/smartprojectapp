@@ -1,6 +1,6 @@
-import Hero from "@/app/ui/site/sections/hero";
-import About from "@/app/ui/site/sections/about";
-import Clients from "@/app/ui/site/sections/clients";
+import Hero from "@/app/(public)/components/sections/hero";
+import About from "@/app/(public)/components/sections/about";
+import Clients from "@/app/(public)/components/sections/clients";
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

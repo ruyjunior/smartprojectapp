@@ -1,5 +1,5 @@
 'use client';
-import { InvoicePDF } from '@/app/lib/companies/definitions';
+import { Invoice } from '@/app/query/invoice/definitions';
 import { DocPDF } from './docPDF';
 import { PDFViewer } from '@react-pdf/renderer';
 import { LinkPDF } from './linkPDF';
@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 
 export default function PdfForm() {
 
-  const [data, setData] = useState<InvoicePDF | null>(null);
+  const [data, setData] = useState<Invoice | null>(null);
 
   useEffect(() => {
     const storedData = localStorage.getItem('invoiceData');

@@ -2,11 +2,12 @@ import { Suspense } from 'react';
 import { Metadata } from 'next';
 import Pagination from '@/app/ui/pagination';
 import Search from '@/app/ui/search';
-import Table from '@/app/ui/projects/table';
-import { CreateProject } from '@/app/ui/projects/buttons';
-import { ProjectsTableSkeleton } from '@/app/ui/projects/skeletons';
+import Table from './components/table';
+import { Create } from '@/app/ui/buttons';
+
+import { ProjectsTableSkeleton } from './components/skeletons';
 import { lusitana } from '@/app/ui/fonts';
-import { fetchProjectsPages } from '@/app/lib/projects/data';
+import { fetchProjectsPages } from '@/app/query/projects/data';
 
 
 export const metadata: Metadata = {
@@ -31,7 +32,7 @@ export default async function Page(props: {
       </div>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
         <Search placeholder="Search..." />
-        <CreateProject />
+        <Create href="/projects/create" />
       </div>
       {<Suspense key={query + currentPage} fallback={<ProjectsTableSkeleton />}>
         <Table query={query} currentPage={currentPage} />

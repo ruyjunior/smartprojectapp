@@ -1,17 +1,19 @@
-import Form from '@/app/ui/projects/create-form';
+import Form from '../components/create-form';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
-import { fetchCompanies } from '@/app/lib/companies/data';
-import { fetchEmployees } from '@/app/lib/employees/data';
+import { fetchClients } from '@/app/query/clients/data';
+import { fetchContacts, fetchContactsByClientId } from '@/app/query/contacts/data';
 import { Metadata } from 'next';
+import { CurrentCompanyId } from '@/app/utils/utils';
 
 export const metadata: Metadata = {
-  title: 'Creat Proposal',
+  title: 'Create Project',
 };
 
 export default async function Page() {
-  const employees = await fetchEmployees();
-  const companies = await fetchCompanies();
-
+  const idcompany = await CurrentCompanyId();
+  const contacts = await fetchContacts();
+  const clients = await fetchClients();
+  
   return (
     <main>
       <Breadcrumbs
@@ -25,8 +27,9 @@ export default async function Page() {
         ]}
       />
       <Form
-        employees={employees}
-        companies={companies}
+        idcompany={idcompany}
+        contacts={contacts}
+        clients={clients}
       />
     </main>
   );

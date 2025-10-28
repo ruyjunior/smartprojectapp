@@ -1,9 +1,9 @@
 import { Metadata } from 'next';
 import { SessionProvider } from "next-auth/react";
-import WhatsappButton from "@/app/ui/site/WhatsappButton";
-import TopButton from "@/app/ui/site/TopButton";
-import Footer from "@/app/ui/site/footer";
-import Navbar from "@/app/ui/site/navbar";
+import WhatsappButton from "@/app/(public)/components/main/WhatsappButton";
+import TopButton from "@/app/(public)/components/main/TopButton";
+import Footer from "@/app/(public)/components/main/footer";
+import Navbar from "@/app/(public)/components/main/navbar";
 import { Analytics } from "@vercel/analytics/next";
 import Script from 'next/script';
 

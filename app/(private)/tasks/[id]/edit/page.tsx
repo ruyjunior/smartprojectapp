@@ -1,8 +1,8 @@
-import Form from '@/app/ui/tasks/edit-form';
+import Form from '@/app/(private)/tasks/components/edit-form';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
-import { fetchTaskById } from '@/app/lib/tasks/data';
-import { fetchEmployees } from '@/app/lib/employees/data';
-import { fetchProjects } from '@/app/lib/projects/data';
+import { fetchTaskById } from '@/app/query/tasks/data';
+import { fetchContacts} from '@/app/query/contacts/data';
+import { fetchProjects } from '@/app/query/projects/data';
 
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
@@ -14,9 +14,9 @@ export const metadata: Metadata = {
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
   const id = params.id;
-  const [task, employees, projects] = await Promise.all([
+  const [task, contacts, projects] = await Promise.all([
     fetchTaskById(id),
-    fetchEmployees(),
+    fetchContacts(),
     fetchProjects(),
   ]);
   const project = projects.find((project) => project.id === task.idproject);
@@ -37,7 +37,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           }]}
       />
       <Form
-        employees={employees}
+        contacts={contacts}
         task={task}
         projects={projects}
       />
