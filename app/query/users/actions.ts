@@ -10,11 +10,12 @@ const FormSchema = z.object({
   name: z.string(),
   email: z.string(),
   password: z.string(),
-  role: z.string()
+  role: z.string(),
+  idcompany: z.string()
 });
 
 const CreateUser = FormSchema.omit({ id: true });
-const UpdateUser = FormSchema.omit({ id: true });
+const UpdateUser = FormSchema.omit({ id: true, idcompany: true });
 
 export type State = {
   errors?: {
@@ -32,6 +33,7 @@ export async function createUser(prevState: State, formData: FormData) {
     email: formData.get('email'),
     password: formData.get('password'),
     role: formData.get('role'),
+    idcompany: formData.get('idcompany'),
   });
 
   if (!validatedFields.success) {
@@ -40,13 +42,13 @@ export async function createUser(prevState: State, formData: FormData) {
       message: 'Missing Fields. Failed to Create.',
     };
   }
-  const { name, email, password, role } = validatedFields.data;
+  const { name, email, password, role, idcompany } = validatedFields.data;
   const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
     await sql`
-        INSERT INTO smartprojectsapp.users ( name, email, password, role)
-        VALUES (${name}, ${email}, ${hashedPassword}, ${role})
+        INSERT INTO smartprojectsapp.users ( name, email, password, role, idcompany)
+        VALUES (${name}, ${email}, ${hashedPassword}, ${role}, ${idcompany})
         `;
   } catch (error) {
     return {

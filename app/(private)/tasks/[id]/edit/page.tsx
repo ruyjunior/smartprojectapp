@@ -6,6 +6,7 @@ import { fetchProjects } from '@/app/query/projects/data';
 
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
+import { CurrentUser } from '@/app/utils/utils';
 
 export const metadata: Metadata = {
   title: 'Edit Tasks',
@@ -20,6 +21,8 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     fetchProjects(),
   ]);
   const project = projects.find((project) => project.id === task.idproject);
+  const user = await CurrentUser();
+
   if (!task) {
     notFound();
   }
@@ -40,6 +43,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         contacts={contacts}
         task={task}
         projects={projects}
+        user={user}
       />
     </main>
   );

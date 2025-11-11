@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { sql } from '@vercel/postgres';
+import { fetchFilteredSprints } from '../sprints/data';
 
 const FormSchema = z.object({
   id: z.string(),
@@ -133,4 +134,34 @@ export async function deleteTask(id: string) {
 
   await sql`DELETE FROM smartprojectsapp.tasks WHERE id = ${id}`;
   revalidatePath('/tasks');
+}
+
+
+export async function UpdateTaskSpendTime(id: string) {
+  const sprints = await fetchFilteredSprints(id, null);
+  const timespend = sprints.reduce((total, sprint) => {
+    const start = new Date(`1970-01-01T${sprint.starttime}Z`);
+    const end = new Date(`1970-01-01T${sprint.endtime}Z`);
+    const diffInHours = (end.getTime() - start.getTime()) / (1000 * 60 * 60);
+    return total + diffInHours;
+  }, 0);
+  
+  console.log('Total Time Spend for Task: ', timespend);
+  
+  // Convert hours to interval string format HH:MM:SS
+  const hours = Math.floor(timespend);
+  const minutes = Math.floor((timespend - hours) * 60);
+  const seconds = Math.floor(((timespend - hours) * 60 - minutes) * 60);
+  const intervalString = `${hours}:${minutes}:${seconds}`;
+  
+  try {
+    await sql`
+      UPDATE smartprojectsapp.tasks
+      SET timespend = ${intervalString}::interval
+      WHERE id = ${id}
+    `;
+  } catch (error) {
+    console.error(error);
+    return { message: 'Database Error: Failed to Update Task.' };
+  }
 }

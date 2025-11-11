@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { Update, View, Pdf } from '@/app/ui/buttons';
-import { formatDateToLocal } from '@/app/utils/utils';
+import { CurrentUser, formatDateToLocal } from '@/app/utils/utils';
 import { fetchFilteredProjects } from '@/app/query/projects/data';
 import { fetchClients } from '@/app/query/clients/data';
 import { fetchContacts } from '@/app/query/contacts/data';
@@ -18,6 +18,8 @@ export default async function ProjectsTable({
   const clients = await fetchClients();
   const contacts = await fetchContacts();
   const tasks = await fetchTasks();
+  const user = await CurrentUser();
+
   //console.log('Projects:', projects);
   return (
     <div className="w-full">
@@ -54,7 +56,9 @@ export default async function ProjectsTable({
                       </div>
                       <div className="flex justify-end gap-3 pt-3">
                         <View href={`/projects/${project.id}/view`} />
-                        <Update href={`/projects/${project.id}/edit`} />
+                        {user?.email === internalContact?.email && (
+                          <Update href={`/projects/${project.id}/edit`} />
+                        )}
                         <Pdf href={`/projects/${project.id}/pdf`} />
                       </div>
                     </div>
@@ -93,7 +97,9 @@ export default async function ProjectsTable({
                       <tr key={project.id} className="hover:bg-gray-300">
                         <td className="py-2 px-2 flex gap-2">
                           <View href={`/projects/${project.id}/view`} />
-                          <Update href={`/projects/${project.id}/edit`} />
+                          {(user?.email === companyContact?.email || user?.role === 'admin') && (
+                            <Update href={`/projects/${project.id}/edit`} />
+                          )}
                           <Pdf href={`/projects/${project.id}/pdf`} />
                         </td>
                         <td className="px-2 py-2 text-xs font-medium">{project.title}</td>
@@ -106,7 +112,9 @@ export default async function ProjectsTable({
                         <td className="px-2 py-2 text-xs">{project.timespend}</td>
                         <td className="px-2 py-2 text-xs">{progress}%</td>
                         <td className="py-2 px-2 flex justify-end">
-                          <DeleteButton id={project.id} />
+                          {user?.role === 'admin' && (
+                            <DeleteButton id={project.id} />
+                          )}
                         </td>
                       </tr>
                     )

@@ -7,10 +7,11 @@ import { CurrencyDollarIcon, UserCircleIcon, CalendarDateRangeIcon, ClockIcon } 
 import { Button } from '@/app/ui/button';
 import { createTask, State } from '@/app/query/tasks/actions';
 import { formatDateBr } from '@/app/utils/utils';
+import { User } from '@/app/query/users/definitions';
 
 export default function Form({
-  contacts, project }: {
-    contacts: Contact[], project: Project
+  contacts, project, user }: {
+    contacts: Contact[], project: Project, user: User
   }) {
 
   const initialState: State = { message: '', errors: {} };
@@ -70,38 +71,44 @@ export default function Form({
         </div>
 */}
         {/* Employee*/}
-        <div className="mb-4">
-          <label htmlFor="who" className="mb-2 block text-sm font-medium">
-            Choose who will do the task
-          </label>
-          <div className="relative">
-            <select
-              id="who"
-              name="who"
-              className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              defaultValue=""
-              aria-describedby="who-error"
-            >
-              <option value="" disabled>
-                Select a who
-              </option>
-              {contacts.map((contact) => (
-                <option key={contact.id} value={contact.id}>
-                  {contact.name}
+        {user?.role === 'admin' ? (
+          <div className="mb-4">
+            <label htmlFor="who" className="mb-2 block text-sm font-medium">
+              Choose who will do the task
+            </label>
+            <div className="relative">
+              <select
+                id="who"
+                name="who"
+                className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                defaultValue=""
+                aria-describedby="who-error"
+              >
+                <option value="" disabled>
+                  Select a who
                 </option>
-              ))}
-            </select>
-            <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+
+                {contacts.map(contact => (
+                  <option key={contact.id} value={contact.id}>
+                    {contact.name}
+                  </option>
+                ))}
+
+              </select>
+              <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+            </div>
+            <div id="who-error" aria-live="polite" aria-atomic="true">
+              {state.errors?.who &&
+                state.errors.who.map((error: string) => (
+                  <p className="mt-2 text-sm text-red-500" key={error}>
+                    {error}
+                  </p>
+                ))}
+            </div>
           </div>
-          <div id="who-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.who &&
-              state.errors.who.map((error: string) => (
-                <p className="mt-2 text-sm text-red-500" key={error}>
-                  {error}
-                </p>
-              ))}
-          </div>
-        </div>
+        ) : (
+          <input type="hidden" name="who" value={contacts.find(c => c.email === user?.email)?.id} />
+        )}
 
         {/* START DATE */}
         <div className="mb-4">

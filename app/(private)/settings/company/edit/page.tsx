@@ -21,7 +21,7 @@ export default async function Page() {
           { label: 'Settings', href: '/settings' },
           { label: 'Company', href: '/settings/company' },
           {
-            label: 'Edit Company',
+            label: `Editing: ${company.name}`,
             href: `/settings/company/edit`,
             active: true,
           },

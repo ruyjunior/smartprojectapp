@@ -52,7 +52,7 @@ export async function fetchFilteredTasks(
         END,
         startdate DESC
     `;
-
+    //console.log('Filtered Tasks Query:', data.rows);
     return data.rows;
   } catch (err) {
     console.error("Database Error:", err);
@@ -93,8 +93,7 @@ export async function fetchTaskById(id: string) {
     //console.log('Task: ' + task[0]);
   } catch (error) {
     console.error('Database Error:', error);
-    console.error('Database Error:', error);
-    throw new Error('Failed to fetch proposal.');
+    throw new Error('Failed to fetch Task.');
   }
 }
 

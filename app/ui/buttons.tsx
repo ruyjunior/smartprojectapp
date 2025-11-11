@@ -1,6 +1,6 @@
 'use client';
 import { useState, useRef } from 'react';
-import { PencilIcon, PlusIcon, TrashIcon, EyeIcon, PrinterIcon } from '@heroicons/react/24/outline';
+import { PencilIcon, PlusIcon, TrashIcon, EyeIcon, PrinterIcon, DocumentCurrencyDollarIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { FaWhatsapp } from "react-icons/fa";
 
@@ -34,6 +34,17 @@ export function View({ href }: { href: string }) {
       className="rounded-md border p-2 hover:bg-gray-100"
     >
       <EyeIcon className="w-5" />
+    </Link>
+  );
+}
+
+export function Invoice({ href }: { href: string }) {
+  return (
+    <Link
+      href={href}
+      className="rounded-md border p-2 hover:bg-gray-100"
+    >
+      <DocumentCurrencyDollarIcon className="w-5" />
     </Link>
   );
 }

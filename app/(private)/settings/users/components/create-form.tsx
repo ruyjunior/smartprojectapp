@@ -5,21 +5,24 @@ import { TagIcon, AtSymbolIcon, KeyIcon, UserCircleIcon } from '@heroicons/react
 import { Button } from '@/app/ui/button';
 import { createUser, State } from '@/app/query/users/actions';
 
-export default function Form() {
+export default function Form({ idcompany }: { idcompany: string | undefined }) {
   const initialState: State = { message: null, errors: {} };
   const [state, formAction] = useActionState(createUser, initialState);
-    const [isPending, startTransition] = useTransition();
-  
-    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-      e.preventDefault();
-      startTransition(() => {
-        formAction(new FormData(e.currentTarget));
-      });
-    }
-  
+  const [isPending, startTransition] = useTransition();
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    startTransition(() => {
+      formAction(new FormData(e.currentTarget));
+    });
+  }
+
   return (
     <form action={formAction} onSubmit={handleSubmit} className="mt-6">
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
+
+        <input type="hidden" name="idcompany" value={idcompany} />
+
         {/* NAME */}
         <div className="mb-4">
           <label htmlFor="name" className="mb-2 block text-sm font-medium">

@@ -1,34 +1,16 @@
+// ...existing code...
 import React from 'react';
-import { Page, Text, View, Document, Font, StyleSheet, Image } from '@react-pdf/renderer';
+import { Page, Text, View, Document, Image } from '@react-pdf/renderer';
 import styles from './stylesPDF';
 import { formatCNPJ, formatDateToLocal, formatPhone, formatTime, timeToDecimal } from '@/app/utils/utils';
-import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
-import { DocumentArrowDownIcon } from '@heroicons/react/24/outline';
 import { ProjectPDF } from '@/app/query/projects/definitions';
 import logo from '@/public/images/logo.png';
-
-export const PagePDF = ({ data }: { data: ProjectPDF }) => (
-  <div>
-    <PDFDownloadLink
-      document={<DocPDF data={data} />}
-      fileName={
-        'Report_' + data.client.name + '_' + data.project.title + '.pdf'
-      }>
-      {({ loading }) => (loading ? 'Gerando PDF...' : 'Download ')}
-    </PDFDownloadLink>
-    <DocumentArrowDownIcon className="h-5 w-5 text-gray-500" />
-
-    <PDFViewer style={{ width: '100%', height: '500px', marginTop: 20 }}>
-      <DocPDF data={data} />
-    </PDFViewer>
-  </div>
-);
 
 export const DocPDF = ({ data }: { data: ProjectPDF }) => {
 
   const totalTasks = data.tasks.length;
   const highTasks = data.tasks.filter(task => task.grade === "high");
-  const completedTasks = highTasks.filter(task => (task.status === "done" ));  
+  const completedTasks = highTasks.filter(task => (task.status === "done"));
   const progress = highTasks.length > 0 ? ((completedTasks.length / highTasks.length) * 100).toFixed(2) : "0.00";
 
   const totalHoursEstimed = data.tasks.reduce((sum, task) => sum + (parseFloat(task.timeprevision) || 0), 0);
@@ -39,18 +21,16 @@ export const DocPDF = ({ data }: { data: ProjectPDF }) => {
   // Converte para HH:MM corretamente
   const hours = Math.floor(totalHoursRealized);
   const minutes = Math.round((totalHoursRealized - hours) * 60);
-
   const formattedTime = `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
-  //console.log(formattedTime); // Exemplo: "07:30"
 
   return (
     <Document>
       <Page size="A4" style={styles.page}>
         {/* Header */}
         <View style={styles.headerSection}>
-          <Image src="/images/logos/logo.jpg" style={styles.logo} />
+          <Image src={data.company.logourl} style={styles.logo} />
           <View style={styles.headerTextContainer}>
-            <Text style={styles.subtitle}>VOCÊ IMAGINA, NÓS FAZEMOS ACONTECER.</Text>
+            <Text style={styles.subtitle}> {data.company.slogan} </Text>
             <Text style={styles.title}>Relatório de Projeto</Text>
             <Text style={styles.reportDate}>Data de impressão: {reportDate}</Text>
           </View>
@@ -67,7 +47,7 @@ export const DocPDF = ({ data }: { data: ProjectPDF }) => {
           <Text style={styles.field}><Text style={styles.label}>Progresso:</Text> {progress}%</Text>
         </View>
 
-        {/* Taker Project */}
+        {/* Solicitante */}
         <View style={styles.section}>
           <Text style={styles.chapter}>SOLICITANTE</Text>
           <Text style={styles.field}><Text style={styles.label}>Empresa:</Text> {data.client.name}</Text>
@@ -77,77 +57,92 @@ export const DocPDF = ({ data }: { data: ProjectPDF }) => {
           <Text style={styles.field}><Text style={styles.label}>Email:</Text> {data.clientcontact.email}</Text>
         </View>
 
-        {/* Tasks */}
+        {/* Tasks & Sprints (improved layout) */}
         <View style={styles.section}>
-          <Text style={styles.chapter}>Tarefas</Text>
-        </View>
+          <Text style={styles.chapter}>TAREFAS</Text>
 
-        <View style={styles.table}>
-          <View style={styles.tableRowHeader}>
-            <Text style={styles.tableCellHeader}>Nome</Text>
-            <Text style={styles.tableCellHeader}>Stado</Text>
-            <Text style={styles.tableCellHeader}>Data Inical</Text>
-            <Text style={styles.tableCellHeader}>Data Final</Text>
-            <Text style={styles.tableCellHeaderWide}>O que?</Text>
-            <Text style={styles.tableCellHeaderWide}>Como?</Text>
-            <Text style={styles.tableCellHeader}>Quem?</Text>
-            <Text style={styles.tableCellHeader}>Criticidade</Text>
-            <Text style={styles.tableCellHeader}>Tempo Previsto</Text>
-            <Text style={styles.tableCellHeader}>Tempo Gasto</Text>
-          </View>
           {data.tasks.map((task, index) => {
             const contact = data.contacts.find(emp => emp.id === task.who);
             const taskSprints = data.sprints.filter((sprint) => sprint.idtask === task.id);
 
             return (
-              <React.Fragment key={index}>
-                <View style={[styles.tableRow, index % 2 === 0 ? styles.tableRowAlt : {}]}>
-                  <Text style={styles.tableCell}>{task.title}</Text>
-                  <Text style={styles.tableCell}>{task.status}</Text>
-                  <Text style={styles.tableCell}>{formatDateToLocal(task.startdate)}</Text>
-                  <Text style={styles.tableCell}>{formatDateToLocal(task.enddate)}</Text>
-                  <Text style={styles.tableCellWide}>{task.what}</Text>
-                  <Text style={styles.tableCellWide}>{task.how}</Text>
-                  <Text style={styles.tableCell}>{contact ? contact.name : "Unknown"}</Text>
-                  <Text style={styles.tableCell}>{task.grade}</Text>
-                  <Text style={styles.tableCell}>{task.timeprevision}</Text>
-                  <Text style={styles.tableCell}>{task.timespend}</Text>
-                </View>
-                {/* Sprint */}
-                {taskSprints.map((sprint, sprintIndex) => (
-                  <View style={[styles.tableRowSprints, styles.sprintRow]} key={sprintIndex}>
-                    <Text style={styles.tableSprints}>{sprintIndex + 1}</Text>
-                    <Text style={styles.tableSprints}>Date: {formatDateToLocal(sprint.date)}</Text>
-                    <Text style={styles.tableSprints}>Start: {formatTime(sprint.starttime)}</Text>
-                    <Text style={styles.tableSprints}>End: {formatTime(sprint.endtime)}</Text>
+              <View style={[styles.taskSection, index % 2 === 0 ? styles.tableRowAlt : {}]} key={task.id || index}>
+                <View style={styles.taskHeader}>
+                  <Text style={styles.taskTitle}>{task.title}</Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                    <Text style={styles.taskMeta}>{task.status}</Text>
+                    <Text style={styles.timeBadge}>Prev: {task.timeprevision}</Text>
+                    <Text style={styles.timeBadge}>Gasto: {task.timespend}</Text>
                   </View>
-                ))}
-              </React.Fragment>
+                </View>
+
+                <Text style={styles.taskDescription}>{task.what}</Text>
+
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 1 }}>
+                  <Text style={styles.taskMeta}>Como: {task.how}</Text>
+                  <Text style={styles.taskMeta}>Quem: {contact ? contact.name : '—'}</Text>
+                </View>
+
+                {/* Sprints list */}
+                <View style={styles.sprintContainer}>
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 1 }}>
+                    <Text style={styles.small}>Sprints ({taskSprints.length})</Text>
+                  </View>
+                  <View style={styles.sprintList}>
+                    {taskSprints.map((sprint, si) => {
+                      const date = formatDateToLocal(sprint.date);
+                      const start = formatTime(sprint.starttime);
+                      const end = formatTime(sprint.endtime);
+                      const [sh, sm] = (start || '00:00').split(':').map(Number);
+                      const [eh, em] = (end || '00:00').split(':').map(Number);
+                      let diffMinutes = (eh * 60 + em) - (sh * 60 + sm);
+                      if (Number.isNaN(diffMinutes)) diffMinutes = 0;
+                      if (diffMinutes < 0) diffMinutes += 24 * 60;
+                      const dh = Math.floor(diffMinutes / 60);
+                      const dm = diffMinutes % 60;
+                      const duration = `${String(dh).padStart(2, '0')}:${String(dm).padStart(2, '0')}`;
+
+                      return (
+                        <View style={styles.sprintItem} key={sprint.id || si}>
+                          <Text style={styles.sprintInfo}>
+                            #{si + 1} — {date} | Start: {start} | End: {end} | Dur: {duration}
+                          </Text>
+                        </View>
+                      );
+                    })}
+                    {taskSprints.length === 0 && <Text style={styles.small}>Nenhum sprint registrado</Text>}
+                  </View>
+                </View>
+              </View>
             );
           })}
         </View>
 
+        <View style={styles.companyTextContainer}>
+          <Text style={styles.subtitle}>{data.company.name}</Text>
+          <Text style={styles.subtitle}>{data.company.cnpj}</Text>
+          <Text style={styles.subtitle}>{data.company.siteurl}</Text>
+        </View>
+
         {/* Footer */}
-        <View style={ styles.footer }
-          fixed
-        >
-          {/* Esquerda */}
+        <View style={styles.footer} fixed>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Image src={logo.src} style={styles.logoApp} />
+            <Image src={logo.src} style={styles.logoDev} />
             <View style={{ marginLeft: 12 }}>
               <Text style={styles.footerText}>Smart Project - Seu App de Projetos</Text>
             </View>
           </View>
-          {/* Direita */}
+
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <View style={{ marginRight: 12, textAlign: 'right' }}>
               <Text style={styles.footerTextDev}>Desenvolvido por Autoric Automation</Text>
               <Text style={styles.footerTextDev}>www.autoric.com.br</Text>
             </View>
-            <Image src="https://www.autoric.com.br/images/logo.png" style={styles.logoDev} />
+            <Image src="https://www.autoric.com.br/images/logo.png" style={styles.logoApp} />
           </View>
         </View>
       </Page>
     </Document>
   );
 };
+// ...existing code...

@@ -6,11 +6,13 @@ import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 import { updateUser, State } from '@/app/query/users/actions';
 import { SaveButton } from './salveButton';
+import { CurrentUser } from '@/app/utils/utils';
 
 export default function EditUserForm({
-  user,
+  user, currentUser
 }: {
   user: User;
+  currentUser: User | null;
 }) {
   const initialState: State = { message: null, errors: {} };
   const updateUserWithId = updateUser.bind(null, user.id);
@@ -128,8 +130,14 @@ export default function EditUserForm({
               defaultValue={user.role}
               aria-describedby="role-error"
             >
-              <option value="oper"> Operator</option>
-              <option value="admin"> Administrator</option>
+              {currentUser?.role === 'admin' ? (
+                <>
+                  <option value="oper"> Operator</option>
+                  <option value="admin"> Administrator</option>
+                </>
+              ) : (
+                <option value="oper"> Operator</option>
+              )}
             </select>
             <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
           </div>

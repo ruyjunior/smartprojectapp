@@ -8,6 +8,7 @@ import { Create } from '@/app/ui/buttons';
 import { ClientsTableSkeleton } from './components/skeletons';
 import { lusitana } from '@/app/ui/fonts';
 import { fetchClientsPages } from '@/app/query/clients/data';
+import { CurrentUser } from '@/app/utils/utils';
 
 
 export const metadata: Metadata = {
@@ -15,15 +16,16 @@ export const metadata: Metadata = {
 };
 
 export default async function Page(props: {
-      searchParams?: Promise<{
-        query?: string;
-        page?: string;
-      }>;
-    }) {
-    const searchParams = await props.searchParams;
-    const query = searchParams?.query || '';
-    const currentPage = Number(searchParams?.page) || 1;
-    const totalPages = await fetchClientsPages(query);
+  searchParams?: Promise<{
+    query?: string;
+    page?: string;
+  }>;
+}) {
+  const searchParams = await props.searchParams;
+  const query = searchParams?.query || '';
+  const currentPage = Number(searchParams?.page) || 1;
+  const totalPages = await fetchClientsPages(query);
+  const user = await CurrentUser();
 
   return (
     <div className="w-full">
@@ -32,13 +34,15 @@ export default async function Page(props: {
       </div>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
         <Search placeholder="Search..." />
-        <Create href="/clients/create" />
+        {user?.role === 'admin' && (
+          <Create href="/clients/create" />
+        )}
       </div>
       {<Suspense key={query + currentPage} fallback={<ClientsTableSkeleton />}>
         <Table query={query} currentPage={currentPage} />
-      </Suspense> }
+      </Suspense>}
       <div className="mt-5 flex w-full justify-center">
-        {<Pagination totalPages={totalPages} /> }
+        {<Pagination totalPages={totalPages} />}
       </div>
     </div>
   );

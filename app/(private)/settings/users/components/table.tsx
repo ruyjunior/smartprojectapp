@@ -1,6 +1,8 @@
 import { Update } from '@/app/ui/buttons';
 import { DeleteButton } from './deletebutton';
 import { fetchFilteredUsers } from '@/app/query/users/data';
+import { CurrentUser } from '@/app/utils/utils';
+import { users } from '@/app/lib/placeholder-data';
 
 export default async function UsersTable({
   query,
@@ -9,7 +11,15 @@ export default async function UsersTable({
   query: string;
   currentPage: number;
 }) {
-  const users = await fetchFilteredUsers(query, currentPage);
+  let users: any[];  
+  users = [];  
+  const user = await CurrentUser();
+
+  if (user?.role === 'admin') {
+    users = await fetchFilteredUsers(query, currentPage);
+  } else {
+    users[0] = user; 
+  } 
   return (
     <div className="w-full">
       <div className="mt-6 flow-root">

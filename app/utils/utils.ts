@@ -1,5 +1,6 @@
 import { auth } from '../lib/auth';
 import { Revenue } from '../lib/definitions';
+import { fetchCompanyById } from '../query/companies/data';
 import { fetchUserById } from '../query/users/data';
 
 export async function CurrentCompanyId() {
@@ -13,6 +14,29 @@ export async function CurrentCompanyId() {
     throw new Error('User company ID is not available.');
   }
   return idcompany;
+}
+
+export async function CurrentCompany() {
+  const session = await auth();
+  if (!session || !session.user || !session.user.id) {
+    throw new Error('User session is not available.');
+  }
+  const user = await fetchUserById(session.user.id);
+  if (!user.idcompany) {
+    throw new Error('User company ID is not available.');
+  }
+  const company = await fetchCompanyById(user.idcompany);
+  return company;
+}
+
+export async function CurrentUser() {
+  const session = await auth();
+  if (!session || !session.user || !session.user.id) {
+    throw new Error('User session is not available.');
+  }
+  const user = await fetchUserById(session.user.id);
+  //console.log('CurrentUser:', user);
+  return user;
 }
 
 export const formatCurrency = (amount: number) => {

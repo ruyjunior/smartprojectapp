@@ -2,7 +2,7 @@ import React from 'react';
 import { UpdateTask, DeleteTask } from '@/app/(private)/tasks/components/buttons';
 import { UpdateSprint, DeleteSprint, CreateSprintBasic } from '@/app/(private)/sprints/components/buttons';
 import TaskStatus from '@/app/(private)/tasks/components/status';
-import { formatDateToLocal, formatTime } from '@/app/utils/utils';
+import { CurrentUser, formatDateToLocal, formatTime } from '@/app/utils/utils';
 import { fetchFilteredTasks, fetchTaskById } from '@/app/query/tasks/data';
 import { fetchProjects } from '@/app/query/projects/data';
 import { fetchContacts } from '@/app/query/contacts/data';
@@ -15,10 +15,18 @@ export default async function TasksTable({
     query: string | undefined | null;
     currentPage: number | undefined | null;
 }) {
-    const tasks = await fetchFilteredTasks(query, currentPage);
     const contacts = await fetchContacts();
     const projects = await fetchProjects();
     const sprints = await fetchSprints();
+    const user = await CurrentUser();
+    let tasks: any[] = [];
+    if (user?.role === 'admin') {
+        tasks = await fetchFilteredTasks(query, currentPage);
+    } else {
+        const allTasks = await fetchFilteredTasks(query, currentPage);
+        const userContact = contacts.find((c) => c.email === user?.email);
+        tasks = allTasks.filter((task) => task.who === userContact?.id);
+    }
 
     return (
         <div className="w-full p-4">

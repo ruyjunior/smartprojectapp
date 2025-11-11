@@ -14,6 +14,7 @@ const FormSchema = z.object({
   phone: z.string().optional(),
   email: z.string().optional(),
   localaddress: z.string().optional(),
+  slogan: z.string().optional(),
 });
 
 const CreateCompany = FormSchema.omit({ id: true });
@@ -25,10 +26,11 @@ export type State = {
     cnpj?: string[];
     cep?: string[];
     siteurl?: string[];
-    logourl?: string[];
+    logourl?: string[] | undefined;
     phone?: string[];
     email?: string[];
     localaddress?: string[];
+    slogan?: string[];
   };
   message?: string | null;
 };
@@ -43,6 +45,7 @@ export async function createCompany(prevState: State, formData: FormData) {
     phone: formData.get('phone'),
     email: formData.get('email'),
     localaddress: formData.get('localaddress'),
+    slogan: formData.get('slogan')
   });
 
   if (!validatedFields.success) {
@@ -51,12 +54,12 @@ export async function createCompany(prevState: State, formData: FormData) {
       message: 'Missing Fields. Failed to Create.',
     };
   }
-  const { name, cnpj, cep, siteurl, logourl, phone, email, localaddress } = validatedFields.data;
+  const { name, cnpj, cep, siteurl, logourl, phone, email, localaddress, slogan } = validatedFields.data;
 
   try {
     await sql`
         INSERT INTO smartprojectsapp.companies ( name, cnpj, cep, siteurl, logourl, phone, email, localaddress)
-        VALUES (${name}, ${cnpj}, ${cep}, ${siteurl}, ${logourl}, ${phone}, ${email}, ${localaddress})
+        VALUES (${name}, ${cnpj}, ${cep}, ${siteurl}, ${logourl}, ${phone}, ${email}, ${localaddress}, ${slogan})
         `;
   } catch (error) {
     return {
@@ -72,6 +75,7 @@ export async function updateCompany(
   prevState: State,
   formData: FormData
 ) {
+  //console.log('Form Data: ' + FormData.arguments );
   const validatedFields = UpdateCompany.safeParse({
     name: formData.get('name'),
     cnpj: formData.get('cnpj'),
@@ -81,7 +85,9 @@ export async function updateCompany(
     phone: formData.get('phone'),
     email: formData.get('email'),
     localaddress: formData.get('localaddress'),
+    slogan: formData.get('slogan')
   });
+  console.log('Validates: ' + validatedFields.data?.logourl );
 
   if (!validatedFields.success) {
     console.log(validatedFields.error.flatten().fieldErrors);
@@ -91,7 +97,7 @@ export async function updateCompany(
     };
   }
 
-  const { name, cnpj, cep, siteurl, logourl, phone, email, localaddress } = validatedFields.data;
+  const { name, cnpj, cep, siteurl, logourl, phone, email, localaddress, slogan } = validatedFields.data;
 
   const sanitizedEmail = email || null;
   const sanitizedPhone = phone || null;
@@ -100,11 +106,12 @@ export async function updateCompany(
   const sanitizedSiteUrl = siteurl || null;
   const sanitizedLogoUrl = logourl || null;
   const sanitizedCNPJ = cnpj || null;
+  const sanitizedSlogan = slogan || null;
 
   try {
     await sql`
     UPDATE smartprojectsapp.companies
-    SET name = ${name}, cnpj = ${sanitizedCNPJ}, cep = ${sanitizedCep}, siteurl = ${sanitizedSiteUrl}, logourl = ${sanitizedLogoUrl}, phone = ${sanitizedPhone}, email = ${sanitizedEmail}, localaddress = ${sanitizedLocalAddress}
+    SET name = ${name}, cnpj = ${sanitizedCNPJ}, cep = ${sanitizedCep}, siteurl = ${sanitizedSiteUrl}, logourl = ${sanitizedLogoUrl}, phone = ${sanitizedPhone}, email = ${sanitizedEmail}, localaddress = ${sanitizedLocalAddress}, slogan = ${sanitizedSlogan}
     WHERE id = ${id}
   `;
   } catch (error) {

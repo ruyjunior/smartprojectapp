@@ -10,6 +10,7 @@
     "@react-pdf/renderer": "^4.2.1",
     "@tailwindcss/forms": "^0.5.9",
     "@vercel/analytics": "^1.5.0",
+    "@vercel/blob": "^2.0.0",
     "@vercel/postgres": "^0.10.0",
     "argon2": "^0.41.1",
     "autoprefixer": "10.4.20",
@@ -17,7 +18,7 @@
     "clsx": "^2.1.1",
     "file-saver": "^2.0.5",
     "next": "^15.1.7",
-    "next-auth": "5.0.0-beta.25",
+    "next-auth": "^5.0.0-beta.30",
     "node": "^22.21.0",
     "pnpm": "^10.3.0",
     "postcss": "8.4.49",
@@ -32,7 +33,7 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/node": "22.10.1",
-    "@types/react": "19.0.0",
-    "@types/react-dom": "19.0.0"
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0"
   }
 }

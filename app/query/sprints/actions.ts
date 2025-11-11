@@ -4,6 +4,9 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { sql } from '@vercel/postgres';
 import { fetchTaskById } from '../tasks/data';
+import { UpdateTaskSpendTime } from '../tasks/actions';
+import { fetchSprintById } from '../sprints/data';
+
 
 const FormSchema = z.object({
   id: z.string(),
@@ -54,6 +57,7 @@ export async function createSprint(prevState: State, formData: FormData) {
       message: 'Database Error: Failed to Create sprint.',
     };
   }
+  UpdateTaskSpendTime(idtask);
   const task = await fetchTaskById(idtask);
   revalidatePath('/sprints');
   redirect('/projects/' + task.idproject + '/view');
@@ -100,14 +104,35 @@ export async function updateSprint(
     return { message: 'Database Error: Failed to Update sprint.' };
   }
   const task = await fetchTaskById(idtask);
-
+  UpdateTaskSpendTime(idtask);
   revalidatePath('/sprints');
   redirect('/projects/' + task.idproject + '/view');
 }
 
 export async function deleteSprint(id: string) {
-  //throw new Error('Failed to Delete Invoice');
+  try {
+    // First get the sprint
+    const sprint = await fetchSprintById(id);
+    
+    if (!sprint) {
+      throw new Error('Sprint not found');
+    }
 
-  await sql`DELETE FROM smartprojectsapp.sprints WHERE id = ${id}`;
-  revalidatePath('/sprints');
+    // Get the task ID before deleting
+    const taskId = sprint.idtask;
+    
+    // Delete the sprint
+    await sql`DELETE FROM smartprojectsapp.sprints WHERE id = ${id}`;
+    
+    // Update task time if sprint was deleted successfully
+    if (taskId) {
+      await UpdateTaskSpendTime(taskId);
+    }
+
+    revalidatePath('/sprints');
+    
+  } catch (error) {
+    console.error('Error deleting sprint:', error);
+    throw new Error('Failed to delete sprint');
+  }
 }

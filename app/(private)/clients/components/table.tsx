@@ -1,5 +1,5 @@
-import { Update, View, Pdf } from '@/app/ui/buttons';
-import { formatCNPJ } from '@/app/utils/utils';
+import { Update, View, Pdf, Invoice, } from '@/app/ui/buttons';
+import { CurrentUser, formatCNPJ } from '@/app/utils/utils';
 import { fetchFilteredClients } from '@/app/query/clients/data';
 import { DeleteButton } from './deletebutton';
 
@@ -11,6 +11,8 @@ export default async function ClientsTable({
   currentPage: number;
 }) {
   const clients = await fetchFilteredClients(query, currentPage);
+  const user = await CurrentUser();
+
   return (
     <div className="w-full">
       <div className="mt-6 flow-root">
@@ -26,8 +28,12 @@ export default async function ClientsTable({
                       <p className="text-sm text-gray-600">CNPJ: {formatCNPJ(companie.cnpj)}</p>
                     </div>
                     <div className="flex justify-end gap-3 pt-3">
-                      <Update href={`/clients/${companie.id}/edit`} />
-                      <View href={`/clients/${companie.id}/view`} />
+                      {user?.role === 'admin' && (
+                        <>
+                          <Update href={`/clients/${companie.id}/edit`} />
+                          <Invoice href={`/clients/${companie.id}/invoice`} />
+                        </>
+                      )}
                     </div>
                   </div>
                 ))}
@@ -48,13 +54,21 @@ export default async function ClientsTable({
                   {clients.map((companie) => (
                     <tr key={companie.id} className="hover:bg-gray-300">
                       <td className="py-2 px-2 flex justify-center gap-2">
-                        <Update href={`/clients/${companie.id}/edit`} />
-                        <View href={`/clients/${companie.id}/view`} />
+                        {user?.role === 'admin' && (
+                          <>
+                            <Update href={`/clients/${companie.id}/edit`} />
+                            <Invoice href={`/clients/${companie.id}/invoice`} />
+                          </>
+                        )}
                       </td>
                       <td className="px-2 py-2 text-xs">{companie.name}</td>
                       <td className="px-2 py-2 text-xs">{formatCNPJ(companie.cnpj)}</td>
                       <td className="py-2 px-2 flex justify-end">
-                        <DeleteButton id={companie.id} />
+                        {user?.role === 'admin' && (
+                          <>
+                            <DeleteButton id={companie.id} />
+                          </>
+                        )}
                       </td>
                     </tr>
                   ))}

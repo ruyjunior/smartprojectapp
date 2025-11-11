@@ -7,6 +7,7 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { fetchContacts } from '@/app/query/contacts/data';
 import { fetchSprints } from '@/app/query/sprints/data';
+import { CurrentCompany } from '@/app/utils/utils';
 
 export const metadata: Metadata = {
   title: 'Print PDF Projects',
@@ -15,11 +16,12 @@ export const metadata: Metadata = {
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
   const id = params.id;
-  const [project, clients, tasks, contacts] = await Promise.all([
+  const [project, clients, tasks, contacts, company] = await Promise.all([
     fetchProjectById(id),
     fetchClients(),
     fetchTasksByProject(id),
-    fetchContacts()
+    fetchContacts(),
+    CurrentCompany()
   ]);
   const sprints = await fetchSprints();
   if (!project) {
@@ -45,6 +47,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
       />
       <Form
         project={project}
+        company={company}
         tasks={tasks}
         clients={clients}
         contacts={contacts}

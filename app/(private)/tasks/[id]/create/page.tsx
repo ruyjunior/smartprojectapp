@@ -4,6 +4,7 @@ import { fetchClients } from '@/app/query/clients/data';
 import { fetchContacts} from '@/app/query/contacts/data';
 import { fetchProjectById } from '@/app/query/projects/data';
 import { Metadata } from 'next';
+import { CurrentUser } from '@/app/utils/utils';
 
 export const metadata: Metadata = {
   title: 'Creat Task',
@@ -16,6 +17,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   const contacts= await fetchContacts();
   const clients = await fetchClients();
   const project = await fetchProjectById(id);
+  const user = await CurrentUser();
 
   return (
     <main>
@@ -33,6 +35,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
       <Form
         contacts={contacts}
         project={project}
+        user={user}
       />
     </main>
   );

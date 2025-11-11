@@ -9,4 +9,5 @@ export type Companies = {
   phone: string;
   email: string;
   localaddress: string;
+  slogan: string
 };

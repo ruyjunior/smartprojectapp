@@ -2,6 +2,7 @@ import { Client } from '@/app/query/clients/definitions';
 import { Task } from '@/app/query/tasks/definitions';
 import { Contact } from '@/app/query/contacts/definitions';
 import { Sprint } from '@/app/query/sprints/definitions';
+import { Companies } from '../companies/definitions'; 
 
 export type Project = {
   id: string;
@@ -19,7 +20,7 @@ export type Project = {
 
 export type ProjectPDF = {
   project: Project;
-  company: Client;
+  company: Companies;
   companycontact: Contact;
   client: Client;
   clientcontact: Contact;

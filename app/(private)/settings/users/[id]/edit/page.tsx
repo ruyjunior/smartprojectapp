@@ -3,6 +3,7 @@ import Breadcrumbs from '@/app/ui/breadcrumbs';
 import {fetchUserById } from '@/app/query/users/data';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
+import { CurrentUser } from '@/app/utils/utils';
 
 export const metadata: Metadata = {
   title: 'Edit Users',
@@ -17,20 +18,21 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
       if (!user) {
     notFound();
     }
-
+    const currentUser = await CurrentUser();
     return (
         <main>
             <Breadcrumbs
                 breadcrumbs={[
+                { label: 'Settings', href: '/settings/' },
                 { label: 'Users', href: '/settings/users' },
                 {
-                    label: 'Edit User',
+                    label: `Editing: ${user.name}`,
                     href: `/settings/users/${id}/edit`,
                     active: true,
                 },
                 ]}
             />
-        <Form user={user} />
+        <Form user={user} currentUser={currentUser} />
         </main>
   );
 }
