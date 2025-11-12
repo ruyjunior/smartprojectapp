@@ -18,14 +18,14 @@ const styles = StyleSheet.create({
     paddingRight: 8,
   },
 
-  title: { fontSize: 16, fontWeight: '700', marginBottom: 1, color: '#0B2545' },
+  title: { fontSize: 16, fontWeight: 700, marginBottom: 1, color: '#0B2545' },
   subtitle: { fontSize: 11, color: '#374151' },
   reportDate: { fontSize: 9, fontStyle: 'italic', color: '#6B7280' },
 
-  chapter: { fontSize: 11, fontWeight: '700', backgroundColor: '#EEF6FF', padding: 1, marginBottom: 4, borderRadius: 6, color: '#0F172A' },
+  chapter: { fontSize: 11, fontWeight: 700, backgroundColor: '#EEF6FF', padding: 1, marginBottom: 4, borderRadius: 6, color: '#0F172A' },
   section: { marginBottom: 1, padding: 1, backgroundColor: '#FFF', borderRadius: 8, borderWidth: 0.5, borderColor: '#E6EEF9' },
   field: { fontSize: 10, marginBottom: 1, lineHeight: 1.2 },
-  label: { fontWeight: '700' },
+  label: { fontWeight: 700 },
 
   // Task / Sprint styles
   taskSection: {
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  taskTitle: { fontSize: 12, fontWeight: '700', color: '#0B2545' },
+  taskTitle: { fontSize: 12, fontWeight: 700, color: '#0B2545' },
   taskMeta: { fontSize: 9, color: '#475569' },
   taskDescription: { marginTop: 1, fontSize: 10, color: '#111827' },
 
@@ -82,8 +82,8 @@ const styles = StyleSheet.create({
   tableRow: { flexDirection: 'row', padding: 1 },
   tableRowSprints: { flexDirection: 'row', padding: 1 },
   tableRowAlt: { backgroundColor: '#FBFBFD' },
-  tableCellHeader: { flex: 1, fontWeight: '700', fontSize: 8, textAlign: 'center' },
-  tableCellHeaderWide: { flex: 3, fontWeight: '700', fontSize: 8, textAlign: 'left' },
+  tableCellHeader: { flex: 1, fontWeight: 700, fontSize: 8, textAlign: 'center' },
+  tableCellHeaderWide: { flex: 3, fontWeight: 700, fontSize: 8, textAlign: 'left' },
   tableCellWide: { flex: 3, fontSize: 8, textAlign: 'left' },
   tableCell: { flex: 1, fontSize: 8, textAlign: 'center' },
   tableSprints: { flex: 1, fontSize: 7, textAlign: 'center' },
