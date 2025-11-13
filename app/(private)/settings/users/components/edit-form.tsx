@@ -1,12 +1,13 @@
 'use client';
-import { useActionState, useTransition } from 'react';
+import { useActionState, useTransition, useEffect, useState } from 'react';
 import { User } from '@/app/query/users/definitions';
 import { TagIcon, AtSymbolIcon, KeyIcon, UserCircleIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 import { updateUser, State } from '@/app/query/users/actions';
-import { SaveButton } from './salveButton';
+import { upload } from '@vercel/blob/client';
 import { CurrentUser } from '@/app/utils/utils';
+
 
 export default function EditUserForm({
   user, currentUser
@@ -18,6 +19,9 @@ export default function EditUserForm({
   const updateUserWithId = updateUser.bind(null, user.id);
   const [state, formAction] = useActionState(updateUserWithId, initialState);
   const [isPending, startTransition] = useTransition();
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(user.avatarurl ?? null);
+  const [uploading, setUploading] = useState(false);
+
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -25,6 +29,22 @@ export default function EditUserForm({
       formAction(new FormData(e.currentTarget));
     });
   }
+
+    async function handleAvatarChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    try {
+      const newBlob = await upload(file.name, file, {
+        access: 'public',
+        handleUploadUrl: '/api/upload',
+      });
+      setAvatarUrl(newBlob.url);
+    } finally {
+      setUploading(false);
+    }
+  }
+
 
   return (
     <form action={formAction} onSubmit={handleSubmit} className="mt-6">
@@ -100,7 +120,6 @@ export default function EditUserForm({
                 name="password"
                 type="password"
                 placeholder="Enter a password"
-                defaultValue={user.password}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 aria-describedby="password-error"
               />
@@ -150,6 +169,39 @@ export default function EditUserForm({
               ))}
           </div>
         </div>
+
+        {/* Avatar */}
+        <div className="mb-4">
+          <label htmlFor="avatar" className="mb-2 block text-sm font-medium">
+            Avatar do Usuário
+          </label>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="avatar"
+                name="avatar"
+                type="file"
+                accept="image/*"
+                className="block w-full text-sm text-gray-600 file:mr-4 file:rounded-lg file:border-0 file:bg-blue-100 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-blue-700 hover:file:bg-blue-200"
+                onChange={handleAvatarChange}
+                disabled={uploading}
+              />
+              <span className='text-sm '>
+                Imagens jpg, jpeg, png com tamanho de no máximo 1MB - 200x200
+              </span>
+            </div>
+            <div>
+              {uploading && <p className="text-xs text-blue-600 mt-1">Enviando avatar...</p>}
+              {avatarUrl && (
+                <div className="mt-2">
+                  <img src={avatarUrl} alt="Preview" className="h-20 rounded-md" />
+                  <input type="hidden" name="avatarurl" value={avatarUrl} />
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
 
 
       </div>

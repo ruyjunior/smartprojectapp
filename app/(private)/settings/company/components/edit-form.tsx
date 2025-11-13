@@ -283,7 +283,6 @@ export default function EditCompanyForm({
               {logoUrl && (
                 <div className="mt-2">
                   <img src={logoUrl} alt="Preview" className="h-20 rounded-md" />
-                  <p>{logoUrl}</p>
                   <input type="hidden" name="logourl" value={logoUrl} />
                 </div>
               )}

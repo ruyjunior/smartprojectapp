@@ -3,10 +3,10 @@ import { User } from '@/app/query/users/definitions';
 import { CurrentCompanyId } from '@/app/utils/utils';
 
 export async function fetchUsers() {
-    const idcompany = await CurrentCompanyId();
+  const idcompany = await CurrentCompanyId();
   try {
     const data = await sql<User>`
-      SELECT id, name, email, role
+      SELECT * 
       FROM smartprojectsapp.users
       WHERE users.idcompany = ${idcompany}
       ORDER BY name ASC
@@ -24,10 +24,10 @@ export async function fetchFilteredUsers(
   currentPage: number) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
   const idcompany = await CurrentCompanyId();
-  
+
   try {
     const data = await sql<User>`
-      SELECT id, name, email, role
+      SELECT *
       FROM smartprojectsapp.users
       WHERE
         users.idcompany = ${idcompany} AND (
@@ -64,21 +64,16 @@ export async function fetchUsersPages(query: string) {
 export async function fetchUserById(id: string) {
   try {
     const data = await sql<User>`
-      SELECT
-        users.id,
-        users.name,
-        users.email,
-        users.role,
-        users.idcompany
+      SELECT *
         FROM smartprojectsapp.users
         WHERE users.id = ${id} `;
 
     const user = data.rows.map((user) => ({
       ...user,
     }));
-    
+
     return user[0];
-    console.log( 'User: ' + user[0]);
+    console.log('User: ' + user[0]);
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch user.');

@@ -11,10 +11,10 @@ async function listAllBlobFiles() {
 export async function deleteUnusedFiles() {
     // 1. Busca todos os avatarurl usados
     const avatarResult = await sql`
-        SELECT avatarurl FROM smarthealth.users
+        SELECT avatarurl FROM smartprojectsapp.users
         `;
     const logoResult = await sql`
-        SELECT logourl FROM smarthealth.clinics
+        SELECT logourl FROM smartprojectsapp.companies
         `;
     const usedAvatarUrls = avatarResult.rows.map(u => u.avatarurl).filter(Boolean);
     const usedLogoUrls = logoResult.rows.map(u => u.logourl).filter(Boolean);

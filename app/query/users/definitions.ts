@@ -5,4 +5,5 @@ export type User = {
   password: string;
   role: string; 
   idcompany: string | null;
+  avatarurl: string | null;
 }

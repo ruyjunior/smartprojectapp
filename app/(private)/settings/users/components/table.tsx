@@ -2,7 +2,8 @@ import { Update } from '@/app/ui/buttons';
 import { DeleteButton } from './deletebutton';
 import { fetchFilteredUsers } from '@/app/query/users/data';
 import { CurrentUser } from '@/app/utils/utils';
-import { users } from '@/app/lib/placeholder-data';
+import Image from 'next/image';
+import logo from '@/public/images/logo.png';
 
 export default async function UsersTable({
   query,
@@ -11,15 +12,15 @@ export default async function UsersTable({
   query: string;
   currentPage: number;
 }) {
-  let users: any[];  
-  users = [];  
+  let users: any[];
+  users = [];
   const user = await CurrentUser();
 
   if (user?.role === 'admin') {
     users = await fetchFilteredUsers(query, currentPage);
   } else {
-    users[0] = user; 
-  } 
+    users[0] = user;
+  }
   return (
     <div className="w-full">
       <div className="mt-6 flow-root">
@@ -30,14 +31,27 @@ export default async function UsersTable({
               <div className="md:hidden">
                 {users?.map((user) => (
                   <div key={user.id} className="mb-6 w-full rounded-lg bg-blue-300 p-4 shadow-sm">
-                    <div className="border-b pb-4">
-                      <h3 className="text-xl font-semibold text-gray-900">{user.name}</h3>
-                      <p className="text-sm text-gray-600">Email: {user.email}</p>
-                      <p className="text-sm text-gray-600">Role: {user.role}</p>
+                    <div className="flex border-b pb-4 items-center">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-sm font-semibold text-gray-900">{user.pronoun} {user.name}</h3>
+                        <p className="text-sm text-gray-600">{user.email}</p>
+                        <p className="text-sm text-gray-600">Cargo: {user.role}</p>
+                      </div>
+                      <div className="flex-shrink-0 ml-1">
+                        <Image
+                          src={user.avatarurl ? user.avatarurl : logo}
+                          alt="Avatar"
+                          width={64}
+                          height={64}
+                          className="h-16 w-16 rounded-full object-cover"
+                        />
+                      </div>
                     </div>
                     <div className="flex justify-end gap-3 pt-3">
                       <Update href={`/settings/users/${user.id}/edit`} />
-                      <DeleteButton id={user.id} />
+                      {user.role !== 'Gerente' && (
+                        <DeleteButton id={user.id} />
+                      )}
                     </div>
                   </div>
                 ))}
@@ -47,6 +61,7 @@ export default async function UsersTable({
               <table className="hidden min-w-full text-gray-900 md:table">
                 <thead className="bg-green-100 text-left text-xs font-medium">
                   <tr>
+                    <th className="px-2 py-2">FOTO</th>
                     <th className="px-2 py-2">EDIT</th>
                     <th className="px-2 py-2">NAME</th>
                     <th className="px-2 py-2">EMAIL</th>
@@ -57,6 +72,16 @@ export default async function UsersTable({
                 <tbody className="divide-y divide-gray-200">
                   {users.map((user) => (
                     <tr key={user.id} className="hover:bg-gray-300">
+                      <td className="py-2 px-2 text-xs gap-2 items-center justify-center">
+                        <Image
+                          src={user.avatarurl ? user.avatarurl : logo.src}
+                          alt="Avatar"
+                          width={200}
+                          height={200}
+                          className="h-10 w-10 rounded-full"
+                        />
+                      </td>
+
                       <td className="py-2 px-2 flex gap-2">
                         <Update href={`/settings/users/${user.id}/edit`} />
                       </td>

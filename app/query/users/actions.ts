@@ -4,12 +4,14 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { sql } from '@vercel/postgres';
 import bcrypt from 'bcryptjs';
+import { deleteUnusedFiles } from '@/app/lib/deleteUnusedFiles';
 
 const FormSchema = z.object({
   id: z.string(),
   name: z.string(),
   email: z.string(),
   password: z.string(),
+  avatarurl: z.string().optional(),
   role: z.string(),
   idcompany: z.string()
 });
@@ -69,6 +71,7 @@ export async function updateUser(
     email: formData.get('email'),
     password: formData.get('password'),
     role: formData.get('role'),
+    avatarurl: formData.get('avatarurl'),
   });
   if (!validatedFields.success) {
     return {
@@ -77,7 +80,7 @@ export async function updateUser(
     };
   }
 
-  const { name, email, password, role } = validatedFields.data;
+  const { name, email, password, role, avatarurl } = validatedFields.data;
   const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
@@ -88,7 +91,7 @@ export async function updateUser(
 
       await sql`
         UPDATE smartprojectsapp.users
-        SET name = ${name}, email = ${email}, password = ${hashedPassword}, role = ${role}
+        SET name = ${name}, email = ${email}, password = ${hashedPassword}, role = ${role}, avatarurl = ${avatarurl}
         WHERE id = ${id}
       `;
     } else {
@@ -96,14 +99,14 @@ export async function updateUser(
 
       await sql`
         UPDATE smartprojectsapp.users
-        SET name = ${name}, email = ${email}, role = ${role}
+        SET name = ${name}, email = ${email}, role = ${role}, avatarurl = ${avatarurl}
         WHERE id = ${id}
       `;
     }
   } catch (error) {
     return { message: 'Database Error: Failed to Update User.' };
   }
-
+  deleteUnusedFiles();
   revalidatePath('/settings/users');
   redirect('/settings/users');
 }

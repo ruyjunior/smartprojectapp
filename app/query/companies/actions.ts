@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { sql } from '@vercel/postgres';
+import { deleteUnusedFiles } from '@/app/lib/deleteUnusedFiles';
 
 const FormSchema = z.object({
   id: z.string(),
@@ -87,7 +88,7 @@ export async function updateCompany(
     localaddress: formData.get('localaddress'),
     slogan: formData.get('slogan')
   });
-  console.log('Validates: ' + validatedFields.data?.logourl );
+  //console.log('Validates: ' + validatedFields.data?.logourl );
 
   if (!validatedFields.success) {
     console.log(validatedFields.error.flatten().fieldErrors);
@@ -118,7 +119,7 @@ export async function updateCompany(
     console.log(error);
     return { message: 'Database Error: Failed to Update Company.' };
   }
-
+  deleteUnusedFiles();
   revalidatePath('/settings/company');
   redirect('/settings/company/');
 }

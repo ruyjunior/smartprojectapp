@@ -23,7 +23,7 @@ const links = [
 export default function NavLinks() {
   const pathname = usePathname();
   return (
-    <>
+    <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2">
       {links.map((link) => {
         const LinkIcon = link.icon;
         return (
@@ -42,6 +42,6 @@ export default function NavLinks() {
           </Link>
         );
       })}
-    </>
+    </div>
   );
 }
