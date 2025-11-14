@@ -74,6 +74,7 @@ export const formatDateToLocal = (
   });
 };
 
+
 export const formatTime = (time: string | null | undefined) => {
   if (!time) {
     return '';
@@ -165,6 +166,35 @@ export const formatDateBr = (date: string | null | undefined) => {
 
   return date;
 };
+
+export const formatDateTimeDb = (dateStr: string | null | undefined) => {
+  if (!dateStr) {
+    return '';
+  }
+  const date = new Date(dateStr);
+  const year = date.getUTCFullYear();
+  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(date.getUTCDate()).padStart(2, '0');
+  const hours = String(date.getUTCHours()).padStart(2, '0');
+  const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+  const seconds = String(date.getUTCSeconds()).padStart(2, '0');
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+};
+
+export const formatDateToTimeDb = (dateStr: string | null | undefined) => {
+  if (!dateStr) {
+    return '';
+  }
+  const date = new Date(dateStr);
+  const year = date.getUTCFullYear();
+  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(date.getUTCDate()).padStart(2, '0');
+  const hours = String(date.getUTCHours()).padStart(2, '0');
+  const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+  const seconds = String(date.getUTCSeconds()).padStart(2, '0');
+  return `${hours}:${minutes}:${seconds}`;
+};
+
 
 export const formatDateDb = (dateStr: string | null | undefined) => {
   if (!dateStr) {

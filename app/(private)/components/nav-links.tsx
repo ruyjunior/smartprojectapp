@@ -2,9 +2,9 @@
 import {
   UserGroupIcon,
   DocumentCheckIcon,
-  UserCircleIcon, BuildingOfficeIcon,
+  BuildingOfficeIcon,
   PresentationChartLineIcon,
-  Cog6ToothIcon
+  Cog6ToothIcon, ChatBubbleLeftRightIcon
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -18,12 +18,13 @@ const links = [
   { name: 'Clients', href: '/clients', icon: BuildingOfficeIcon },
   { name: 'Contacts', href: '/contacts', icon: UserGroupIcon },
   { name: 'Settings', href: '/settings', icon: Cog6ToothIcon },
+  { name: 'Support', href: '/tickets', icon: ChatBubbleLeftRightIcon },
 ];
 
 export default function NavLinks() {
   const pathname = usePathname();
   return (
-    <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2">
+    <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-0">
       {links.map((link) => {
         const LinkIcon = link.icon;
         return (
@@ -31,7 +32,7 @@ export default function NavLinks() {
             key={link.name}
             href={link.href}
             className={clsx(
-              'flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-200 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3',
+              'flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-100 p-3 text-sm font-medium hover:bg-sky-200 hover:text-blue-600 md:flex-none md:justify-start md:p-1 md:px-2',
               {
                 'bg-sky-200 text-blue-600': pathname === link.href,
               },

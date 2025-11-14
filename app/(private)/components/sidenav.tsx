@@ -5,7 +5,7 @@ import LogoutButton from '@/app/(private)/components/logoutButton';
 
 export default async function SideNav() {
   return (
-    <div className="flex h-full flex-col px-3 py-4 md:px-2">
+    <div className="flex h-full flex-col px-1 py-1 md:px-3">
       <LogoCompany />
       <NavLinks />
       {/* Espaço Vazio */}

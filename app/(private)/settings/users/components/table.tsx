@@ -49,7 +49,7 @@ export default async function UsersTable({
                     </div>
                     <div className="flex justify-end gap-3 pt-3">
                       <Update href={`/settings/users/${user.id}/edit`} />
-                      {user.role !== 'Gerente' && (
+                      {user.role === 'admin' && (
                         <DeleteButton id={user.id} />
                       )}
                     </div>
@@ -89,7 +89,9 @@ export default async function UsersTable({
                       <td className="px-2 py-2 text-xs">{user.email}</td>
                       <td className="px-2 py-2 text-xs">{user.role}</td>
                       <td className="py-2 px-2 flex justify-end">
-                        <DeleteButton id={user.id} />
+                        {user.role === 'admin' && (
+                          <DeleteButton id={user.id} />
+                        )}
                       </td>
                     </tr>
                   ))}
