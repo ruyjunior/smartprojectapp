@@ -5,3 +5,9 @@ export type Client = {
   cep: string;
   idcompany: string;
 };
+
+export type ClientsProjects = {
+  id: string;
+  idclient: string;
+  idproject: string;
+};

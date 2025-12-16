@@ -10,7 +10,7 @@ export const PagePDF = ({ data }: { data: ProjectPDF }) => (
     <PDFDownloadLink
       document={<DocPDF data={data} />}
       fileName={
-        'Report_' + data.client.name + '_' + data.project.title + '.pdf'
+        'Report_' + data.project.title + '.pdf'
       }
       className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-white font-semibold shadow hover:bg-blue-700 transition-colors text-sm"
   >

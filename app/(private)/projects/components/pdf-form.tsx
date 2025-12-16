@@ -1,6 +1,6 @@
 'use client';
 import { Project } from '@/app/query/projects/definitions';
-import { Companies } from '@/app/query/companies/definitions';
+import { Company } from '@/app/query/companies/definitions';
 import { ProjectPDF } from '@/app/query/projects/definitions';
 import { Client } from '@/app/query/clients/definitions';
 import { Contact } from '@/app/query/contacts/definitions';
@@ -17,7 +17,7 @@ export default function PdfForm({
   sprints
 }: {
   project: Project;
-  company: Companies;
+  company: Company;
   clients: Client[];
   contacts: Contact[];
   tasks: Task[];
@@ -27,9 +27,7 @@ export default function PdfForm({
   const data: ProjectPDF = {
     project,
     company,
-    client: clients.find((c) => c.id === project.idclient) as Client,
-    clientcontact: contacts.find((c) => c.id === project.idclientcontact) as Contact,
-    companycontact: contacts.find((e) => e.id === project.idcompanycontact) as Contact,
+    clients,
     tasks,
     sprints,
     contacts

@@ -6,6 +6,8 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { fetchContacts } from '@/app/query/contacts/data';
 import { CurrentCompanyId } from '@/app/utils/utils';
+import { fetchClientsByIdProjects } from '@/app/query/clients/data';
+import { fetchContactsByIdProjects } from '@/app/query/contacts/data';
 
 export const metadata: Metadata = {
   title: 'Edit Projects',
@@ -14,16 +16,20 @@ export const metadata: Metadata = {
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
   const id = params.id;
-  const idcompany = await CurrentCompanyId();
 
-  const [project, contacts, clients] = await Promise.all([
+  const [project, contacts, clients, projectClients, projectContacts] = await Promise.all([
     fetchProjectById(id),
     fetchContacts(),
     fetchClients(),
+    fetchClientsByIdProjects(id),
+    fetchContactsByIdProjects(id),
   ]);
   if (!project) {
     notFound();
   }
+
+  //console.log('Project Clients:', projectClients);
+  //console.log('Project Contacts:', projectContacts);
 
   return (
     <main>
@@ -38,10 +44,11 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         ]}
       />
       <Form
-        idcompany={idcompany}
         project={project}
         contacts={contacts}
         clients={clients}
+        selectedClients={projectClients}
+        selectedContacts={projectContacts}
       />
     </main>
   );

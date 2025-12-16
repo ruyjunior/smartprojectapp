@@ -1,6 +1,7 @@
 export type Ticket = {
   id: string;
   iduser: string;
+  idcompany: string;
   subject: string;
   message: string;
   status: string;

@@ -1,5 +1,5 @@
 import { sql } from '@vercel/postgres';
-import { Contact } from '@/app/query/contacts/definitions';
+import { Contact, ContactsProjects } from '@/app/query/contacts/definitions';
 import { CurrentCompanyId } from '@/app/utils/utils';
 
 export async function fetchContacts() {
@@ -91,5 +91,39 @@ export async function fetchContactsByClientId(id: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch.');
+  }
+}
+
+export async function fetchContactsByIdProjects(idproject: string) {
+  try {
+    const data = await sql<Contact>`
+      SELECT c.*
+      FROM smartprojectsapp.contacts_projects cp
+      JOIN smartprojectsapp.contacts c ON cp.idcontact = c.id
+      WHERE cp.idproject = ${idproject}
+    `;
+    const contacts = data.rows;
+    return contacts;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch contacts projects.');
+  }
+}
+
+export async function fetchContactsProjects() {
+  const idcompany = await CurrentCompanyId();
+
+  try {
+    const data = await sql<ContactsProjects>`
+      SELECT *
+      FROM smartprojectsapp.contacts_projects cp
+      WHERE cp.idcompany = ${idcompany}
+    `;
+
+    const contactsProjects = data.rows;
+    return contactsProjects;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch contacts projects.');
   }
 }

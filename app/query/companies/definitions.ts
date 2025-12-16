@@ -1,4 +1,4 @@
-export type Companies = {
+export type Company = {
   id: string;
   name: string;
   cnpj: string;

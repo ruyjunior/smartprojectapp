@@ -1,5 +1,5 @@
 import { sql } from '@vercel/postgres';
-import { Client } from '@/app/query/clients/definitions';
+import { Client, ClientsProjects } from '@/app/query/clients/definitions';
 import { CurrentCompanyId } from '@/app/utils/utils';
 
 export async function fetchClients() {
@@ -22,7 +22,7 @@ export async function fetchClients() {
 export async function fetchFilteredClients(
   query: string,
   currentPage: number) {
-  
+
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
   const idcompany = await CurrentCompanyId();
 
@@ -69,9 +69,43 @@ export async function fetchClientById(id: string) {
     }));
 
     return client[0];
-    console.log( 'Client: ' + client[0]);
+    console.log('Client: ' + client[0]);
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch client.');
+  }
+}
+
+export async function fetchClientsByIdProjects(idproject: string) {
+  try {
+    const data = await sql<Client>`
+      SELECT c.*
+      FROM smartprojectsapp.clients_projects cp
+      JOIN smartprojectsapp.clients c ON cp.idclient = c.id
+      WHERE cp.idproject = ${idproject}
+    `;
+    const clients = data.rows;
+    return clients;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch clients projects.');
+  }
+}
+
+export async function fetchClientsProjects() {
+  const idcompany = await CurrentCompanyId();
+
+  try {
+    const data = await sql<ClientsProjects>`
+      SELECT *
+      FROM smartprojectsapp.clients_projects cp
+      WHERE cp.idcompany = ${idcompany}
+    `;
+
+    const clientsProjects = data.rows;
+    return clientsProjects;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch clients projects.');
   }
 }

@@ -10,3 +10,8 @@ export type Contact = {
   idclient: string;
 };
 
+export type ContactsProjects = {
+  id: string;
+  idcontact: string;
+  idproject: string;
+};

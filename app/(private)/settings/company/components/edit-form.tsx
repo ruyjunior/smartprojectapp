@@ -1,7 +1,7 @@
 'use client';
 import { useActionState, useTransition } from 'react';
 import React, { useState } from 'react';
-import { Companies } from '@/app/query/companies/definitions';
+import { Company } from '@/app/query/companies/definitions';
 import { IdentificationIcon, TagIcon, PhoneIcon, AtSymbolIcon, GlobeAltIcon, TruckIcon, ChatBubbleOvalLeftIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
@@ -14,7 +14,7 @@ import Loading from './loading';
 export default function EditCompanyForm({
   company,
 }: {
-  company: Companies;
+  company: Company;
 }) {
   const initialState: State = { message: null, errors: {} };
   const updateCompanyWithId = updateCompany.bind(null, company.id);

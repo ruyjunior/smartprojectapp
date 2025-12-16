@@ -6,18 +6,27 @@ import Link from 'next/link';
 import { TagIcon, UserIcon, UserGroupIcon } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
 import { createProject, State } from '@/app/query/projects/actions';
+import ClientContactSelector from './clientSelector';
 
 export default function Form({
-  contacts, clients, idcompany
+  contacts, clients, idcompany,
+  selectedClients = [],
+  selectedContacts = [],
 }: {
-  contacts: Contact[], clients: Client[], idcompany: string | undefined
+  contacts: Contact[], clients: Client[], idcompany: string | undefined,
+  selectedClients?: string[];
+  selectedContacts?: string[];
+
 }) {
 
   const initialState: State = { message: '', errors: {} };
   const [state, formAction] = useActionState(createProject, initialState);
-  const [selectedTaker, setSelectedTaker] = useState<string | undefined>(undefined);
-  const [selectedProvider, setSelectedProvider] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
+
+  // Estado para clientes e contatos selecionados
+  const [selectedClientsState, setSelectedClients] = useState<string[]>(selectedClients);
+  const [selectedContactsState, setSelectedContacts] = useState<string[]>(selectedContacts);
+
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -25,13 +34,6 @@ export default function Form({
       formAction(new FormData(e.currentTarget));
     });
   }
-
-  const handleTakerChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedTaker(event.target.value);
-  };
-  const handleProviderChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedProvider(event.target.value);
-  };
 
   return (
     <form action={formAction} onSubmit={handleSubmit}>
@@ -66,113 +68,6 @@ export default function Form({
             </div>
           </div>
         </div>
-
-        {/* Company Contact */}
-        <div className="mb-4">
-          <label htmlFor="idcompanycontact" className="mb-2 block text-sm font-medium">
-            Choose Company Contact
-          </label>
-          <div className="relative">
-            <select
-              id="idcompanycontact"
-              name="idcompanycontact"
-              className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              aria-describedby="idcompanycontact-error"
-            >
-              <option value="" disabled>
-                Select a Company Contact
-              </option>
-              {contacts
-                .filter((contact) => contact.idclient === idcompany)
-                .map((contact) => (
-                  <option key={contact.id} value={contact.id}>
-                    {contact.name}
-                  </option>
-                ))}
-            </select>
-            <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
-          </div>
-          <div id="idcompanycontact-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.idcompanycontact &&
-              state.errors.idcompanycontact.map((error: string) => (
-                <p className="mt-2 text-sm text-red-500" key={error}>
-                  {error}
-                </p>
-              ))}
-          </div>
-        </div>
-
-
-        {/* Client */}
-        <div className="mb-4">
-          <label htmlFor="idclient" className="mb-2 block text-sm font-medium">
-            Choose client
-          </label>
-          <div className="relative">
-            <select
-              id="idclient"
-              name="idclient"
-              className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              defaultValue=""
-              onChange={handleTakerChange}
-              aria-describedby="taker-error"
-            >
-              <option value="" disabled>
-                Select a client
-              </option>
-              {clients.map((company) => (
-                <option key={company.id} value={company.id}>
-                  {company.name}
-                </option>
-              ))}
-            </select>
-            <UserGroupIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
-          </div>
-          <div id="base-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.idclient &&
-              state.errors.idclient.map((error: string) => (
-                <p className="mt-2 text-sm text-red-500" key={error}>
-                  {error}
-                </p>
-              ))}
-          </div>
-        </div>
-
-        {/* Client Contact */}
-        <div className="mb-4">
-          <label htmlFor="idclientcontact" className="mb-2 block text-sm font-medium">
-            Choose Client Contact
-          </label>
-          <div className="relative">
-            <select
-              id="idclientcontact"
-              name="idclientcontact"
-              className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              aria-describedby="idclientcontact-error"
-            >
-              <option value="" disabled>
-                Select a Client Contact
-              </option>
-              {contacts
-                .filter((contact) => contact.idclient === selectedTaker)
-                .map((contact) => (
-                  <option key={contact.id} value={contact.id}>
-                    {contact.name}
-                  </option>
-                ))}
-            </select>
-            <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
-          </div>
-          <div id="idclientcontact-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.idclientcontact &&
-              state.errors.idclientcontact.map((error: string) => (
-                <p className="mt-2 text-sm text-red-500" key={error}>
-                  {error}
-                </p>
-              ))}
-          </div>
-        </div>
-
 
         {/* Comments */}
         <div className="mb-4">

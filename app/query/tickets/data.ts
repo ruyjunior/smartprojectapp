@@ -1,15 +1,15 @@
 import { sql } from '@vercel/postgres';
 import { Ticket } from '@/app/query/tickets/definitions';
-import { CurrentUser, formatTime } from '../../utils/utils';
+import { CurrentUser, CurrentCompanyId } from '../../utils/utils';
 
 export async function fetchTickets() {
-  const user = await CurrentUser();
+  const idcompany = await CurrentCompanyId();
 
   try {
     const data = await sql<Ticket>`
       SELECT *
       FROM smartprojectsapp.tickets
-      WHERE iduser = ${user.id}
+      WHERE idcompany = ${idcompany}
       `;
     const tickets = data.rows;
     //console.log('Tickets: ', tickets);
@@ -24,6 +24,7 @@ export async function fetchFilteredTickets(
   query: string | undefined | null,
   currentPnumber: number | undefined | null) {
 
+  const idcompany = await CurrentCompanyId();
   const offset = currentPnumber ? (currentPnumber - 1) * ITEMS_PER_PAGE : 0;
   try {
     const data = await sql<Ticket>`
@@ -31,8 +32,9 @@ export async function fetchFilteredTickets(
        * 
       FROM smartprojectsapp.tickets
       WHERE 
+        idcompany = ${idcompany} AND (
         message::text ILIKE ${`%${query}%`} OR
-        subject::text ILIKE ${`%${query}%`}
+        subject::text ILIKE ${`%${query}%`} )
       ORDER BY id DESC
       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset} 
        `;
@@ -46,12 +48,12 @@ export async function fetchFilteredTickets(
 const ITEMS_PER_PAGE = 6;
 
 export async function fetchTicketsPages(query: string) {
-  const user = await CurrentUser();
+  const idcompany = await CurrentCompanyId();
   try {
     const count = await sql`
       SELECT COUNT(*) 
       FROM smartprojectsapp.tickets
-      WHERE iduser = ${user.id}
+      WHERE idcompany = ${idcompany}
       `;
 
     const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);

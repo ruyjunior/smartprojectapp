@@ -1,11 +1,11 @@
 import { Update } from '@/app/ui/buttons';
 import { CurrentUser, formatCNPJ, formatPhone } from '@/app/utils/utils';
-import { Companies } from '@/app/query/companies/definitions';
+import { Company } from '@/app/query/companies/definitions';
 import Image from 'next/image';
 import logo from '@/public/images/logo.png';
 
 
-export default async function CompanyTable({ company }: { company: Companies }) {
+export default async function CompanyTable({ company }: { company: Company }) {
   const user = await CurrentUser();
   return (
     <div className="w-full">

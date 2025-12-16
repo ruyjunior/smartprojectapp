@@ -78,8 +78,6 @@ export const DocPDF = ({ data }: { data: Invoice }) => {
           const totalTasks = tasks.length;
           const completedTasks = tasks.filter(task => task.status === "done").length;
           const progress = totalTasks > 0 ? ((completedTasks / totalTasks) * 100).toFixed(2) : "0.00";
-          const clientContact = data.contacts.find(emp => emp.id === filteredProjects[index].idclientcontact);
-          const companyContact = data.contacts.find(emp => emp.id === data.projects[index].idcompanycontact);
 
           return (
             <PDF.View key={index}>
@@ -96,9 +94,9 @@ export const DocPDF = ({ data }: { data: Invoice }) => {
               {/* Taker Project */}
               <PDF.View style={styles.section}>
                 <PDF.Text style={styles.chapter}>RESPONSÁVEL</PDF.Text>
-                <PDF.Text style={styles.field}>{clientContact?.name}</PDF.Text>
-                <PDF.Text style={styles.field}>Telefone: {formatPhone(clientContact?.phone)}</PDF.Text>
-                <PDF.Text style={styles.field}>Email: {clientContact?.email}</PDF.Text>
+                <PDF.Text style={styles.field}>Nome: Implementar Responsável</PDF.Text>
+                <PDF.Text style={styles.field}>Telefone: Implementar Telefone</PDF.Text>
+                <PDF.Text style={styles.field}>Email: Implementar Email</PDF.Text>
               </PDF.View>
 
               {/* Tasks */}

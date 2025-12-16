@@ -1,10 +1,10 @@
 import { sql } from '@vercel/postgres';
 import { CurrentCompanyId } from '@/app/utils/utils';
-import { Companies } from './definitions';
+import { Company } from './definitions';
 
-export async function fetchCompanies() {
+export async function fetchCompany() {
   try {
-    const data = await sql<Companies>`
+    const data = await sql<Company>`
       SELECT *
       FROM smartprojectsapp.companies
       ORDER BY name ASC
@@ -17,13 +17,13 @@ export async function fetchCompanies() {
   }
 }
 
-export async function fetchFilteredCompanies(
+export async function fetchFilteredCompany(
   query: string,
   currentPage: number) {  
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
-    const data = await sql<Companies>`
+    const data = await sql<Company>`
       SELECT *
       FROM smartprojectsapp.companies
       WHERE
@@ -40,7 +40,7 @@ export async function fetchFilteredCompanies(
 }
 const ITEMS_PER_PAGE = 6;
 
-export async function fetchCompaniesPages(query: string) {
+export async function fetchCompanyPages(query: string) {
   try {
     const count = await sql`SELECT COUNT(*) FROM smartprojectsapp.companies`;
 
@@ -54,7 +54,7 @@ export async function fetchCompaniesPages(query: string) {
 
 export async function fetchCompanyById(id: string) {
   try {
-    const data = await sql<Companies>`
+    const data = await sql<Company>`
       SELECT *
         FROM smartprojectsapp.companies
         WHERE companies.id = ${id} `;

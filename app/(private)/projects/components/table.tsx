@@ -1,11 +1,9 @@
-import Image from 'next/image';
 import { Update, View, Pdf } from '@/app/ui/buttons';
 import { CurrentUser, formatDateToLocal } from '@/app/utils/utils';
 import { fetchFilteredProjects } from '@/app/query/projects/data';
-import { fetchClients } from '@/app/query/clients/data';
-import { fetchContacts } from '@/app/query/contacts/data';
 import { fetchTasks } from '@/app/query/tasks/data';
 import { DeleteButton } from './deletebutton';
+import ClientCard from './clientCard';
 
 export default async function ProjectsTable({
   query,
@@ -15,8 +13,6 @@ export default async function ProjectsTable({
   currentPage: number | undefined | null;
 }) {
   const projects = await fetchFilteredProjects(query, currentPage);
-  const clients = await fetchClients();
-  const contacts = await fetchContacts();
   const tasks = await fetchTasks();
   const user = await CurrentUser();
 
@@ -29,9 +25,6 @@ export default async function ProjectsTable({
             <div className="overflow-hidden rounded-lg bg-gray-50 shadow-md p-4 md:pt-0">
               <div className="md:hidden">
                 {projects?.map((project) => {
-                  const client = clients.find((c) => c.id === project.idclient);
-                  const clientContact = contacts.find((e) => e.id === project.idclientcontact);
-                  const internalContact = contacts.find((e) => e.id === project.idcompanycontact);
 
                   const projectTasks = tasks.filter((task) => task.idproject === project.id);
                   const highTasks = projectTasks.filter(task => task.grade === "high");
@@ -45,9 +38,7 @@ export default async function ProjectsTable({
                         <p className="text-sm text-gray-600">Date: {formatDateToLocal(project.timestamp)}</p>
                       </div>
                       <div className="pt-2 space-y-2 text-gray-800">
-                        <p><span className="font-medium">Client:</span> {client ? client.name : 'Not found'}</p>
-                        <p><span className="font-medium">Client Contact:</span> {clientContact ? clientContact.name : 'Not found'}</p>
-                        <p><span className="font-medium">Internal Contact:</span> {internalContact ? internalContact.name : 'Not found'}</p>
+                          <ClientCard project={{...project, timeprevision: String(project.timeprevision), timespend: String(project.timespend)}} />  
                       </div>
                       <div className="flex justify-between mt-4 text-sm text-gray-700">
                         <p>Prevision Hours: {project.timeprevision}</p>
@@ -56,9 +47,7 @@ export default async function ProjectsTable({
                       </div>
                       <div className="flex justify-end gap-3 pt-3">
                         <View href={`/projects/${project.id}/view`} />
-                        {user?.email === internalContact?.email && (
-                          <Update href={`/projects/${project.id}/edit`} />
-                        )}
+                        <Update href={`/projects/${project.id}/edit`} />
                         <Pdf href={`/projects/${project.id}/pdf`} />
                       </div>
                     </div>
@@ -70,9 +59,7 @@ export default async function ProjectsTable({
                   <tr>
                     <th className="px-2 py-2">EDIT</th>
                     <th className="px-2 py-2">TITLE</th>
-                    <th className="px-2 py-2">CLIENT</th>
-                    <th className="px-2 py-2">CLIENT CONTACT</th>
-                    <th className="px-2 py-2">INTERNAL CONTACT</th>
+                    <th className="px-2 py-2">CLIENTS / CONTACTS</th>
                     <th className="px-2 py-2">DATE</th>
                     <th className="px-2 py-2">COMMENTS</th>
                     <th className="px-2 py-2">TIME PREVISION</th>
@@ -82,30 +69,23 @@ export default async function ProjectsTable({
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
-                  {projects.map((project) => {
-                    const client = clients.find((c) => c.id === project.idclient);
-                    const clientContact = contacts.find((e) => e.id === project.idclientcontact);
-                    const companyContact = contacts.find((e) => e.id === project.idcompanycontact);
-
+                  {projects.map( (project) => {
                     const projectTasks = tasks.filter((task) => task.idproject === project.id);
                     const highTasks = projectTasks.filter(task => task.grade === "high");
                     const completedTasks = highTasks.filter(task => task.status === "done");
                     const progress = highTasks.length > 0 ? ((completedTasks.length / highTasks.length) * 100).toFixed(2) : "0.00";
 
-
                     return (
                       <tr key={project.id} className="hover:bg-gray-300">
                         <td className="py-2 px-2 flex gap-2">
                           <View href={`/projects/${project.id}/view`} />
-                          {(user?.email === companyContact?.email || user?.role === 'admin') && (
-                            <Update href={`/projects/${project.id}/edit`} />
-                          )}
+                          <Update href={`/projects/${project.id}/edit`} />
                           <Pdf href={`/projects/${project.id}/pdf`} />
                         </td>
                         <td className="px-2 py-2 text-xs font-medium">{project.title}</td>
-                        <td className="px-2 py-2 text-xs">{client ? client.name : 'Not found'}</td>
-                        <td className="px-2 py-2 text-xs">{clientContact ? clientContact.name : 'Not found'}</td>
-                        <td className="px-2 py-2 text-xs">{companyContact ? companyContact.name : 'Not found'}</td>
+                        <td className="py-2 px-2 gap-2">
+                          <ClientCard project={{...project, timeprevision: String(project.timeprevision), timespend: String(project.timespend)}} />  
+                        </td>
                         <td className="px-2 py-2 text-xs">{formatDateToLocal(project.timestamp)}</td>
                         <td className="px-2 py-2 text-xs">{project.comments}</td>
                         <td className="px-2 py-2 text-xs">{project.timeprevision}</td>

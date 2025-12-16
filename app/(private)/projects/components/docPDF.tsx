@@ -47,14 +47,18 @@ export const DocPDF = ({ data }: { data: ProjectPDF }) => {
           <Text style={styles.field}><Text style={styles.label}>Progresso:</Text> {progress}%</Text>
         </View>
 
-        {/* Solicitante */}
+        {/* Empresas */}
         <View style={styles.section}>
-          <Text style={styles.chapter}>SOLICITANTE</Text>
-          <Text style={styles.field}><Text style={styles.label}>Empresa:</Text> {data.client.name}</Text>
-          <Text style={styles.field}><Text style={styles.label}>CNPJ:</Text> {formatCNPJ(data.client.cnpj)}</Text>
-          <Text style={styles.field}><Text style={styles.label}>Responsável:</Text> {data.clientcontact.name}</Text>
-          <Text style={styles.field}><Text style={styles.label}>Telefone:</Text> {formatPhone(data.clientcontact.phone)}</Text>
-          <Text style={styles.field}><Text style={styles.label}>Email:</Text> {data.clientcontact.email}</Text>
+          <Text style={styles.chapter}>EMPRESAS PARTICIPANTES</Text>
+
+          {data.clients.map((client, index) => {
+            return (
+              <View style={styles.section}>
+                <Text style={styles.field}><Text style={styles.label}>Empresa:</Text> {client.name}</Text>
+                <Text style={styles.field}><Text style={styles.label}>CNPJ:</Text> {formatCNPJ(client.cnpj)}</Text>
+              </View>
+            );
+          })}
         </View>
 
         {/* Tasks & Sprints (improved layout) */}

@@ -32,7 +32,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     fetchContacts()
   ]);
 
-  const filteredProjects = projects.filter((p) => p.idclient === id);
+  const filteredProjects = projects;
 
   const filteredTasks = tasks.filter((t) => 
     filteredProjects.some((p) => p.id === t.idproject)

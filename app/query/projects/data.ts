@@ -1,6 +1,6 @@
 import { sql } from '@vercel/postgres';
 import { Project } from '@/app/query/projects/definitions';
-import { CurrentCompanyId, formatTime } from '../../utils/utils';
+import { CurrentCompanyId } from '../../utils/utils';
 
 export async function fetchProjects() {
   const idcompany = await CurrentCompanyId();
@@ -42,9 +42,6 @@ export async function fetchFilteredProjects(
       p.id,
       p.title, 
       p.comments, 
-      p.idclient,
-      p.idcompanycontact, 
-      p.idclientcontact, 
       p.timestamp
     ORDER BY p.timestamp DESC
     LIMIT ${ITEMS_PER_PAGE}
