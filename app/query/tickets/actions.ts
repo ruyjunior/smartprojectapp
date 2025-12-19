@@ -6,7 +6,7 @@ import { sql } from '@vercel/postgres';
 import { fetchTaskById } from '../tasks/data';
 import { UpdateTaskSpendTime } from '../tasks/actions';
 import { fetchTicketById } from '../tickets/data';
-import { CurrentUser } from '@/app/utils/utils';
+import { CurrentCompany, CurrentUser } from '@/app/utils/utils';
 
 
 const FormSchema = z.object({
@@ -31,6 +31,7 @@ export type State = {
 
 export async function createTicket(prevState: State, formData: FormData) {
   const user = await CurrentUser();
+  const company = await CurrentCompany();
 
   const validatedFields = Createticket.safeParse({
     subject: formData.get('subject'),
@@ -49,8 +50,8 @@ export async function createTicket(prevState: State, formData: FormData) {
   try {
     await sql`
         INSERT INTO smartprojectsapp.tickets ( 
-          iduser, subject, message, status )
-        VALUES (${user?.id}, ${subject}, ${message}, ${status})
+          iduser, subject, message, status, idcompany )
+        VALUES (${user?.id}, ${subject}, ${message}, ${status}, ${company?.id})
         `;
   } catch (error) {
     console.error('Database Error:', error);

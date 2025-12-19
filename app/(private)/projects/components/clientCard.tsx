@@ -3,6 +3,7 @@ import { fetchClientById } from "@/app/query/clients/data";
 import { fetchContactsProjects } from "@/app/query/contacts/data";
 import { fetchContactById } from "@/app/query/contacts/data";
 import { Project } from "@/app/query/projects/definitions";
+import { BuildingOfficeIcon } from '@heroicons/react/24/outline';
 
 export default async function ClientCard({ project }: { project: Project }) {
     try {
@@ -22,22 +23,29 @@ export default async function ClientCard({ project }: { project: Project }) {
         );
 
         return (
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-3">
                 {clients.map((client) =>
                     client ? (
                         <div
                             key={client.id}
-                            className="flex flex-col gap-1 rounded-lg bg-blue-100 px-3 py-2 text-xs font-medium text-gray-900"
+                            className="flex items-start gap-3 p-3 border border-gray-200 rounded-lg bg-white shadow-sm hover:shadow-md transition-shadow duration-200"
                         >
-                            <span className="font-semibold">{client.name}</span>
-                            <div className="flex flex-wrap gap-1">
-                                {allContacts
-                                    .filter((contact) => contact && contact.idclient === client.id)
-                                    .map((contact) => (
-                                        <span key={contact.id} className="rounded bg-blue-200 px-1 py-0.5 text-xs">
-                                            {contact.name}
-                                        </span>
-                                    ))}
+                            <div className="flex-shrink-0">
+                                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100">
+                                    <BuildingOfficeIcon className="h-5 w-5 text-green-600" />
+                                </div>
+                            </div>
+                            <div className="flex-1 min-w-0">
+                                <p className="text-sm font-semibold text-gray-900 mb-2">{client.name}</p>
+                                <div className="flex flex-wrap gap-2">
+                                    {allContacts
+                                        .filter((contact) => contact && contact.idclient === client.id)
+                                        .map((contact) => (
+                                            <span key={contact.id} className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                                {contact.name}
+                                            </span>
+                                        ))}
+                                </div>
                             </div>
                         </div>
                     ) : null

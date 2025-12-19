@@ -1,6 +1,6 @@
 'use client';
 import { useState, useRef } from 'react';
-import { PencilIcon, PlusIcon, TrashIcon, EyeIcon, PrinterIcon, DocumentCurrencyDollarIcon } from '@heroicons/react/24/outline';
+import { PencilIcon, PlusIcon, TrashIcon, EyeIcon, PrinterIcon, DocumentCurrencyDollarIcon, DocumentIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { FaWhatsapp } from "react-icons/fa";
 
@@ -8,6 +8,7 @@ export function Create( {href}: {href: string} ) {
   return (
     <Link
       href={href}
+      title="Create new item"
       className="flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
     >
       <span className="hidden md:block">New</span>{' '}
@@ -20,6 +21,7 @@ export function Update({ href }: { href: string }) {
   return (
     <Link
       href={href}
+      title='Edit information'
       className="rounded-md border p-2 hover:bg-gray-100"
     >
       <PencilIcon className="w-5" />
@@ -31,6 +33,7 @@ export function View({ href }: { href: string }) {
   return (
     <Link
       href={href}
+      title='View Tasks and Sprints'
       className="rounded-md border p-2 hover:bg-gray-100"
     >
       <EyeIcon className="w-5" />
@@ -42,6 +45,7 @@ export function Invoice({ href }: { href: string }) {
   return (
     <Link
       href={href}
+      title='Print Invoice'
       className="rounded-md border p-2 hover:bg-gray-100"
     >
       <DocumentCurrencyDollarIcon className="w-5" />
@@ -53,12 +57,26 @@ export function Pdf({ href }: { href: string }) {
   return (
     <Link
       href={href}
+      title='Print PDF'
       className="rounded-md border p-2 hover:bg-gray-100"
     >
       <PrinterIcon className="w-5" />
     </Link>
   );
 }
+
+export function File({ href }: { href: string }) {
+  return (
+    <Link
+      href={href}
+      title='View Files'
+      className="rounded-md border p-2 hover:bg-gray-100"
+    >
+      <DocumentIcon className="w-5" />
+    </Link>
+  );
+}
+
 
 export function Delete({ onDelete }: { onDelete: () => Promise<void> }) {
   const deleteWithId = onDelete.bind(null);
@@ -96,6 +114,7 @@ export function Delete({ onDelete }: { onDelete: () => Promise<void> }) {
     <button
       type="button"
       disabled={isDeleting}
+      title="Hold for 3 seconds to delete"
       className={`relative rounded-md border p-2 overflow-hidden ${
         isDeleting ? 'bg-red-300 animate-pulse' : 'hover:bg-red-300'
       }`}

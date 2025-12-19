@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { TagIcon, AtSymbolIcon, KeyIcon, UserCircleIcon } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
 import { createUser, State } from '@/app/query/users/actions';
+import logo from '@/public/images/logo.png';
+
 
 export default function Form({ idcompany }: { idcompany: string | undefined }) {
   const initialState: State = { message: null, errors: {} };
@@ -62,6 +64,7 @@ export default function Form({ idcompany }: { idcompany: string | undefined }) {
                 id="email"
                 name="email"
                 type="text"
+                required
                 placeholder="Enter a email"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 aria-describedby="email-error"
@@ -134,6 +137,8 @@ export default function Form({ idcompany }: { idcompany: string | undefined }) {
               ))}
           </div>
         </div>
+
+        <input type="hidden" name="avatarurl" value={logo.src} /> 
 
       </div>
       <div className="mt-6 flex justify-end gap-4">

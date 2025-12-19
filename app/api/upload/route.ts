@@ -22,7 +22,7 @@ export async function POST(request: Request): Promise<NextResponse> {
           throw new Error('Not authenticated');
         }
         return {
-          allowedContentTypes: ['image/jpeg', 'image/png', 'image/gif'],
+          allowedContentTypes: ['image/jpeg', 'image/png', 'image/gif', 'document/pdf', 'application/pdf'],
           addRandomSuffix: true,
           tokenPayload: JSON.stringify({
             userId: session.user.id,

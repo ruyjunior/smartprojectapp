@@ -7,3 +7,10 @@ export type User = {
   idcompany: string | null;
   avatarurl: string | null;
 }
+
+
+export type UsersProjects = {
+  id: string;
+  iduser: string;
+  idproject: string;
+};

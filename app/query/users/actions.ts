@@ -36,6 +36,7 @@ export async function createUser(prevState: State, formData: FormData) {
     password: formData.get('password'),
     role: formData.get('role'),
     idcompany: formData.get('idcompany'),
+    avatarurl: formData.get('avatarurl'),
   });
 
   if (!validatedFields.success) {
@@ -44,13 +45,13 @@ export async function createUser(prevState: State, formData: FormData) {
       message: 'Missing Fields. Failed to Create.',
     };
   }
-  const { name, email, password, role, idcompany } = validatedFields.data;
+  const { name, email, password, role, idcompany, avatarurl } = validatedFields.data;
   const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
     await sql`
-        INSERT INTO smartprojectsapp.users ( name, email, password, role, idcompany)
-        VALUES (${name}, ${email}, ${hashedPassword}, ${role}, ${idcompany})
+        INSERT INTO smartprojectsapp.users ( name, email, password, role, idcompany, avatarurl )
+        VALUES (${name}, ${email}, ${hashedPassword}, ${role}, ${idcompany}, ${avatarurl})
         `;
   } catch (error) {
     return {
@@ -73,14 +74,18 @@ export async function updateUser(
     role: formData.get('role'),
     avatarurl: formData.get('avatarurl'),
   });
+
+
   if (!validatedFields.success) {
+    console.log(validatedFields.error);
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: 'Missing Fields. Failed to Update User.',
     };
   }
+  
 
-  const { name, email, password, role, avatarurl } = validatedFields.data;
+  const { name, password, role, avatarurl } = validatedFields.data;
   const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
@@ -91,7 +96,7 @@ export async function updateUser(
 
       await sql`
         UPDATE smartprojectsapp.users
-        SET name = ${name}, email = ${email}, password = ${hashedPassword}, role = ${role}, avatarurl = ${avatarurl}
+        SET name = ${name}, password = ${hashedPassword}, role = ${role}, avatarurl = ${avatarurl}
         WHERE id = ${id}
       `;
     } else {
@@ -99,7 +104,7 @@ export async function updateUser(
 
       await sql`
         UPDATE smartprojectsapp.users
-        SET name = ${name}, email = ${email}, role = ${role}, avatarurl = ${avatarurl}
+        SET name = ${name}, role = ${role}, avatarurl = ${avatarurl}
         WHERE id = ${id}
       `;
     }

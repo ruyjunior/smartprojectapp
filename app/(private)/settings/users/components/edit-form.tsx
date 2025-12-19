@@ -6,8 +6,6 @@ import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 import { updateUser, State } from '@/app/query/users/actions';
 import { upload } from '@vercel/blob/client';
-import { CurrentUser } from '@/app/utils/utils';
-
 
 export default function EditUserForm({
   user, currentUser
@@ -15,13 +13,13 @@ export default function EditUserForm({
   user: User;
   currentUser: User | null;
 }) {
+  
   const initialState: State = { message: null, errors: {} };
   const updateUserWithId = updateUser.bind(null, user.id);
   const [state, formAction] = useActionState(updateUserWithId, initialState);
   const [isPending, startTransition] = useTransition();
   const [avatarUrl, setAvatarUrl] = useState<string | null>(user.avatarurl ?? null);
   const [uploading, setUploading] = useState(false);
-
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -45,7 +43,6 @@ export default function EditUserForm({
     }
   }
 
-
   return (
     <form action={formAction} onSubmit={handleSubmit} className="mt-6">
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
@@ -53,7 +50,7 @@ export default function EditUserForm({
         {/* NAME */}
         <div className="mb-4">
           <label htmlFor="name" className="mb-2 block text-sm font-medium">
-            Enter a name
+            Edit name
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -80,38 +77,12 @@ export default function EditUserForm({
         </div>
 
         {/* EMAIL */}
-        <div className="mb-4">
-          <label htmlFor="email" className="mb-2 block text-sm font-medium">
-            Enter a email
-          </label>
-          <div className="relative mt-2 rounded-md">
-            <div className="relative">
-              <input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="Enter a email"
-                defaultValue={user.email}
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                aria-describedby="email-error"
-              />
-              <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-            </div>
-            <div id="email-error" aria-live="polite" aria-atomic="true">
-              {state.errors?.email &&
-                state.errors.email.map((error: string) => (
-                  <p className="mt-2 text-sm text-red-500" key={error}>
-                    {error}
-                  </p>
-                ))}
-            </div>
-          </div>
-        </div>
+        <input type="hidden" name="email" value={user.email} />
 
         {/* PASSWORD */}
         <div className="mb-4">
           <label htmlFor="password" className="mb-2 block text-sm font-medium">
-            Enter a password
+            Change password
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -173,7 +144,7 @@ export default function EditUserForm({
         {/* Avatar */}
         <div className="mb-4">
           <label htmlFor="avatar" className="mb-2 block text-sm font-medium">
-            Avatar do Usuário
+            Avatar
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -201,8 +172,6 @@ export default function EditUserForm({
             </div>
           </div>
         </div>
-
-
 
       </div>
       <div className="mt-6 flex justify-end gap-4">

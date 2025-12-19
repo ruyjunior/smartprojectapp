@@ -1,9 +1,11 @@
-import { Update, View, Pdf } from '@/app/ui/buttons';
+import { Update, View, Pdf, File } from '@/app/ui/buttons';
 import { CurrentUser, formatDateToLocal } from '@/app/utils/utils';
 import { fetchFilteredProjects } from '@/app/query/projects/data';
 import { fetchTasks } from '@/app/query/tasks/data';
 import { DeleteButton } from './deletebutton';
 import ClientCard from './clientCard';
+import UserCard from './userCard';
+import { fetchUsersProjects } from '@/app/query/users/data';
 
 export default async function ProjectsTable({
   query,
@@ -12,7 +14,10 @@ export default async function ProjectsTable({
   query: string | undefined | null;
   currentPage: number | undefined | null;
 }) {
-  const projects = await fetchFilteredProjects(query, currentPage);
+  const currentUser = await CurrentUser();
+  const usersProjects = await fetchUsersProjects();
+  const allProjects = await fetchFilteredProjects(query, currentPage);
+  const projects = currentUser?.role === 'admin' ? allProjects : allProjects.filter(project => usersProjects.some(up => up.idproject === project.id && up.iduser === currentUser.id));
   const tasks = await fetchTasks();
   const user = await CurrentUser();
 
@@ -38,7 +43,7 @@ export default async function ProjectsTable({
                         <p className="text-sm text-gray-600">Date: {formatDateToLocal(project.timestamp)}</p>
                       </div>
                       <div className="pt-2 space-y-2 text-gray-800">
-                          <ClientCard project={{...project, timeprevision: String(project.timeprevision), timespend: String(project.timespend)}} />  
+                        <ClientCard project={{ ...project, timeprevision: String(project.timeprevision), timespend: String(project.timespend) }} />
                       </div>
                       <div className="flex justify-between mt-4 text-sm text-gray-700">
                         <p>Prevision Hours: {project.timeprevision}</p>
@@ -47,8 +52,13 @@ export default async function ProjectsTable({
                       </div>
                       <div className="flex justify-end gap-3 pt-3">
                         <View href={`/projects/${project.id}/view`} />
-                        <Update href={`/projects/${project.id}/edit`} />
                         <Pdf href={`/projects/${project.id}/pdf`} />
+                        <File href={`/projects/${project.id}/files`} />
+                        {user?.role === 'admin' && (
+                          <>
+                            <Update href={`/projects/${project.id}/edit`} />
+                          </>
+                        )}
                       </div>
                     </div>
                   )
@@ -60,6 +70,7 @@ export default async function ProjectsTable({
                     <th className="px-2 py-2">EDIT</th>
                     <th className="px-2 py-2">TITLE</th>
                     <th className="px-2 py-2">CLIENTS / CONTACTS</th>
+                    <th className="px-2 py-2">USERS</th>
                     <th className="px-2 py-2">DATE</th>
                     <th className="px-2 py-2">COMMENTS</th>
                     <th className="px-2 py-2">TIME PREVISION</th>
@@ -69,7 +80,7 @@ export default async function ProjectsTable({
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
-                  {projects.map( (project) => {
+                  {projects.map((project) => {
                     const projectTasks = tasks.filter((task) => task.idproject === project.id);
                     const highTasks = projectTasks.filter(task => task.grade === "high");
                     const completedTasks = highTasks.filter(task => task.status === "done");
@@ -79,13 +90,22 @@ export default async function ProjectsTable({
                       <tr key={project.id} className="hover:bg-gray-300">
                         <td className="py-2 px-2 flex gap-2">
                           <View href={`/projects/${project.id}/view`} />
-                          <Update href={`/projects/${project.id}/edit`} />
                           <Pdf href={`/projects/${project.id}/pdf`} />
+                          <File href={`/projects/${project.id}/files`} />
+                          {user?.role === 'admin' && (
+                            <>
+                              <Update href={`/projects/${project.id}/edit`} />
+                            </>
+                          )}
                         </td>
                         <td className="px-2 py-2 text-xs font-medium">{project.title}</td>
                         <td className="py-2 px-2 gap-2">
-                          <ClientCard project={{...project, timeprevision: String(project.timeprevision), timespend: String(project.timespend)}} />  
+                          <ClientCard project={{ ...project, timeprevision: String(project.timeprevision), timespend: String(project.timespend) }} />
                         </td>
+                        <td className="py-2 px-2 gap-2">
+                          <UserCard project={{ ...project, timeprevision: String(project.timeprevision), timespend: String(project.timespend) }} />
+                        </td>
+
                         <td className="px-2 py-2 text-xs">{formatDateToLocal(project.timestamp)}</td>
                         <td className="px-2 py-2 text-xs">{project.comments}</td>
                         <td className="px-2 py-2 text-xs">{project.timeprevision}</td>

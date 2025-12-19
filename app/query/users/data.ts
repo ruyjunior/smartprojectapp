@@ -1,5 +1,6 @@
 import { sql } from '@vercel/postgres';
 import { User } from '@/app/query/users/definitions';
+import { UsersProjects } from '@/app/query/users/definitions';
 import { CurrentCompanyId } from '@/app/utils/utils';
 
 export async function fetchUsers() {
@@ -89,5 +90,39 @@ export async function fetchUserByEmail(email: string): Promise<boolean> {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to check user by email.');
+  }
+}
+
+export async function fetchUsersByIdProjects(idproject: string) {
+  try {
+    const data = await sql<User>`
+      SELECT u.*
+      FROM smartprojectsapp.users_projects up
+      JOIN smartprojectsapp.users u ON up.iduser = u.id
+      WHERE up.idproject = ${idproject}
+    `;
+    const users = data.rows;
+    return users;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch users projects.');
+  }
+}
+
+export async function fetchUsersProjects() {
+  const idcompany = await CurrentCompanyId();
+
+  try {
+    const data = await sql<UsersProjects>`
+      SELECT *
+      FROM smartprojectsapp.users_projects up
+      WHERE up.idcompany = ${idcompany}
+    `;
+
+    const usersProjects = data.rows;
+    return usersProjects;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch users projects.');
   }
 }

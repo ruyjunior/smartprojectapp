@@ -60,9 +60,10 @@ export async function updateProject(
   prevState: State,
   formData: FormData
 ) {
-  // Extrair arrays de clientes e contatos
+  // Extrair arrays de clientes, contatos e usuários
   const clients = [...new Set(formData.getAll('clients').map(String))];
   const contacts = [...new Set(formData.getAll('contacts').map(String))];
+  const users = [...new Set(formData.getAll('users').map(String))];
   const idcompany = await CurrentCompanyId();
 
   const validatedFields = UpdateProject.safeParse({
@@ -93,10 +94,12 @@ export async function updateProject(
     // Limpar associações antigas
     await deleteClientProjectAssociation(id);
     await deleteContactProjectAssociation(id);
+    await deleteUserProjectAssociation(id);
 
     // Inserir novos contatos e clients
     await insertNewClientProjectAssociation(clients, id);
     await insertNewContactProjectAssociation(contacts, id);
+    await insertNewUserProjectAssociation(users, id);
 
   } catch (error) {
     console.log(error);
@@ -123,6 +126,12 @@ export async function deleteContactProjectAssociation(idproject: string) {
   DELETE FROM smartprojectsapp.contacts_projects 
   WHERE idproject = ${idproject}`;
 }
+export async function deleteUserProjectAssociation(idproject: string) {
+  await sql`
+  DELETE FROM smartprojectsapp.users_projects 
+  WHERE idproject = ${idproject}`;
+}
+
 
 export async function insertNewClientProjectAssociation(clients: string[], id: string) {
   const idcompany = await CurrentCompanyId();
@@ -146,6 +155,19 @@ export async function insertNewContactProjectAssociation(contacts: string[], id:
       await sql`
           INSERT INTO smartprojectsapp.contacts_projects (idcontact, idproject, idcompany)
           VALUES (${contactId}, ${id}, ${idcompany})
+        `;
+    }
+  }
+}
+
+export async function insertNewUserProjectAssociation(users: string[], id: string) {
+  const idcompany = await CurrentCompanyId();
+  // Inserir novos usuários
+  if (users && users.length > 0) {
+    for (const userId of users) {
+      await sql`
+          INSERT INTO smartprojectsapp.users_projects (iduser, idproject, idcompany)
+          VALUES (${userId}, ${id}, ${idcompany})
         `;
     }
   }

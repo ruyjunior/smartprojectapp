@@ -2,9 +2,13 @@ import TicketList from "./components/List";
 import { fetchTickets } from "@/app/query/tickets/data";
 import { lusitana } from "@/app/ui/fonts";
 import { Create } from "@/app/ui/buttons";
+import { CurrentUser } from "@/app/utils/utils";
 
 export default async function TicketsPage() {
-    const tickets = await fetchTickets();
+    const currentUser = await CurrentUser();
+    const Alltickets = await fetchTickets();
+    const tickets = currentUser?.role === 'admin' ? Alltickets : Alltickets.filter(ticket => ticket.iduser === currentUser?.id);
+    //console.log('Atual User ID:', currentUser?.id);
 
     return (
         <div className="w-full">
