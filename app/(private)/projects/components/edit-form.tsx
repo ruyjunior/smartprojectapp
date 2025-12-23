@@ -47,6 +47,9 @@ export default function EditProjectForm({
       formAction(new FormData(e.currentTarget));
     });
   }
+  console.log('Selected Clients in Form:', selectedClientsState);
+  console.log('Selected Contacts in Form:', selectedContactsState);
+  console.log('Selected Users in Form:', selectedUsersState);
 
   return (
     <form action={formAction} onSubmit={handleSubmit}>

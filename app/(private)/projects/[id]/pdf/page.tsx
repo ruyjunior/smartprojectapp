@@ -1,13 +1,14 @@
 import Form from '../../components/pdf-form';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
 import { fetchProjectById } from '@/app/query/projects/data';
-import { fetchClients } from '@/app/query/clients/data';
+import { fetchClients, fetchClientsByIdProjects } from '@/app/query/clients/data';
 import { fetchTasksByProject } from '@/app/query/tasks/data';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
-import { fetchContacts } from '@/app/query/contacts/data';
+import { fetchContacts, fetchContactsByIdProjects } from '@/app/query/contacts/data';
 import { fetchSprints } from '@/app/query/sprints/data';
 import { CurrentCompany } from '@/app/utils/utils';
+import { fetchUsersByIdProjects } from '@/app/query/users/data';
 
 export const metadata: Metadata = {
   title: 'Print PDF Projects',
@@ -16,12 +17,13 @@ export const metadata: Metadata = {
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
   const id = params.id;
-  const [project, clients, tasks, contacts, company] = await Promise.all([
+  const [project, clients, tasks, contacts, company, users] = await Promise.all([
     fetchProjectById(id),
-    fetchClients(),
+    fetchClientsByIdProjects(id),
     fetchTasksByProject(id),
-    fetchContacts(),
-    CurrentCompany()
+    fetchContactsByIdProjects(id),
+    CurrentCompany(),
+    fetchUsersByIdProjects(id),
   ]);
   const sprints = await fetchSprints();
   if (!project) {
@@ -51,6 +53,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         tasks={tasks}
         clients={clients}
         contacts={contacts}
+        users={users}
         sprints={sprints}
       />
     </main>

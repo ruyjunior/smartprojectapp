@@ -28,6 +28,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     fetchContactsByIdProjects(id),
     fetchUsersByIdProjects(id),
   ]);
+  //console.log('Contacts:', contacts);
   if (!project) {
     notFound();
   }

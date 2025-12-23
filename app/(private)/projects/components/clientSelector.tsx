@@ -65,6 +65,9 @@ export default function ClientSelector({
       {selectedClients.map(client => (
         <input key={`client-${client.id}`} type="hidden" name="clients" value={client.id} />
       ))}
+      {selectedContacts.map(contact => (
+        <input key={`contact-${contact.id}`} type="hidden" name="contacts" value={contact.id} />
+      ))}
 
     </div>
   );

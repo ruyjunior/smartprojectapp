@@ -56,6 +56,19 @@ export const DocPDF = ({ data }: { data: ProjectPDF }) => {
               <View style={styles.section}>
                 <Text style={styles.field}><Text style={styles.label}>Empresa:</Text> {client.name}</Text>
                 <Text style={styles.field}><Text style={styles.label}>CNPJ:</Text> {formatCNPJ(client.cnpj)}</Text>
+                <View style={styles.section}>
+                  {data.contacts.map((contact, ci) => {
+                    if (contact.idclient !== client.id) return null;
+                    return (
+                      <View key={ci} style={styles.contactCard}>
+                        <Text style={styles.field}><Text style={styles.label}>Nome:</Text> {contact.name}</Text>
+                        <Text style={styles.field}><Text style={styles.label}>Email:</Text> {contact.email}</Text>
+                        <Text style={styles.field}><Text style={styles.label}>Telefone:</Text> {formatPhone(contact.phone)}</Text>
+                      </View>
+                    );
+                  }
+                  )}
+                </View>
               </View>
             );
           })}
@@ -66,7 +79,7 @@ export const DocPDF = ({ data }: { data: ProjectPDF }) => {
           <Text style={styles.chapter}>TAREFAS</Text>
 
           {data.tasks.map((task, index) => {
-            const contact = data.contacts.find(emp => emp.id === task.who);
+            const user = data.users.find(emp => emp.id === task.who);
             const taskSprints = data.sprints.filter((sprint) => sprint.idtask === task.id);
 
             return (
@@ -75,16 +88,16 @@ export const DocPDF = ({ data }: { data: ProjectPDF }) => {
                   <Text style={styles.taskTitle}>{task.title}</Text>
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
                     <Text style={styles.taskMeta}>{task.status}</Text>
-                    <Text style={styles.timeBadge}>Prev: {task.timeprevision}</Text>
-                    <Text style={styles.timeBadge}>Gasto: {task.timespend}</Text>
+                    <Text style={styles.timeBadge}>Estimated: {task.timeprevision}</Text>
+                    <Text style={styles.timeBadge}>Spent: {task.timespend}</Text>
                   </View>
                 </View>
 
                 <Text style={styles.taskDescription}>{task.what}</Text>
 
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 1 }}>
-                  <Text style={styles.taskMeta}>Como: {task.how}</Text>
-                  <Text style={styles.taskMeta}>Quem: {contact ? contact.name : '—'}</Text>
+                  <Text style={styles.taskMeta}>How: {task.how}</Text>
+                  <Text style={styles.taskMeta}>Who: {user ? user.name : '—'}</Text>
                 </View>
 
                 {/* Sprints list */}

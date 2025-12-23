@@ -7,6 +7,7 @@ import { Contact } from '@/app/query/contacts/definitions';
 import { Task } from '@/app/query/tasks/definitions';
 import { PagePDF } from './pagePDF';
 import { Sprint } from '@/app/query/sprints/definitions';
+import { User } from '@/app/query/users/definitions';
 
 export default function PdfForm({
   project,
@@ -14,7 +15,8 @@ export default function PdfForm({
   clients,
   contacts,
   tasks,
-  sprints
+  sprints,
+  users
 }: {
   project: Project;
   company: Company;
@@ -22,6 +24,7 @@ export default function PdfForm({
   contacts: Contact[];
   tasks: Task[];
   sprints: Sprint[];
+  users: User[];
 }) {
 
   const data: ProjectPDF = {
@@ -30,7 +33,8 @@ export default function PdfForm({
     clients,
     tasks,
     sprints,
-    contacts
+    contacts,
+    users
   };
 
 

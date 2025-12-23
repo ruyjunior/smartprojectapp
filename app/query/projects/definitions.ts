@@ -3,6 +3,7 @@ import { Task } from '@/app/query/tasks/definitions';
 import { Contact } from '@/app/query/contacts/definitions';
 import { Sprint } from '@/app/query/sprints/definitions';
 import { Company } from '../companies/definitions'; 
+import { User } from '../users/definitions';
 
 export type Project = {
   id: string;
@@ -21,4 +22,5 @@ export type ProjectPDF = {
   tasks: Task[];
   sprints: Sprint[];
   contacts: Contact[];
+  users: User[];
 };

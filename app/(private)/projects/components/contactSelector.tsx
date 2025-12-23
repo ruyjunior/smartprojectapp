@@ -40,6 +40,7 @@ export default function ContactSelector({
           <span className="text-sm">{contact.name}</span>
         </label>
       ))}
+      {/* Campos hidden para o formulário */}
     </div>
   );
 }

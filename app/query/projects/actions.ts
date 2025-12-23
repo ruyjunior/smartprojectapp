@@ -60,6 +60,7 @@ export async function updateProject(
   prevState: State,
   formData: FormData
 ) {
+  console.log('Form Data Received:', formData);
   // Extrair arrays de clientes, contatos e usuários
   const clients = [...new Set(formData.getAll('clients').map(String))];
   const contacts = [...new Set(formData.getAll('contacts').map(String))];
@@ -72,6 +73,7 @@ export async function updateProject(
     clients,
     contacts,
   });
+  //console.log('Validated Fields:', validatedFields);
 
   if (!validatedFields.success) {
     console.log(validatedFields.error);
