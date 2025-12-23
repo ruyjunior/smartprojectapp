@@ -1,4 +1,4 @@
-import { Update, View, Pdf, File } from '@/app/ui/buttons';
+import { Update, View, Pdf, File, Payment } from '@/app/ui/buttons';
 import { CurrentUser, formatDateToLocal } from '@/app/utils/utils';
 import { fetchFilteredProjects } from '@/app/query/projects/data';
 import { fetchTasks } from '@/app/query/tasks/data';
@@ -54,6 +54,7 @@ export default async function ProjectsTable({
                         <View href={`/projects/${project.id}/view`} />
                         <Pdf href={`/projects/${project.id}/pdf`} />
                         <File href={`/projects/${project.id}/files`} />
+                        <Payment href={`/projects/${project.id}/payments`} />
                         {user?.role === 'admin' && (
                           <>
                             <Update href={`/projects/${project.id}/edit`} />
@@ -67,7 +68,7 @@ export default async function ProjectsTable({
               <table className="hidden min-w-full text-gray-900 md:table">
                 <thead className="bg-blue-100 text-left text-xs font-medium">
                   <tr>
-                    <th className="px-2 py-2">EDIT</th>
+                    <th className="px-2 py-2">PANEL</th>
                     <th className="px-2 py-2">TITLE</th>
                     <th className="px-2 py-2">CLIENTS / CONTACTS</th>
                     <th className="px-2 py-2">USERS</th>
@@ -92,6 +93,7 @@ export default async function ProjectsTable({
                           <View href={`/projects/${project.id}/view`} />
                           <Pdf href={`/projects/${project.id}/pdf`} />
                           <File href={`/projects/${project.id}/files`} />
+                          <Payment href={`/projects/${project.id}/payments`} />
                           {user?.role === 'admin' && (
                             <>
                               <Update href={`/projects/${project.id}/edit`} />

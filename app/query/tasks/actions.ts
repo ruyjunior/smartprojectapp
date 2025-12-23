@@ -38,6 +38,7 @@ export type State = {
 };
 
 export async function createTask(prevState: State, formData: FormData) {
+  //console.log(formData)
   const validatedFields = CreateTask.safeParse({
     title: formData.get('title'),
     startdate: formData.get('startdate'),
@@ -49,6 +50,7 @@ export async function createTask(prevState: State, formData: FormData) {
     status: formData.get('status'),
     idproject: formData.get('idproject'),
   });
+  //console.log(validatedFields);
 
   if (!validatedFields.success) {
     return {
@@ -65,6 +67,7 @@ export async function createTask(prevState: State, formData: FormData) {
         VALUES (${title}, ${startdate}, ${timeprevision}, ${status}, ${what}, ${who}, ${grade}, ${idproject})
         `;
   } catch (error) {
+    //console.error(error);
     return {
       message: 'Database Error: Failed to Create Task.',
     };

@@ -1,16 +1,16 @@
 'use client';
 import React, { useState, useActionState, useTransition } from 'react';
-import { Project } from '@/app/query/projects/definitions';
 import Link from 'next/link';
 import { TagIcon } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
 import { createFile, State } from '@/app/query/files/actions';
 import { upload } from '@vercel/blob/client';
 
-export default function Form({ project }: { project: Project}) {
+export default function Form({ owner_type, owner_id }: { owner_type: string, owner_id: string }) {
 
   const initialState: State = { message: '', errors: {} };
   const [state, formAction] = useActionState(createFile, initialState);
+  const currentState = state ?? initialState;
   const [isPending, startTransition] = useTransition();
   const [fileUrl, setFileUrl] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -42,7 +42,8 @@ export default function Form({ project }: { project: Project}) {
     <form action={formAction} onSubmit={handleSubmit}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
 
-        <input type="hidden" name="idproject" value={project.id} />
+        <input type="hidden" name="owner_type" value={owner_type} />
+        <input type="hidden" name="owner_id" value={owner_id} />
 
         {/* Title */}
         <div className="mb-4">
@@ -62,8 +63,8 @@ export default function Form({ project }: { project: Project}) {
               <TagIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
             <div id="title-error" aria-live="polite" aria-atomic="true">
-              {state.errors?.title &&
-                state.errors.title.map((error: string) => (
+              {currentState.errors?.title &&
+                currentState.errors.title.map((error: string) => (
                   <p className="mt-2 text-sm text-red-500" key={error}>
                     {error}
                   </p>
@@ -90,8 +91,8 @@ export default function Form({ project }: { project: Project}) {
               <TagIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
             <div id="comments-error" aria-live="polite" aria-atomic="true">
-              {state.errors?.comments &&
-                state.errors.comments.map((error: string) => (
+              {currentState.errors?.comments &&
+                currentState.errors.comments.map((error: string) => (
                   <p className="mt-2 text-sm text-red-500" key={error}>
                     {error}
                   </p>
@@ -135,7 +136,11 @@ export default function Form({ project }: { project: Project}) {
       </div>
       <div className="mt-6 flex justify-end gap-4">
         <Link
-          href={'/projects/' + project.id + '/files'}
+          href={
+            owner_type === 'project' ? '/projects/' + owner_id + '/files' :
+            owner_type === 'user' ? '/users/' + owner_id + '/files' :
+            '/settings/company/'
+          }
           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
         >
           Cancel

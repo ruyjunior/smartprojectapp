@@ -3,6 +3,7 @@ import { formatDateToLocal, formatTime } from '@/app/utils/utils';
 import { fetchFilteredSprints } from '@/app/query/sprints/data';
 import { fetchProjects } from '@/app/query/projects/data';
 import { fetchTasks } from '@/app/query/tasks/data';
+import { DeleteButton } from './deletebutton';
 
 export default async function SprintsTable({
   query,
@@ -71,7 +72,7 @@ export default async function SprintsTable({
                         <td className="px-1 py-1 text-xs text-gray-600">{formatTime(sprint.starttime)}</td>
                         <td className="px-1 py-1 text-xs text-gray-600">{formatTime(sprint.endtime)}</td>
                         <td className="px-1 py-1">
-                          <DeleteSprint id={sprint.id} />
+                          <DeleteButton id={sprint.id} />
                         </td>
                       </tr>
                     )

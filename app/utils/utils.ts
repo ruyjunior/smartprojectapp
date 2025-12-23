@@ -1,7 +1,7 @@
 import { auth } from '../lib/auth';
 import { Revenue } from '../lib/definitions';
 import { fetchCompanyById } from '../query/companies/data';
-import { fetchUserById } from '../query/users/data';
+import { fetchUserById, fetchUsersByIdProjects } from '../query/users/data';
 
 export async function CurrentCompanyId() {
   const session = await auth();
@@ -40,10 +40,15 @@ export async function CurrentUser() {
 }
 
 export const formatCurrency = (amount: number) => {
-  return (amount / 100).toLocaleString('pt-BR', {
+  const newamount = amount.toLocaleString(
+    'pt-BR', {
     style: 'currency',
     currency: 'BRL',
-  });
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }
+  );
+  return newamount;
 };
 
 export function timeToDecimal(time: string | null | undefined) {
@@ -63,7 +68,7 @@ export const formatDateToLocal = (
   }
 
   const date = new Date(dateStr);
-  
+
   // Ajuste para garantir que a data esteja correta
   date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
 
@@ -130,7 +135,7 @@ export const formatCEP = (cep: string | null | undefined) => {
 export const formatPhone = (phone: string | null | undefined) => {
   if (!phone) {
     return '';
-  } 
+  }
   // Remove any non-digit characters
   phone = phone.replace(/\D/g, '');
 
@@ -263,3 +268,12 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
     totalPages,
   ];
 };
+
+export const isUserOnProject = async (idproject: string) => {
+  const currentUser = await CurrentUser();
+  const UsersProjects = await fetchUsersByIdProjects(idproject);
+  const userOnProject = UsersProjects.some(
+    (userProject) => userProject.id === currentUser.id
+  );
+  return userOnProject;
+}

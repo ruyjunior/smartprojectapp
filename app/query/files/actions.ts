@@ -12,7 +12,8 @@ const FormSchema = z.object({
   url: z.string().optional(),
   type: z.string().optional().nullable(),
   size: z.number().optional(),
-  idproject: z.string(),
+  owner_id: z.string(),
+  owner_type: z.string(),
 });
 
 const CreateFile = FormSchema.omit({ id: true });
@@ -26,18 +27,20 @@ export type State = {
     url?: string[];
     type?: string[];
     size?: string[];
-    idproject?: string[];
+    owner_id?: string[];
+    owner_type?: string[];
   };
 };
 
-export async function createFile(prevState: State, formData: FormData) {
+export async function createFile(prevState: State | undefined, formData: FormData) {
   const validatedFields = CreateFile.safeParse({
     title: formData.get('title'),
     comments: formData.get('comments'),
     url: formData.get('url'),
     type: formData.get('type'),
     size: Number(formData.get('size')),
-    idproject: formData.get('idproject'),
+    owner_id: formData.get('owner_id'),
+    owner_type: formData.get('owner_type'),
   });
 
   if (!validatedFields.success) {
@@ -47,13 +50,13 @@ export async function createFile(prevState: State, formData: FormData) {
       message: 'Missing Fields. Failed to Create.',
     };
   }
-  const { title, comments, url, type, size, idproject } = validatedFields.data;
+  const { title, comments, url, type, size, owner_id, owner_type } = validatedFields.data;
 
   try {
     await sql`
         INSERT INTO smartprojectsapp.files ( 
-          title, comments, url, type, size, idproject)
-        VALUES (${title}, ${comments}, ${url}, ${type}, ${size}, ${idproject})
+          title, comments, url, type, size, owner_id, owner_type)
+        VALUES (${title}, ${comments}, ${url}, ${type}, ${size}, ${owner_id}, ${owner_type})
         `;
   } catch (error) {
     console.error(error);
@@ -63,12 +66,20 @@ export async function createFile(prevState: State, formData: FormData) {
   }
   await deleteUnusedFiles();
   revalidatePath('/files');
-  redirect('/projects/' + idproject + '/files');
+
+  if (owner_type === 'project') {
+    redirect('/projects/' + owner_id + '/files');
+  } else if (owner_type === 'user') {
+    redirect('/settings/users/' + owner_id + '/files');
+  } else if (owner_type === 'company') {
+    redirect('/settings/company/');
+  }
+  return { message: 'File created successfully.' };
 }
 
 export async function updateFile(
   id: string,
-  prevState: State,
+  prevState: State | undefined,
   formData: FormData
 ) {
   const validatedFields = UpdateFile.safeParse({
@@ -77,7 +88,8 @@ export async function updateFile(
     url: formData.get('url'),
     type: formData.get('type'),
     size: Number(formData.get('size')),
-    idproject: formData.get('idproject'),
+    owner_id: formData.get('owner_id'),
+    owner_type: formData.get('owner_type'),
   });
   if (!validatedFields.success) {
     //console.log(validatedFields.error.flatten().fieldErrors);
@@ -87,7 +99,7 @@ export async function updateFile(
     };
   }
   //console.log(validatedFields.data);
-  const { title, comments, url, type, size, idproject } = validatedFields.data;
+  const { title, comments, url, type, size, owner_id, owner_type } = validatedFields.data;
 
   try {
     await sql`
@@ -97,7 +109,9 @@ export async function updateFile(
       comments = ${comments},
       url = ${url},
       type = ${type},
-      size = ${size}
+      size = ${size},
+      owner_id = ${owner_id},
+      owner_type = ${owner_type}
     WHERE id = ${id}
   `;
   } catch (error) {
@@ -106,7 +120,13 @@ export async function updateFile(
   }
   await deleteUnusedFiles();
   revalidatePath('/files');
-  redirect('/projects/' + idproject + '/files');
+  if (owner_type === 'project') {
+    redirect('/projects/' + owner_id + '/files');
+  } else if (owner_type === 'user') {
+    redirect('/settings/users/' + owner_id + '/files');
+  } else if (owner_type === 'company') {
+    redirect('/settings/company/');
+  }
 }
 
 export async function deleteAction(id: string) {

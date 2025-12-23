@@ -50,6 +50,10 @@ export default function EditTaskForm({
   return (
     <form action={formAction} onSubmit={handleSubmit}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
+
+        <input type="hidden" name="who" value={user.id} />
+        <input type="hidden" name="idproject" value={task.idproject} />
+
         {/* START DATE */}
         <div className="mb-4">
           <label htmlFor="startdate" className="mb-2 block text-sm font-medium">
@@ -119,68 +123,6 @@ export default function EditTaskForm({
             </div>
           </div>
         </div>
-
-        {/* Time Spend 
-        <div className="mb-4">
-          <label htmlFor="timespend" className="mb-2 block text-sm font-medium">
-            Enter Time spend
-          </label>
-          <div className="relative mt-2 rounded-md">
-            <div className="relative">
-              <input
-                id="timespend"
-                name="timespend"
-                type="time"
-                defaultValue={task.timespend}
-                //maxLength={5}
-                //onChange={handleChangeEndDate}
-                placeholder="Enter a time spend"
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                aria-describedby="enddate-error"
-              />
-              <ClockIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-            </div>
-          </div>
-        </div>
-        */}
-
-        {/* Employee*/}
-        {user?.role === 'admin' ? (
-          <div className="mb-4">
-            <label htmlFor="who" className="mb-2 block text-sm font-medium">
-              Choose who will do the task
-            </label>
-            <div className="relative">
-              <select
-                id="who"
-                name="who"
-                className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                defaultValue={task.who}
-                aria-describedby="who-error"
-              >
-                <option value="" disabled>
-                  Select a who
-                </option>
-                {contacts.map((contact) => (
-                  <option key={contact.id} value={contact.id}>
-                    {contact.name}
-                  </option>
-                ))}
-              </select>
-              <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
-            </div>
-            <div id="who-error" aria-live="polite" aria-atomic="true">
-              {state?.errors?.who &&
-                state.errors.who.map((error: string) => (
-                  <p className="mt-2 text-sm text-red-500" key={error}>
-                    {error}
-                  </p>
-                ))}
-            </div>
-          </div>
-        ) : (
-          <input type="hidden" name="who" value={contacts.find(c => c.email === user?.email)?.id} />
-        )}
 
         {/* Title */}
         <div className="mb-4">
@@ -320,45 +262,6 @@ export default function EditTaskForm({
               ))}
           </div>
         </div>
-
-        {/* Project*/}
-        {/* Hidden Field for Sprint ID Task */}
-        <input type="hidden" name="idproject" value={task.idproject} />
-        {/* Project*
-                 <div className="mb-4">
-          <label htmlFor="idproject" className="mb-2 block text-sm font-medium">
-            Choose Project
-          </label>
-          <div className="relative">
-            <select
-              id="idproject"
-              name="idproject"
-              className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              defaultValue={task.idproject}
-              aria-describedby="idproject-error"
-            >
-              <option value="" disabled>
-                Select Project
-              </option>
-              {projects.map((project) => (
-                <option key={project.id} value={project.id}>
-                  {project.title}
-                </option>
-              ))}
-            </select>
-            <DocumentCheckIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
-          </div>
-          <div id="who-error" aria-live="polite" aria-atomic="true">
-            {state?.errors?.who &&
-              state.errors.who.map((error: string) => (
-                <p className="mt-2 text-sm text-red-500" key={error}>
-                  {error}
-                </p>
-              ))}
-          </div>
-        </div>
-
-         */}
 
       </div>
       <div className="mt-6 flex justify-end gap-4">

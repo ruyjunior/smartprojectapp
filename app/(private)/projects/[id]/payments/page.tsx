@@ -1,33 +1,28 @@
-import TasksTable from '@/app/(private)/tasks/components/table';
+import PaymentsTable from '@/app/(private)/payments/components/table';
 import ProjectsTable from '../../components/table';
-import { CreateTask } from '@/app/(private)/tasks/components/buttons';
 import { Suspense } from 'react';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
 import { fetchProjectById } from '@/app/query/projects/data';
-import { fetchClients } from '@/app/query/clients/data';
-import { fetchTasksByProject } from '@/app/query/tasks/data';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
-import { fetchContacts } from '@/app/query/contacts/data';
-import { isUserOnProject } from '@/app/utils/utils';
+import { CreatePayment } from '@/app/(private)/payments/components/buttons';
+import { CurrentUser, isUserOnProject } from '@/app/utils/utils';
 
 export const metadata: Metadata = {
-  title: 'Project View',
+  title: 'Project Payments',
 };
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
   const id = params.id;
-  const [project, clients, tasks, contacts] = await Promise.all([
+  const [project] = await Promise.all([
     fetchProjectById(id),
-    fetchClients(),
-    fetchTasksByProject(id),
-    fetchContacts()
   ]);
+  const userOnProject = await isUserOnProject(project.id);
+
   if (!project) {
     notFound();
   }
-  const userOnProject = await isUserOnProject(project.id);
 
   return (
     <main>
@@ -35,19 +30,19 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         breadcrumbs={[
           { label: 'Projects', href: '/projects' },
           {
-            label: 'View: ' + project.title,
-            href: `/projects/${id}/view`,
+            label: 'Payments: ' + project.title,
+            href: `/projects/${id}/payments`,
             active: true,
           },
         ]}
       />
       <ProjectsTable query={id} currentPage={null} />
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-        {userOnProject &&
-          <CreateTask id={id} />
+        {userOnProject && 
+          <CreatePayment  id={id} />
         }
       </div>
-      <TasksTable query={id} currentPage={null} />
+      <PaymentsTable query={''} currentPage={null} idproject={id} />
     </main>
   );
 }

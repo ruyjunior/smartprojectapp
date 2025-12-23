@@ -22,8 +22,9 @@ export async function fetchUsers() {
 
 export async function fetchFilteredUsers(
   query: string,
-  currentPage: number) {
-  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+  currentPage: number | undefined | null
+) {
+  const offset = (currentPage && currentPage > 0 ? (currentPage - 1) * ITEMS_PER_PAGE : 0);
   const idcompany = await CurrentCompanyId();
 
   try {
@@ -34,7 +35,8 @@ export async function fetchFilteredUsers(
         users.idcompany = ${idcompany} AND (
         users.name ILIKE ${`%${query}%`} OR
         users.role ILIKE ${`%${query}%`} OR
-        users.email ILIKE ${`%${query}%`} )
+        users.email ILIKE ${`%${query}%`} OR
+        users.id::TEXT ILIKE ${`%${query}%`})
       ORDER BY name ASC
     `;
     const users = data.rows;

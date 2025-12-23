@@ -1,4 +1,4 @@
-import { Update } from '@/app/ui/buttons';
+import { Update, File } from '@/app/ui/buttons';
 import { CurrentUser, formatCNPJ, formatPhone } from '@/app/utils/utils';
 import { Company } from '@/app/query/companies/definitions';
 import Image from 'next/image';

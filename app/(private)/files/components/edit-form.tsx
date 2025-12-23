@@ -18,7 +18,7 @@ export default function EditFileForm({
   file: File;
 }) {
   const initialState: State = { message: '', errors: {} };
-  const updateFileWithId = (state: State = initialState, formData: FormData) => updateFile(file.id, state, formData);
+  const updateFileWithId = (state: State | undefined, formData: FormData) => updateFile(file.id, state, formData);
   const [state, formAction] = useActionState(updateFileWithId, initialState);
   const [isPending, startTransition] = useTransition();
   const [fileUrl, setFileUrl] = useState<string | null>(file.url ?? null);
@@ -50,7 +50,8 @@ export default function EditFileForm({
   return (
     <form action={formAction} onSubmit={handleSubmit}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
-        <input type="hidden" name="idproject" value={file.idproject} />
+        <input type="hidden" name="owner_id" value={file.owner_id} />
+        <input type="hidden" name="owner_type" value={file.owner_type} />
 
         {/* Title */}
         <div className="mb-4">
@@ -100,7 +101,7 @@ export default function EditFileForm({
               <TagIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
             <div id="comments-error" aria-live="polite" aria-atomic="true">
-              {state.errors?.comments &&
+              {state && state.errors?.comments &&
                 state.errors.comments.map((error: string) => (
                   <p className="mt-2 text-sm text-red-500" key={error}>
                     {error}
@@ -145,7 +146,11 @@ export default function EditFileForm({
       </div>
       <div className="mt-6 flex justify-end gap-4">
         <Link
-          href={'/projects/' + file.idproject + '/files'}
+          href={
+            file.owner_type === 'project' ? '/projects/' + file.owner_id + '/files' :
+            file.owner_type === 'user' ? '/users/' + file.owner_id + '/files' :
+            '/settings/company/'
+          }
           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
         >
           Cancel

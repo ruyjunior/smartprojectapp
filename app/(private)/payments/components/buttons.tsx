@@ -1,25 +1,25 @@
 import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { deleteTask } from '@/app/query/tasks/actions';
+import { deleteAction } from '@/app/query/payments/actions';
 
-export function CreateTask({ id } : { id: string }) {
+export function CreatePayment({ id } : { id: string }) {
   return (
     <Link
-      href={`/tasks/${id}/create`}
-      title="Create new task"
+      href={`/payments/${id}/create`}
+      title="Create new payment"
       className="flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
     >
-      <span className="hidden md:block">Create Task</span>{' '}
+      <span className="hidden md:block">Create Payment</span>{' '}
       <PlusIcon className="h-5 md:ml-4" />
     </Link>
   );
 }
 
-export function UpdateTask({ id }: { id: string }) {
+export function UpdatePayment({ id }: { id: string }) {
   return (
     <Link
-      href={`/tasks/${id}/edit`}
-      title="Edit task"
+      href={`/payments/${id}/edit`}
+      title="Edit payment"
       className="rounded-md border p-2 hover:bg-gray-100"
     >
       <PencilIcon className="w-5" />
@@ -27,10 +27,10 @@ export function UpdateTask({ id }: { id: string }) {
   );
 }
 
-export function DeleteTask({ id }: { id: string }) {
-  const deleteTaskWithId = deleteTask.bind(null, id);
+export function DeletePayment({ id }: { id: string }) {
+  const deletePaymentWithId = deleteAction.bind(null, id);
   return (
-    <form action={deleteTaskWithId}>
+    <form action={deletePaymentWithId}>
       <button type="submit" className="rounded-md border p-2 hover:bg-gray-100">
         <span className="sr-only">Delete</span>
         <TrashIcon className="w-5" />

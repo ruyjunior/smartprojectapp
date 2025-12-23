@@ -2,13 +2,16 @@ import { sql } from '@vercel/postgres';
 import { File } from '@/app/query/files/definitions';
 import { CurrentCompany, formatTime } from '../../utils/utils';
 
-export async function fetchFiles(idproject: string) {
+export async function fetchFiles(
+  owner_type: string | undefined | null,
+  owner_id: string | undefined | null,
+) {
   const company = await CurrentCompany();
   try {
     const data = await sql<File>`
       SELECT *
       FROM smartprojectsapp.files
-      WHERE idproject = ${idproject}
+      WHERE owner_id = ${owner_id} AND owner_type = ${owner_type}
     `;
     const files = data.rows;
     return files;
@@ -21,7 +24,8 @@ export async function fetchFiles(idproject: string) {
 export async function fetchFilteredFiles(
   query: string | undefined | null,
   currentPnumber: number | undefined | null,
-  idproject: string | undefined | null
+  owner_type: string | undefined | null,
+  owner_id: string | undefined | null,
 ) {
   const offset = currentPnumber ? (currentPnumber - 1) * ITEMS_PER_PAGE : 0;
   //console.log('Fetching files with query:', query, 'and idproject:', idproject);
@@ -32,7 +36,7 @@ export async function fetchFilteredFiles(
       WHERE 
         (title::text ILIKE ${`%${query}%`} OR
         comments::text ILIKE ${`%${query}%`} )
-        AND idproject = ${idproject}
+        AND owner_type = ${owner_type} AND owner_id = ${owner_id}
     `;
     const files = data.rows;
     //console.log('Filtered files:', files);
@@ -70,20 +74,5 @@ export async function fetchFileById(id: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch file.');
-  }
-}
-
-export async function fetchFileByProject(id: string) {
-  try {
-    const data = await sql<File>`
-      SELECT *
-      FROM smartprojectsapp.files
-      WHERE files.idproject = ${id} `;
-
-    const files = data.rows;
-    return files;
-  } catch (error) {
-    console.error('Database Error:', error);
-    throw new Error('Failed to fetch files by Id Project.');
   }
 }

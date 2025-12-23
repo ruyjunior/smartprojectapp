@@ -1,4 +1,4 @@
-import { Update } from '@/app/ui/buttons';
+import { Update, File } from '@/app/ui/buttons';
 import { DeleteButton } from './deletebutton';
 import { fetchFilteredUsers } from '@/app/query/users/data';
 import { CurrentUser } from '@/app/utils/utils';
@@ -10,7 +10,7 @@ export default async function UsersTable({
   currentPage,
 }: {
   query: string;
-  currentPage: number;
+  currentPage: number | undefined | null;
 }) {
   let users: any[];
   users = [];
@@ -49,6 +49,8 @@ export default async function UsersTable({
                     </div>
                     <div className="flex justify-end gap-3 pt-3">
                       <Update href={`/settings/users/${user.id}/edit`} />
+                      <File href={`/settings/users/${user.id}/files`} />
+
                       {currentUser.role === 'admin' && (
                         <DeleteButton id={user.id} />
                       )}
@@ -84,6 +86,7 @@ export default async function UsersTable({
 
                       <td className="py-2 px-2 flex gap-2">
                         <Update href={`/settings/users/${user.id}/edit`} />
+                        <File href={`/settings/users/${user.id}/files`} />
                       </td>
                       <td className="px-2 py-2 text-xs">{user.name}</td>
                       <td className="px-2 py-2 text-xs">{user.email}</td>

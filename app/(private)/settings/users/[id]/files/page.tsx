@@ -1,26 +1,23 @@
 import FileTable from '@/app/(private)/files/components/table';
-import ProjectsTable from '../../components/table';
 import { Suspense } from 'react';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
-import { fetchProjectById } from '@/app/query/projects/data';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { CreateFile } from '@/app/(private)/files/components/buttons';
-import { CurrentUser } from '@/app/utils/utils';
+import UsersTable from '../../components/table';
+import { fetchUserById } from '@/app/query/users/data';
 
 export const metadata: Metadata = {
-  title: 'Project Files',
+  title: 'Users Files',
 };
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
   const id = params.id;
-  const [project] = await Promise.all([
-    fetchProjectById(id),
+  const [user] = await Promise.all([
+    fetchUserById(id),
   ]);
-  const currentUser = await CurrentUser();
-
-  if (!project) {
+  if (!user) {
     notFound();
   }
 
@@ -28,21 +25,20 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Projects', href: '/projects' },
+          { label: 'Settings', href: '/settings/' },
+          { label: 'Users', href: '/settings/users' },
           {
-            label: 'Files: ' + project.title,
-            href: `/projects/${id}/files`,
+            label: 'Files: ' + user.name,
+            href: `/settings/users/${id}/files`,
             active: true,
           },
         ]}
       />
-      <ProjectsTable query={id} currentPage={null} />
+      <UsersTable query={id} currentPage={null} />
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-        {currentUser?.role === 'admin' &&
-          <CreateFile owner_type='project' owner_id={id} />
-        }
+        <CreateFile owner_type='user' owner_id={id} />
       </div>
-      <FileTable query={''} currentPage={null} owner_id={id} owner_type='project' />
+      <FileTable query={''} currentPage={null} owner_id={id} owner_type='user' />
     </main>
   );
 }

@@ -1,6 +1,6 @@
 'use client';
 import { useState, useRef } from 'react';
-import { PencilIcon, PlusIcon, TrashIcon, EyeIcon, PrinterIcon, DocumentCurrencyDollarIcon, DocumentIcon } from '@heroicons/react/24/outline';
+import { PencilIcon, PlusIcon, TrashIcon, EyeIcon, PrinterIcon, DocumentCurrencyDollarIcon, DocumentIcon, CurrencyDollarIcon, NumberedListIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { FaWhatsapp } from "react-icons/fa";
 
@@ -36,7 +36,7 @@ export function View({ href }: { href: string }) {
       title='View Tasks and Sprints'
       className="rounded-md border p-2 hover:bg-gray-100"
     >
-      <EyeIcon className="w-5" />
+      <NumberedListIcon className="w-5" />
     </Link>
   );
 }
@@ -73,6 +73,17 @@ export function File({ href }: { href: string }) {
       className="rounded-md border p-2 hover:bg-gray-100"
     >
       <DocumentIcon className="w-5" />
+    </Link>
+  );
+}
+export function Payment({ href }: { href: string }) {
+  return (
+    <Link
+      href={href}
+      title='View Payments'
+      className="rounded-md border p-2 hover:bg-gray-100"
+    >
+      <CurrencyDollarIcon className="w-5" />
     </Link>
   );
 }

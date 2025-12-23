@@ -1,4 +1,4 @@
-import Form from '@/app/(private)/tasks/components/create-form';
+import Form from '@/app/(private)/payments/components/create-form';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
 import { fetchClients } from '@/app/query/clients/data';
 import { fetchContacts } from '@/app/query/contacts/data';
@@ -7,13 +7,11 @@ import { Metadata } from 'next';
 import { CurrentUser } from '@/app/utils/utils';
 
 export const metadata: Metadata = {
-  title: 'Create Task',
+  title: 'Create Payment',
 };
 
 export default async function Page() {
 
-  const contacts = await fetchContacts();
-  const clients = await fetchClients();
   const projects = await fetchProjects();
   const project = projects[0];
   const user = await CurrentUser();
@@ -22,16 +20,15 @@ export default async function Page() {
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Tasks', href: '/tasks' },
+          { label: 'Payments', href: '/payments' },
           {
-            label: 'Create Task',
-            href: '/tasks/create',
+            label: 'Create Payment',
+            href: '/payments/create',
             active: true,
           },
         ]}
       />
       <Form
-        contacts={contacts}
         project={project}
         user={user}
       />

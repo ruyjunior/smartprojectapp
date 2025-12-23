@@ -15,13 +15,26 @@ export const metadata: Metadata = {
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
   const id = params.id;
-  const [file, contacts, projects] = await Promise.all([
+  const [file, projects] = await Promise.all([
     fetchFileById(id),
-    fetchContacts(),
     fetchProjects(),
   ]);
-  const project = projects.find((project) => project.id === file.idproject);
+  const project = projects.find((project) => project.id === file.owner_id);
   const user = await CurrentUser();
+
+  let parentHref = '/files';
+  let parentLabel = 'Files';
+
+  if (file.owner_type === 'project') {
+    parentHref = '/projects/' + file.owner_id + '/files';
+    parentLabel = 'Project Files: ' + project?.title;
+  } else if (file.owner_type === 'user') {
+    parentHref = '/settings/users/' + file.owner_id + '/files';
+    parentLabel = 'User Files';
+  } else if (file.owner_type === 'company') {
+    parentHref = '/settings/company/';
+    parentLabel = 'Company';
+  }
 
   if (!file) {
     notFound();
@@ -31,8 +44,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Projects', href: `/projects` },
-          { label: `Project: ${project?.title}`, href: `/projects/${file.idproject}/view` },
+          { label: parentLabel, href: parentHref },
           {
             label: `Edit File: ${file.title}`,
             href: `/files/${id}/edit`,

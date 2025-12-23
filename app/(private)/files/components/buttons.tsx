@@ -2,10 +2,11 @@ import { PencilIcon, PlusIcon, TrashIcon, DocumentArrowDownIcon } from '@heroico
 import Link from 'next/link';
 import { deleteAction } from '@/app/query/files/actions';
 
-export function CreateFile({ id }: { id: string }) {
+export function CreateFile({ owner_type, owner_id }: { owner_type?: string, owner_id?: string }) {
+  const query = owner_type && owner_id ? `?owner_type=${owner_type}&owner_id=${owner_id}` : '';
   return (
     <Link
-      href={`/files/${id}/create`}
+      href={`/files/create${query}`}
       title="Create new file"
       className="flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
     >

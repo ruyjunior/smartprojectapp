@@ -1,38 +1,46 @@
 import Form from '@/app/(private)/files/components/create-form';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
-import { fetchClients } from '@/app/query/clients/data';
-import { fetchContacts } from '@/app/query/contacts/data';
-import { fetchProjects } from '@/app/query/projects/data';
 import { Metadata } from 'next';
-import { CurrentUser } from '@/app/utils/utils';
 
 export const metadata: Metadata = {
-  title: 'Create File',
+  title: 'Creat File',
 };
 
-export default async function Page() {
+export default async function Page(props: { searchParams: Promise<{ owner_id: string, owner_type: string }> }) {
+  const searchParams = await props.searchParams;
+  const owner_id = searchParams.owner_id || '';
+  const owner_type = searchParams.owner_type || '';
 
-  const contacts = await fetchContacts();
-  const clients = await fetchClients();
-  const projects = await fetchProjects();
-  const project = projects[0];
-  const user = await CurrentUser();
+  let parentHref = '/files';
+  let parentLabel = 'Files';
+
+  if (owner_type === 'project') {
+    parentHref = '/projects/' + owner_id + '/files';
+    parentLabel = 'Project Files';
+  } else if (owner_type === 'user') {
+    parentHref = '/settings/users/' + owner_id + '/files';
+    parentLabel = 'User Files';
+  } else if (owner_type === 'company') {
+    parentHref = '/settings/company/';
+    parentLabel = 'Company';
+  }
 
   return (
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Files', href: '/files' },
+          {
+            label: parentLabel,
+            href: parentHref
+          },
           {
             label: 'Create File',
             href: '/files/create',
             active: true,
-          },
+          }
         ]}
       />
-      <Form
-        project={project}
-      />
+      <Form owner_type={owner_type} owner_id={owner_id} />
     </main>
   );
 }
