@@ -61,31 +61,16 @@ export function FilesTableSkeleton() {
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
               <th scope="col" className="px-2 py-1 font-medium">
-                      PROJECT
+                      Edit
                     </th>
                     <th scope="col" className="px-2 py-1 font-medium">
-                      STATUS
+                      Title
                     </th>
                     <th scope="col" className="px-2 py-1 font-medium">
-                      GRADE
+                      Comments
                     </th>
                     <th scope="col" className="px-2 py-1 font-medium">
-                      START DATE
-                    </th>
-                    <th scope="col" className="px-2 py-1 font-medium">
-                      END DATE
-                    </th>
-                    <th scope="col" className="px-2 py-1 font-medium">
-                      TITLE
-                    </th>
-                    <th scope="col" className="px-2 py-1 font-medium">
-                      WHAT
-                    </th>
-                    <th scope="col" className="px-2 py-1 font-medium">
-                      HOW
-                    </th>
-                    <th scope="col" className="px-2 py-1 font-medium">
-                      WHO
+                      Date
                     </th>
                     <th
                       scope="col"

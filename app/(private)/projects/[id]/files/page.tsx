@@ -7,6 +7,9 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { CreateFile } from '@/app/(private)/files/components/buttons';
 import { CurrentUser } from '@/app/utils/utils';
+import { ProjectsTableSkeleton } from '../../components/skeletons';
+import { FileSkeleton } from '@/app/(private)/files/components/skeletons';
+
 
 export const metadata: Metadata = {
   title: 'Project Files',
@@ -36,13 +39,17 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           },
         ]}
       />
-      <ProjectsTable query={id} currentPage={null} />
+      <Suspense fallback={<ProjectsTableSkeleton />}>
+        <ProjectsTable query={id} currentPage={null} />
+      </Suspense>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
         {currentUser?.role === 'admin' &&
           <CreateFile owner_type='project' owner_id={id} />
         }
       </div>
-      <FileTable query={''} currentPage={null} owner_id={id} owner_type='project' />
+      <Suspense fallback={<FileSkeleton />}>
+        <FileTable query={''} currentPage={null} owner_id={id} owner_type='project' />
+      </Suspense>
     </main>
   );
 }

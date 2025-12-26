@@ -10,6 +10,8 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { fetchContacts } from '@/app/query/contacts/data';
 import { isUserOnProject } from '@/app/utils/utils';
+import { ProjectsTableSkeleton } from '../../components/skeletons';
+import { TasksTableSkeleton } from '@/app/(private)/tasks/components/skeletons';
 
 export const metadata: Metadata = {
   title: 'Project View',
@@ -41,13 +43,17 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           },
         ]}
       />
-      <ProjectsTable query={id} currentPage={null} />
+      <Suspense fallback={<ProjectsTableSkeleton />}>
+        <ProjectsTable query={id} currentPage={null} />
+      </Suspense>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
         {userOnProject &&
           <CreateTask id={id} />
         }
       </div>
-      <TasksTable query={id} currentPage={null} />
+      <Suspense fallback={<TasksTableSkeleton />}>
+        <TasksTable query={id} currentPage={null} />
+      </Suspense>
     </main>
   );
 }

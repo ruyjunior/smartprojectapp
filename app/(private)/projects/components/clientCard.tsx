@@ -23,7 +23,7 @@ export default async function ClientCard({ project }: { project: Project }) {
         );
 
         return (
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2">
                 {clients.map((client) =>
                     client ? (
                         <div

@@ -88,7 +88,6 @@ export default async function PaymentsTable({
                                                             {user && user.id === currentUser?.id && (
                                                                 <>
                                                                     <UpdatePayment id={payment.id} />
-                                                                    <CreateSprintBasic id={payment.id} />
                                                                 </>
                                                             )}
                                                         </div>

@@ -60,33 +60,16 @@ export function ProjectsTableSkeleton() {
           <table className="hidden min-w-full text-gray-900 md:table">
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
-                <th scope="col" className="px-1 py-1 font-medium">
-                  TITLE
-                </th>
-                <th scope="col" className="px-1 py-1 font-medium">
-                  DATE
-                </th>
-                <th scope="col" className="px-1 py-1 font-medium">
-                  PROVIDER
-                </th>
-                <th scope="col" className="px-1 py-1 font-medium">
-                  TAKER
-                </th>
-                <th scope="col" className="px-1 py-1 font-medium">
-                  TIME PREVISION
-                </th>
-                <th scope="col" className="px-1 py-1 font-medium">
-                  TIME SPEND
-                </th>
-                <th scope="col" className="px-1 py-1 font-medium">
-                  COMMENTS
-                </th>
-                <th
-                  scope="col"
-                  className="relative pb-4 pl-3 pr-6 pt-2 sm:pr-6"
-                >
-                  <span className="sr-only">Edit</span>
-                </th>
+                    <th className="px-2 py-2">PANEL</th>
+                    <th className="px-2 py-2">TITLE</th>
+                    <th className="px-2 py-2">CLIENTS / CONTACTS</th>
+                    <th className="px-2 py-2">USERS</th>
+                    <th className="px-2 py-2">DATE</th>
+                    <th className="px-2 py-2">COMMENTS</th>
+                    <th className="px-2 py-2">TIME PREVISION</th>
+                    <th className="px-2 py-2">TIME SPENT</th>
+                    <th className="px-2 py-2">%</th>
+                    <th className="px-2 py-2">DELETE</th>
               </tr>
             </thead>
             <tbody className="bg-white">

@@ -1,5 +1,5 @@
 import { Update, View, Pdf, File, Payment } from '@/app/ui/buttons';
-import { CurrentUser, formatDateToLocal } from '@/app/utils/utils';
+import { CurrentUser, formatCurrency, formatDateToLocal } from '@/app/utils/utils';
 import { fetchFilteredProjects } from '@/app/query/projects/data';
 import { fetchTasks } from '@/app/query/tasks/data';
 import { DeleteButton } from './deletebutton';
@@ -49,6 +49,7 @@ export default async function ProjectsTable({
                         <p>Prevision Hours: {project.timeprevision}</p>
                         <p>Spend Hours: {project.timespend}</p>
                         <p>Progress: {progress}%</p>
+                        <p>Amount Payed: {formatCurrency(Number(project.amountpayed))}</p>
                       </div>
                       <div className="flex justify-end gap-3 pt-3">
                         <View href={`/projects/${project.id}/view`} />
@@ -76,7 +77,8 @@ export default async function ProjectsTable({
                     <th className="px-2 py-2">COMMENTS</th>
                     <th className="px-2 py-2">TIME PREVISION</th>
                     <th className="px-2 py-2">TIME SPENT</th>
-                    <th className="px-2 py-2">%</th>
+                    <th className="px-2 py-2">%%</th>
+                    <th className="px-2 py-2">$$</th>
                     <th className="px-2 py-2">DELETE</th>
                   </tr>
                 </thead>
@@ -89,16 +91,25 @@ export default async function ProjectsTable({
 
                     return (
                       <tr key={project.id} className="hover:bg-gray-300">
-                        <td className="py-2 px-2 flex gap-2">
-                          <View href={`/projects/${project.id}/view`} />
-                          <Pdf href={`/projects/${project.id}/pdf`} />
-                          <File href={`/projects/${project.id}/files`} />
-                          <Payment href={`/projects/${project.id}/payments`} />
-                          {user?.role === 'admin' && (
-                            <>
-                              <Update href={`/projects/${project.id}/edit`} />
-                            </>
-                          )}
+                        <td className="px-2 py-2">
+                          <div className="flex flex-col gap-2">
+
+                            {/* Linha 1 */}
+                            <div className="flex gap-2">
+                              <View href={`/projects/${project.id}/view`} />
+                              <Pdf href={`/projects/${project.id}/pdf`} />
+                              <File href={`/projects/${project.id}/files`} />
+                            </div>
+
+                            {/* Linha 2 */}
+                            <div className="flex gap-2">
+                              <Payment href={`/projects/${project.id}/payments`} />
+
+                              {user?.role === 'admin' && (
+                                <Update href={`/projects/${project.id}/edit`} />
+                              )}
+                            </div>
+                          </div>
                         </td>
                         <td className="px-2 py-2 text-xs font-medium">{project.title}</td>
                         <td className="py-2 px-2 gap-2">
@@ -113,6 +124,7 @@ export default async function ProjectsTable({
                         <td className="px-2 py-2 text-xs">{project.timeprevision}</td>
                         <td className="px-2 py-2 text-xs">{project.timespend}</td>
                         <td className="px-2 py-2 text-xs">{progress}%</td>
+                        <td className="px-2 py-2 text-xs">{formatCurrency(Number(project.amountpayed))}</td>
                         <td className="py-2 px-2 flex justify-end">
                           {user?.role === 'admin' && (
                             <DeleteButton id={project.id} />

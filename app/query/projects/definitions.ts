@@ -13,6 +13,7 @@ export type Project = {
   timestamp: string;
   timeprevision: string;
   timespend: string;
+  amountpayed: string;
 };
 
 export type ProjectPDF = {

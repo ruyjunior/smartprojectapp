@@ -7,6 +7,8 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { CreatePayment } from '@/app/(private)/payments/components/buttons';
 import { CurrentUser, isUserOnProject } from '@/app/utils/utils';
+import { ProjectsTableSkeleton } from '../../components/skeletons';
+import { PaymentsTableSkeleton } from '@/app/(private)/payments/components/skeletons';
 
 export const metadata: Metadata = {
   title: 'Project Payments',
@@ -36,13 +38,17 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           },
         ]}
       />
-      <ProjectsTable query={id} currentPage={null} />
+      <Suspense fallback={<ProjectsTableSkeleton />}>
+        <ProjectsTable query={id} currentPage={null} />
+      </Suspense>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-        {userOnProject && 
-          <CreatePayment  id={id} />
+        {userOnProject &&
+          <CreatePayment id={id} />
         }
       </div>
-      <PaymentsTable query={''} currentPage={null} idproject={id} />
+      <Suspense fallback={<PaymentsTableSkeleton />}>
+        <PaymentsTable query={''} currentPage={null} idproject={id} />
+      </Suspense>
     </main>
   );
 }

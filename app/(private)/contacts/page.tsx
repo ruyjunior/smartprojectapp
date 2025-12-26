@@ -4,7 +4,7 @@ import Pagination from '@/app/ui/pagination';
 import Search from '@/app/ui/search';
 import Table from '@/app/(private)/contacts/components/table';
 import { Create } from '@/app/ui/buttons';
-import { ContactsTableSkeleton } from '@/app/(private)/contacts/components/skeletons';
+import { Skeleton } from './components/skeletons';
 import { lusitana } from '@/app/ui/fonts';
 import { fetchContactsPages } from '@/app/query/contacts/data';
 
@@ -32,7 +32,7 @@ export default async function Page(props: {
         <Search placeholder="Search..." />
         <Create href="/contacts/create" />
       </div>
-      {<Suspense key={query + currentPage} fallback={<ContactsTableSkeleton />}>
+      {<Suspense key={query + currentPage} fallback={<Skeleton />}>
         <Table query={query} currentPage={currentPage} />
       </Suspense>}
       <div className="mt-5 flex w-full justify-center">

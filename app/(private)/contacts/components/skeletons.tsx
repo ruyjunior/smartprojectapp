@@ -3,7 +3,7 @@ const shimmer =
   'before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent';
 import {TableRowSkeleton} from '@/app/ui/skeletons';
 
-export function ContactSkeleton() {
+export function Skeleton() {
   return (
     <div className="flex flex-row items-center justify-between border-b border-gray-100 py-4">
       <div className="flex items-center">
@@ -18,7 +18,7 @@ export function ContactSkeleton() {
   );
 }
 
-export function ContactsMobileSkeleton() {
+export function ClientsMobileSkeleton() {
   return (
     <div className="mb-2 w-full rounded-md bg-white p-4">
       <div className="flex items-center justify-between border-b border-gray-100 pb-8">
@@ -42,55 +42,33 @@ export function ContactsMobileSkeleton() {
   );
 }
 
-export function ContactsTableSkeleton() {
+export function ClientsTableSkeleton() {
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
         <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
           <div className="md:hidden">
-            <ContactsMobileSkeleton />
-            <ContactsMobileSkeleton />
-            <ContactsMobileSkeleton />
-            <ContactsMobileSkeleton />
-            <ContactsMobileSkeleton />
-            <ContactsMobileSkeleton />
-            <ContactsMobileSkeleton />
-            <ContactsMobileSkeleton />
+            <ClientsMobileSkeleton />
+            <ClientsMobileSkeleton />
+            <ClientsMobileSkeleton />
+            <ClientsMobileSkeleton />
+            <ClientsMobileSkeleton />
+            <ClientsMobileSkeleton />
+            <ClientsMobileSkeleton />
+            <ClientsMobileSkeleton />
           </div>
           <table className="hidden min-w-full text-gray-900 md:table">
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  COMPANY
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  NAME
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  CPF
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  BIRTH
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  EMAIL
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  PHONE
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  CEP
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  PRICE
-                </th>
-
-                <th
-                  scope="col"
-                  className="relative pb-4 pl-3 pr-6 pt-2 sm:pr-6"
-                >
-                  <span className="sr-only">Edit</span>
-                </th>
+                    <th className="px-2 py-2">EDIT</th>
+                    <th className="px-2 py-2">NAME</th>
+                    <th className="px-2 py-2">COMPANY</th>
+                    <th className="px-2 py-2">CPF</th>
+                    <th className="px-2 py-2">BIRTH</th>
+                    <th className="px-2 py-2">EMAIL</th>
+                    <th className="px-2 py-2">PHONE</th>
+                    <th className="px-2 py-2">CEP</th>
+                    <th className="px-2 py-2">DELETE</th>
               </tr>
             </thead>
             <tbody className="bg-white">

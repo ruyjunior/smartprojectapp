@@ -1,7 +1,7 @@
 // Loading animation
 const shimmer =
   'before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent';
-import {TableRowSkeleton} from '@/app/ui/skeletons';
+import { TableRowSkeleton } from '@/app/ui/skeletons';
 
 export function PaymentSkeleton() {
   return (
@@ -60,39 +60,13 @@ export function PaymentsTableSkeleton() {
           <table className="hidden min-w-full text-gray-900 md:table">
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
-              <th scope="col" className="px-2 py-1 font-medium">
-                      PROJECT
-                    </th>
-                    <th scope="col" className="px-2 py-1 font-medium">
-                      STATUS
-                    </th>
-                    <th scope="col" className="px-2 py-1 font-medium">
-                      GRADE
-                    </th>
-                    <th scope="col" className="px-2 py-1 font-medium">
-                      START DATE
-                    </th>
-                    <th scope="col" className="px-2 py-1 font-medium">
-                      END DATE
-                    </th>
-                    <th scope="col" className="px-2 py-1 font-medium">
-                      TITLE
-                    </th>
-                    <th scope="col" className="px-2 py-1 font-medium">
-                      WHAT
-                    </th>
-                    <th scope="col" className="px-2 py-1 font-medium">
-                      HOW
-                    </th>
-                    <th scope="col" className="px-2 py-1 font-medium">
-                      WHO
-                    </th>
-                    <th
-                      scope="col"
-                      className="relative pb-4 pl-3 pr-6 pt-2 sm:pr-6"
-                    >
-                      <span className="sr-only">Edit</span>
-                    </th>
+                    <th className="px-2 py-2">EDIT</th>
+                    <th className="px-2 py-2">DATE</th>
+                    <th className="px-2 py-2">TITLE</th>
+                    <th className="px-2 py-2">COMMENTS</th>
+                    <th className="px-2 py-2">AMOUNT</th>
+                    <th className="px-2 py-2">USER</th>
+                    <th className="px-2 py-2">DELETE</th>
               </tr>
             </thead>
             <tbody className="bg-white">
