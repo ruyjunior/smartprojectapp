@@ -3,7 +3,8 @@ import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { sql } from '@vercel/postgres';
-import { fetchFilteredSprints } from '../sprints/data';
+import { fetchFilteredSprints, fetchSprintsByTask } from '../sprints/data';
+import { deleteSprint } from '../sprints/actions';
 
 const FormSchema = z.object({
   id: z.string(),
@@ -133,7 +134,11 @@ export async function updateTask(
 }
 
 export async function deleteTask(id: string) {
-  //throw new Error('Failed to Delete Invoice');
+  const sprints = await fetchSprintsByTask(id);
+
+  for (const sprint of sprints) {
+    deleteSprint(sprint.id);
+  }
 
   await sql`DELETE FROM smartprojectsapp.tasks WHERE id = ${id}`;
   revalidatePath('/tasks');
@@ -148,15 +153,15 @@ export async function UpdateTaskSpendTime(id: string) {
     const diffInHours = (end.getTime() - start.getTime()) / (1000 * 60 * 60);
     return total + diffInHours;
   }, 0);
-  
+
   console.log('Total Time Spend for Task: ', timespend);
-  
+
   // Convert hours to interval string format HH:MM:SS
   const hours = Math.floor(timespend);
   const minutes = Math.floor((timespend - hours) * 60);
   const seconds = Math.floor(((timespend - hours) * 60 - minutes) * 60);
   const intervalString = `${hours}:${minutes}:${seconds}`;
-  
+
   try {
     await sql`
       UPDATE smartprojectsapp.tasks

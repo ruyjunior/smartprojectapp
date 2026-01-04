@@ -1,6 +1,6 @@
 'use client';
 import {
-  BuildingOfficeIcon, UserCircleIcon
+  BuildingOfficeIcon, UserCircleIcon, AtSymbolIcon
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -11,6 +11,7 @@ import clsx from 'clsx';
 const links = [
   { name: 'Company', href: '/settings/company', icon: BuildingOfficeIcon },
   { name: 'Users', href: '/settings/users', icon: UserCircleIcon },
+  { name: 'Account', href: '/settings/account', icon: AtSymbolIcon },
 ];
 
 export default function NavLinks() {
