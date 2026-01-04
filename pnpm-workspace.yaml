@@ -2,4 +2,5 @@ ignoredBuiltDependencies:
   - node
 
 onlyBuiltDependencies:
+  - esbuild
   - node

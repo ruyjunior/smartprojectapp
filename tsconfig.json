@@ -29,7 +29,13 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "app/lib/placeholder-data.ts",
-    "scripts/seed.js"
-, "app/ui/projects/docPDF.js", "app/ui/projects/stylesPDF.ts", "app/(private)/tickets/components"  ],
+    "scripts/seed.js",
+    "global.d.ts", 
+    "app/ui/projects/docPDF.js", 
+    "app/ui/projects/stylesPDF.ts", 
+    "app/(private)/tickets/components", 
+    "app/(public)/plans/pricingTable2.jsx", 
+    "app/(public)/plans/pricingTable2.jsx"  
+, "app/(public)/plans/pricingTable.jsx"  ],
   "exclude": ["node_modules"]
 }

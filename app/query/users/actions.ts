@@ -58,8 +58,26 @@ export async function createUser(prevState: State, formData: FormData) {
       message: 'Database Error: Failed to Create User.',
     };
   }
+
+  //const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+  const baseUrl = "http://localhost:3000";
+  //console.log('base Url: ' , baseUrl);
+
+  const res = await fetch(`${baseUrl}/api/auth/send-link`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email }),
+  });
+  //console.log('Result email: ', res);
+
+  if (!res.ok) {
+    return {
+      message: 'Erro ao enviar e-mail de autenticação.',
+    };
+  }
+
   revalidatePath('/settings/users');
-  redirect('/settings/users');
+  redirect('/settings/users?success=Usuario criado com sucesso!');
 }
 
 export async function updateUser(
@@ -83,7 +101,7 @@ export async function updateUser(
       message: 'Missing Fields. Failed to Update User.',
     };
   }
-  
+
 
   const { name, password, role, avatarurl } = validatedFields.data;
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -113,7 +131,21 @@ export async function updateUser(
   }
   deleteUnusedFiles();
   revalidatePath('/settings/users');
-  redirect('/settings/users');
+  redirect('/settings/users?success=Usuario atualizado com sucesso!');
+}
+
+export async function updateUserPassword(id: string, password: string ) {
+  const hashedPassword = await bcrypt.hash(password, 10);
+  
+  try {
+    await sql`
+    UPDATE smartprojectsapp.users 
+    SET password = ${hashedPassword} 
+    WHERE id = ${id}
+  `;
+  } catch (error) {
+    return { message: 'Database Error: Failed to Update User.' };
+  }
 }
 
 export async function deleteAction(id: string) {
@@ -121,4 +153,6 @@ export async function deleteAction(id: string) {
 
   await sql`DELETE FROM smartprojectsapp.users WHERE id = ${id}`;
   revalidatePath('/settings/users');
+  redirect('/settings/users?success=Usuario apagado com sucesso!');
+
 }

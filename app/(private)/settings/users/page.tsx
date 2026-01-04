@@ -8,6 +8,7 @@ import { UsersTableSkeleton } from './components/skeletons';
 import { fetchUsersPages } from '@/app/query/users/data';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
 import { CurrentUser } from '@/app/utils/utils';
+import SuccessMsg from '@/app/ui/successMsg';
 
 export const metadata: Metadata = {
   title: 'Users',
@@ -17,6 +18,7 @@ export default async function Page(props: {
   searchParams?: Promise<{
     query?: string;
     page?: string;
+    success?: string;
   }>;
 }) {
   const searchParams = await props.searchParams;
@@ -27,6 +29,7 @@ export default async function Page(props: {
 
   return (
     <div className="w-full">
+      {SuccessMsg(searchParams)}
 
       <Breadcrumbs
         breadcrumbs={[

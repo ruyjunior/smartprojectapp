@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const About = () => {
   return (
     <section
@@ -24,7 +26,17 @@ const About = () => {
           <p className="text-base text-gray-700 leading-relaxed mt-4 italic">
             <span className="text-blue-800 font-semibold">Mais agilidade, organização e tecnologia para o seu projeto.</span>
           </p>
+          <div className="mt-10 flex justify-center">
+            <Link
+              href="/plans"
+              className="inline-block px-12 py-6 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white text-2xl font-bold shadow-xl transition-all duration-200 active:scale-95"
+            >
+              Ver Planos e Preços
+            </Link>
+          </div>
+
         </div>
+
       </div>
     </section>
   );

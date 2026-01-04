@@ -16,7 +16,7 @@ const Footer = () => {
             />
             <span className="font-bold text-lg tracking-tight">AUTORIC AUTOMAÇÃO</span>
           </div>
-          <p className="text-xs">&copy; 2025 Autoric Automação. Todos os direitos reservados.</p>
+          <p className="text-xs">&copy; {new Date().getFullYear()} Autoric Automação. Todos os direitos reservados.</p>
           <div className="flex gap-4 mt-2">
             <a href="https://www.instagram.com/autoricbr" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
               <FaInstagram size={22} className="hover:text-pink-200 transition" />

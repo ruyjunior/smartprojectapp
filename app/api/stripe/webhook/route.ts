@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
     case "checkout.session.completed":
       try {
         const session = event.data.object as Stripe.Checkout.Session;
-        console.log("Checkout session completed:", session);
+        console.log("Checkout session completed");
 
         // Validate required fields
         if (!session.customer_details?.email) {
@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
 
         // Process custom field
         const nomeCompany = session.custom_fields?.find(
-          (field: any) => field.key === "company_name"
+          (field: any) => field.key === "Empresa"
         )?.text?.value ?? "Empresa Sem Nome";
 
         // Calculate expiration date
@@ -84,7 +84,7 @@ export async function POST(req: NextRequest) {
         ON CONFLICT (email) DO NOTHING
         `;
 
-        // Check and create clinic if needed
+        // Check and create company if needed
         const userResult = await sql`
           SELECT id FROM smartprojectsapp.users WHERE email = ${customerEmail}
         `;
@@ -92,7 +92,7 @@ export async function POST(req: NextRequest) {
         if (userResult.rows && userResult.rows.length > 0) {
           const userId = userResult.rows[0].id;
 
-          const companyCheck = await sql`
+          let companyCheck = await sql`
           SELECT id FROM smartprojectsapp.companies WHERE idmanager = ${userId}
           `;
 
@@ -108,19 +108,30 @@ export async function POST(req: NextRequest) {
             }
 
             const amountDB = amount !== null ? parseFloat(amount.toFixed(2)) : 0;
+            
+            // Re-check company after insertion
+            companyCheck = await sql`
+            SELECT id FROM smartprojectsapp.companies WHERE idmanager = ${userId}
+            `;
+            console.log('companyCheck', companyCheck.rows);
 
-            await sql`
-            INSERT INTO smartprojectsapp.credits (email, amount, idcompany, expires, type)
-            VALUES ( 
-            ${customerEmail}, 
-            ${amountDB}, 
-            ${companyCheck.rows[0].id}, 
-            ${expiresAt.toISOString()},
-            ${session.metadata?.plan_type}
-            )
-          `;
-            console.log(`✅ Empresa criada para ${nomeCompany}`);
-            console.log(`✅ Créditos adicionados para ${customerEmail}`);
+            if (companyCheck.rows && companyCheck.rows.length > 0) {
+              const companyId = companyCheck.rows[0].id;
+              if (companyId !== undefined) {
+                await sql`
+                  INSERT INTO smartprojectsapp.credits (email, amount, idcompany, expires, type)
+                  VALUES ( 
+                  ${customerEmail}, 
+                  ${amountDB}, 
+                  ${companyId}, 
+                  ${expiresAt.toISOString()},
+                  ${session.metadata?.plan_type}
+                  )
+                `;
+              }
+            }
+            console.log(`✅ Empresa criada para ${nomeCompany} `);
+            console.log(`✅ Créditos adicionados para ${customerEmail} `);
           } else {
 
             let amount = session.amount_total;
@@ -132,23 +143,24 @@ export async function POST(req: NextRequest) {
             const amountDB = amount !== null ? parseFloat(amount.toFixed(2)) : 0;
 
             await sql`
-            INSERT INTO smartprojectsapp.credits ( amount, idcompany, expires, type)
-            VALUES ( 
-            ${amountDB}, 
-            ${companyCheck.rows[0].id}, 
-            ${expiresAt.toISOString()},
-            ${session.metadata?.plan_type}
+            INSERT INTO smartprojectsapp.credits(amount, idcompany, expires, type)
+            VALUES(
+              ${amountDB},
+              ${companyCheck.rows[0].id},
+              ${expiresAt.toISOString()},
+              ${session.metadata?.plan_type}
             )
           `;
-            console.log(`🔎 Empresa já existe para o usuário ${customerEmail}`);
+            console.log(`🔎 Empresa já existe para o usuário ${customerEmail} `);
             console.log(`🔎 Crédito adicionado`);
           }
-
-          await sql`
+          if (companyCheck.rows && companyCheck.rows.length > 0) {
+            await sql`
             UPDATE smartprojectsapp.users
             SET  idcompany = ${companyCheck.rows[0].id}
             WHERE email = ${customerEmail}
-         `;
+            `;
+          }
 
         } else {
           console.error("❌ Nenhum usuário foi criado/atualizado");
@@ -165,7 +177,7 @@ export async function POST(req: NextRequest) {
       break;
 
     default:
-      console.log(`Unhandled event type: ${event.type}`);
+      console.log(`Unhandled event type: ${event.type} `);
   }
 
   return new Response(JSON.stringify({ received: true }), { status: 200 });

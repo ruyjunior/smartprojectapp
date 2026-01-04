@@ -83,12 +83,13 @@ export async function fetchUserById(id: string) {
   }
 }
 
-export async function fetchUserByEmail(email: string): Promise<boolean> {
+export async function fetchUserByEmail(email: string): Promise<User> {
   try {
     const data = await sql`
-      SELECT 1 FROM smartprojectsapp.users WHERE users.email = ${email} LIMIT 1
+      SELECT * FROM smartprojectsapp.users WHERE users.email = ${email} LIMIT 1
     `;
-    return data.rows.length > 0;
+    const user = data.rows[0] as User;
+    return user;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to check user by email.');

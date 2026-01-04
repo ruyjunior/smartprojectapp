@@ -2,6 +2,8 @@ import { auth } from '../lib/auth';
 import { Revenue } from '../lib/definitions';
 import { fetchCompanyById } from '../query/companies/data';
 import { fetchUserById, fetchUsersByIdProjects } from '../query/users/data';
+import crypto from "crypto";
+
 
 export async function CurrentCompanyId() {
   const session = await auth();
@@ -277,3 +279,4 @@ export const isUserOnProject = async (idproject: string) => {
   );
   return userOnProject;
 }
+export const generateToken = () => crypto.randomBytes(32).toString("hex");
