@@ -5,7 +5,7 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | SMART PROJECT',
+    template: '%s | SMART PROJECTS',
     default: 'SMART PROJECT',
   },
 };

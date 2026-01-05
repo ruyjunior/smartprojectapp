@@ -9,8 +9,8 @@ import Script from 'next/script';
 
 export const metadata: Metadata = {
   title: {
-    template: 'SMART PROJECT',
-    default: 'SMART PROJECT',
+    template: 'SMART PROJECTS',
+    default: 'SMART PROJECTS',
   },
   description: 'Seu APP para Projetos, Tudo conectado. Melhores soluções para suas necessidades.',
   metadataBase: new URL('https://www.autoric.com.br'),
