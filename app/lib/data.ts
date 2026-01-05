@@ -8,7 +8,7 @@ import {
   LatestInvoiceRaw,
   Revenue,
 } from './definitions';
-import { CurrentCompanyId, formatCurrency } from '../utils/utils';
+import { CurrentCompanyId, CurrentUser, formatCurrency } from '../utils/utils';
 import { Task } from '../query/tasks/definitions';
 
 export async function fetchLatestTasks() {
@@ -34,6 +34,7 @@ export async function fetchLatestTasks() {
 
 export async function fetchCardData() {
   const idcompany = await CurrentCompanyId();
+  const currentUser = await CurrentUser();
   try {
     // You can probably combine these into a single SQL query
     // However, we are intentionally splitting them to demonstrate
@@ -56,6 +57,7 @@ export async function fetchCardData() {
       SELECT COUNT(*) 
       FROM smartprojectsapp.projects 
       WHERE projects.idcompany = ${idcompany}`;
+
     const data = await Promise.all([
       countTasksDone,
       countTasksStop,
@@ -79,6 +81,62 @@ export async function fetchCardData() {
     throw new Error('Failed to fetch card data.');
   }
 }
+
+export async function fetchCardDataCurrentUser() {
+  const idcompany = await CurrentCompanyId();
+  const currentUser = await CurrentUser();
+  try {
+    // You can probably combine these into a single SQL query
+    // However, we are intentionally splitting them to demonstrate
+    // how to initialize multiple queries in parallel with JS.
+    const countTasksDone = sql`
+      SELECT COUNT(*) 
+      FROM smartprojectsapp.tasks t
+      LEFT JOIN smartprojectsapp.projects p ON t.idproject = p.id 
+      WHERE t.status = 'done' AND p.idcompany = ${idcompany} AND t.who = ${currentUser.id}
+      `;
+    const countTasksStop = sql`
+      SELECT COUNT(*) 
+      FROM smartprojectsapp.tasks t
+      LEFT JOIN smartprojectsapp.projects p ON t.idproject = p.id
+      WHERE t.status = 'stopped' AND p.idcompany = ${idcompany} AND t.who = ${currentUser.id}
+      `;
+    const countClients = sql`
+      SELECT COUNT(*) 
+      FROM smartprojectsapp.clients 
+      WHERE clients.idcompany = ${idcompany} 
+      `;
+    const countProjects = sql`
+      SELECT COUNT(*)
+      FROM smartprojectsapp.projects p
+      LEFT JOIN smartprojectsapp.tasks t ON p.id = t.idproject AND t.who = ${currentUser.id}
+      WHERE p.idcompany = ${idcompany} AND t.who = ${currentUser.id}
+        `;
+
+    const data = await Promise.all([
+      countTasksDone,
+      countTasksStop,
+      countClients,
+      countProjects,
+    ]);
+
+    const numberOfTasksDone = Number(data[0].rows[0].count ?? '0');
+    const numberOfTasksStop = Number(data[1].rows[0].count ?? '0');
+    const numberOfClients = Number(data[2].rows[0].count ?? '0');
+    const numberOfProjects = Number(data[3].rows[0].count ?? '0');
+
+    return {
+      numberOfTasksDone,
+      numberOfTasksStop,
+      numberOfClients,
+      numberOfProjects,
+    };
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch card data.');
+  }
+}
+
 
 const ITEMS_PER_PAGE = 6;
 export async function fetchFilteredInvoices(

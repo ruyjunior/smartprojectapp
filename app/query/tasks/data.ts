@@ -1,16 +1,15 @@
 import { sql } from '@vercel/postgres';
 import { Task } from '@/app/query/tasks/definitions';
-import { formatTime } from '../../utils/utils';
+import { CurrentUser, formatTime, CurrentCompanyId } from '../../utils/utils';
 
 export async function fetchTasks() {
-
+  const idcompany = await CurrentCompanyId();
   try {
     const data = await sql<Task>`
-      SELECT 
-        id, title, what, how, who, grade, 
-        startdate, enddate, status, idproject, 
-        timeprevision, timespend 
-      FROM smartprojectsapp.tasks
+      SELECT t.*
+      FROM smartprojectsapp.tasks t
+      LEFT JOIN smartprojectsapp.projects p ON p.idcompany = ${idcompany} AND p.id = t.idproject
+      WHERE p.idcompany = ${idcompany}
       ORDER BY
         CASE 
           WHEN status = 'doing' THEN 1
@@ -19,12 +18,31 @@ export async function fetchTasks() {
           ELSE 4
         END,
         startdate DESC
+        LIMIT 6
     `;
     const tasks = data.rows;
     return tasks;
   } catch (err) {
     console.error('Database Error:', err);
     throw new Error('Failed to fetch all tasks.');
+  }
+}
+
+export async function fetchLatestTasks() {
+  try {
+    const data = await sql<Task>`
+    SELECT *
+    FROM smartprojectsapp.tasks 
+        ORDER BY startdate DESC
+              LIMIT 5`;
+
+    const latestTasks = data.rows.map((task) => ({
+      ...task,
+    }));
+    return latestTasks;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch the latest tasks.');
   }
 }
 
@@ -127,3 +145,20 @@ export async function fetchTasksByProject(id: string) {
     throw new Error('Failed to fetch tasks by Id Project.');
   }
 }
+
+export async function fetchTasksUser() {
+  const currentUser = await CurrentUser();
+  try {
+    const data = await sql<Task>`
+      SELECT * FROM smartprojectsapp.tasks
+      WHERE tasks.who = ${currentUser.id}
+      LIMIT 6
+    `
+    const tasks = data.rows;
+    return tasks
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch tasks Current User.');
+  }
+}
+

@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { UserIcon } from '@heroicons/react/24/outline';
 import { User } from '@/app/query/users/definitions';
+import logo from '@/public/images/logo.png';
 
 interface UserSelectorProps {
   users: User[];
@@ -39,8 +40,10 @@ export default function UserSelector({
               <div className="flex-shrink-0">
                 {user.avatarurl ? (
                   <img
-                    src={user.avatarurl}
+                    src={user.avatarurl ? user.avatarurl : logo.src}
                     alt={user.name}
+                    width={200}
+                    height={200}
                     className="h-10 w-10 rounded-full object-cover"
                   />
                 ) : (
@@ -67,12 +70,12 @@ export default function UserSelector({
             </div>
           ))}
         </div>
-      </div>   
+      </div>
 
       {/* Campos hidden para o formulário */}
       {selectedUsers.map(user => (
         <input key={`user-${user.id}`} type="hidden" name="users" value={user.id} />
       ))}
-    </div>    
+    </div>
   );
 }

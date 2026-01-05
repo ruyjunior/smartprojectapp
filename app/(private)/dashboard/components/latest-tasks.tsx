@@ -1,16 +1,25 @@
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { lusitana } from '@/app/ui/fonts';
-import { fetchLatestTasks } from '@/app/lib/data';
-import { fetchClients } from '@/app/query/clients/data';
 import TaskStatus from '@/app/(private)/tasks/components/status';
-import { fetchProjects } from '@/app/query/projects/data';
+import { fetchProjectsCurrentUser } from '@/app/query/projects/data';
+import { fetchTasksUser, fetchTasks } from '@/app/query/tasks/data';
+import { CurrentUser } from '@/app/utils/utils';
+import { fetchUsers } from '@/app/query/users/data';
+import { Task } from '@/app/query/tasks/definitions';
+import Link from 'next/link';
 
 
 export default async function LatestTasks() {
-  const LatestTasks = await fetchLatestTasks();
-  const clients = await fetchClients();
-  const projects = await fetchProjects();
+  const currentUser = await CurrentUser();
+  let tasks = [] as Task[];
+  if (currentUser.role === 'admin') {
+    tasks = await fetchTasks();
+  } else {
+    tasks = await fetchTasksUser();
+  }
+  const users = await fetchUsers();
+  const projects = await fetchProjectsCurrentUser();
 
   return (
     <div className="flex w-full flex-col md:col-span-4">
@@ -19,8 +28,8 @@ export default async function LatestTasks() {
       </h2>
       <div className="flex grow flex-col justify-between rounded-xl bg-gray-50 p-4">
         {<div className="bg-white px-6">
-          {await Promise.all(LatestTasks.map(async (task, i) => {
-            const client = clients.find((e) => e.id === task.who);
+          {await Promise.all(tasks.map(async (task, i) => {
+            const user = users.find((u) => u.id === task.who);
             const project = projects.find((p) => p.id === task.idproject);
             return (
               <div
@@ -33,17 +42,19 @@ export default async function LatestTasks() {
                 )}
               >
                 <div className="flex items-center">
-                  <div className="min-w-0">
-                    <p className="truncate text-sm font-semibold md:text-base">
-                      {project?.title}
-                    </p>
-                    <p className="hidden text-sm text-gray-500 sm:block">
-                      {task.title}
-                    </p>                    
-                    <p className="hidden text-sm text-gray-500 sm:block">
-                      {client?.name}
-                    </p>
-                  </div>
+                  <Link href={`/projects/${project?.id}/view`}>
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-semibold md:text-base">
+                        {project?.title}
+                      </p>
+                      <p className="hidden text-sm text-gray-500 sm:block">
+                        {task.title}
+                      </p>
+                      <p className="hidden text-sm text-gray-500 sm:block">
+                        {user?.name}
+                      </p>
+                    </div>
+                  </Link>
                 </div>
                 <p
                   className={`${lusitana.className} truncate text-sm font-medium md:text-base`}

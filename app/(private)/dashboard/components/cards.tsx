@@ -1,6 +1,7 @@
 import { BuildingOfficeIcon, CheckIcon, ClockIcon, PresentationChartBarIcon } from '@heroicons/react/24/outline';
-import { fetchCardData } from '@/app/lib/data';
+import { fetchCardData, fetchCardDataCurrentUser } from '@/app/lib/data';
 import { lusitana } from '@/app/ui/fonts';
+import { CurrentUser } from '@/app/utils/utils';
 
 const iconMap = {
   clients: BuildingOfficeIcon,
@@ -10,12 +11,24 @@ const iconMap = {
 };
 
 export default async function CardWrapper() {
-  const {
-    numberOfTasksDone,
-    numberOfTasksStop,
-    numberOfClients,
-    numberOfProjects,
-  } = await fetchCardData();
+  const currentUser = await CurrentUser();
+
+  let numberOfTasksDone = 0;
+  let numberOfTasksStop = 0;
+  let numberOfClients = 0;
+  let numberOfProjects = 0;
+
+  if (currentUser.role === 'admin') {
+    numberOfTasksDone = (await fetchCardData()).numberOfTasksDone;
+    numberOfTasksStop = (await fetchCardData()).numberOfTasksStop;
+    numberOfClients = (await fetchCardData()).numberOfClients;
+    numberOfProjects = (await fetchCardData()).numberOfProjects;
+  } else {
+    numberOfTasksDone = (await fetchCardDataCurrentUser()).numberOfTasksDone;
+    numberOfTasksStop = (await fetchCardDataCurrentUser()).numberOfTasksStop;
+    numberOfClients = (await fetchCardDataCurrentUser()).numberOfClients;
+    numberOfProjects = (await fetchCardDataCurrentUser()).numberOfProjects;
+  }
 
   return (
     <>
@@ -27,11 +40,7 @@ export default async function CardWrapper() {
   );
 }
 
-export function Card({
-  title,
-  value,
-  type,
-}: {
+export function Card({ title, value, type }: {
   title: string;
   value: number | string;
   type: 'tasksDone' | 'tasksStop' | 'clients' | 'projects';

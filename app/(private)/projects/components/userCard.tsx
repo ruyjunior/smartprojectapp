@@ -5,6 +5,8 @@ import { fetchContactById } from "@/app/query/contacts/data";
 import { Project } from "@/app/query/projects/definitions";
 import { fetchUserById, fetchUsersProjects } from "@/app/query/users/data";
 import { UserIcon } from '@heroicons/react/24/outline';
+import logo from '@/public/images/logo.png';
+import Image from 'next/image';
 
 export default async function UserCard({ project }: { project: Project }) {
     try {
@@ -25,9 +27,11 @@ export default async function UserCard({ project }: { project: Project }) {
                         >
                             <div className="flex-shrink-0">
                                 {user.avatarurl ? (
-                                    <img
-                                        src={user.avatarurl}
+                                    <Image
+                                        src={user.avatarurl ? user.avatarurl : logo}
                                         alt={user.name}
+                                        width={200}
+                                        height={200}
                                         className="h-10 w-10 rounded-full object-cover"
                                     />
                                 ) : (

@@ -1,6 +1,6 @@
 import { sql } from '@vercel/postgres';
 import { Project } from '@/app/query/projects/definitions';
-import { CurrentCompanyId } from '../../utils/utils';
+import { CurrentCompanyId, CurrentUser } from '../../utils/utils';
 
 export async function fetchProjects() {
   const idcompany = await CurrentCompanyId();
@@ -18,6 +18,25 @@ export async function fetchProjects() {
     throw new Error('Failed to fetch all projects.');
   }
 }
+
+export async function fetchProjectsCurrentUser() {
+  const idcompany = await CurrentCompanyId();
+  const currentUser = await CurrentUser();
+  try {
+    const data = await sql<Project>`
+      SELECT *
+      FROM smartprojectsapp.projects p
+      LEFT JOIN smartprojectsapp.users_projects up ON p.idcompany = up.idcompany AND up.iduser = ${currentUser.id}
+      WHERE p.idcompany = ${idcompany}
+    `;
+    const projects = data.rows;
+    return projects;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch projects of User.');
+  }
+}
+
 
 export async function fetchFilteredProjects(
   query: string | undefined | null,

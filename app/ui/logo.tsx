@@ -23,7 +23,7 @@ export async function LogoCompany() {
   return (
     <div className={`${lusitana.className} flex flex-row items-center justify-center leading-none text-white m-5`}>
       <Image
-        src={company.logourl}
+        src={company.logourl ? company.logourl : logo}
         alt="Logo Company"
         width={200}
         height={200}
