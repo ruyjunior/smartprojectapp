@@ -12,7 +12,7 @@ export async function POST(req: Request) {
 
   const tokenData = await fetchToken(token);
 
-  if (!tokenData || new Date(tokenData.expires_at) < new Date()) {
+  if (!tokenData || !tokenData.expires_at || new Date(tokenData.expires_at) < new Date()) {
     return NextResponse.json({ error: "Token expirado ou inválido." }, { status: 400 });
   }
   await updateUserPassword(tokenData.iduser, password);
