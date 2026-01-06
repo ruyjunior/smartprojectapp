@@ -19,8 +19,8 @@ export async function fetchTokens() {
 export async function fetchToken(token: string) {
   const tokens = await sql<Token>`
     SELECT * 
-    FROM smartprojectsapp.auth_tokens 
-    WHERE token = ${token}
+    FROM smartprojectsapp.auth_tokens at
+    WHERE at.token = ${token}
   `;
   return tokens.rows[0]
 }
@@ -30,8 +30,8 @@ export async function fetchTokenById(id: string) {
     const data = await sql<Token>`
       SELECT 
         * 
-      FROM smartprojectsapp.auth_tokens
-      WHERE tokens.id = ${id} `;
+      FROM smartprojectsapp.auth_tokens at
+      WHERE at.id = ${id} `;
 
     const token = data.rows;
     return token[0];
