@@ -14,31 +14,50 @@ O **Smart Project App** oferece uma página de apresentação institucional e, a
 - **Next.js**  
 - **Tailwind CSS**  
 - **Neon (Postgres)**  
+- **Blob Vercel**
 - **TypeScript**  
 - **React**  
 - **PDF React**  
+- **Node Mailer**
+- **Stripe Webhook**
 
 ## 📂 Estrutura do Projeto
 
 ```bash
 📦 smartprojectapp
-├── public
 ├── app
+|   ├── (private)
+|   |   ├── clients
+|   |   ├── components
+|   |   ├── contacts
+|   |   ├── dashboard
+|   |   ├── files
+|   |   ├── payments
+|   |   ├── projects
+|   |   ├── settings
+|   |   |   ├── account
+|   |   |   ├── company
+|   |   |   ├── components
+|   |   |   ├── users
+|   |   ├── sprints
+|   |   ├── tasks
+|   |   ├── tickets
+|   ├── (public)
+|   |   ├── auth
+|   |   ├── components
+|   |   ├── login
+|   |   ├── plans
 │   ├── api
-│   ├── assets
-│   ├── dashboard
-│   │   ├── overview
-│   │   ├── companies
-│   │   ├── employees
-│   │   ├── projects
-│   │   ├── tasks
-│   │   ├── users
+|   |   ├── auth
+|   |   ├── info
+|   |   ├── stripe
+|   |   ├── upload
 │   ├── lib
-│   ├── login
+│   ├── query
 │   ├── ui
-│   ├── styles
-│   ├── app.js
-│   ├── index.js
+│   ├── utils
+├── public
+├── global.d.s
 ├── middleware.ts
 ├── next.config.ts
 ├── package.json
@@ -55,8 +74,9 @@ O **Smart Project App** oferece uma página de apresentação institucional e, a
 - Autenticação de usuários
 - Gestão de projetos, tarefas e equipes
 - Compartilhamento de documentos
-- Notificações em tempo real
-- Integração com ferramentas industriais
+- Relatórios em PDF
+- Acompanhamento de horas trabalhadas
+- Controle de gastos
 
 ---
 
