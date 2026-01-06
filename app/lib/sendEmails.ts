@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import { NextResponse } from "next/server";
 
 const transporter = nodemailer.createTransport({
   service: "gmail", // ou outro serviço SMTP
@@ -11,11 +12,13 @@ const transporter = nodemailer.createTransport({
 export async function SendLinkAccess(
   email: string, name: string, link: string
 ) {
-  await transporter.sendMail({
-    from: process.env.EMAIL_USER,
-    to: email,
-    subject: "Link de acesso Smart Projects App",
-    html: `
+  console.log('Dados para email: ', email, name, link )
+  try {
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Link de acesso Smart Projects App",
+      html: `
         <h2>Smart Projects APP</h2>
         <p>Olá ${name},</p>
         <p>Você está recebendo este e-mail para mudança ou primeiro cadastro de senha para sua conta.</p>
@@ -27,5 +30,11 @@ export async function SendLinkAccess(
         <hr>
         <small>Smart Projects &copy; ${new Date().getFullYear()}</small>
       `,
-  });
+    });
+
+  } catch (error) {
+    console.log(error)
+    console.error("Erro ao enviar e-mail:", error);
+    return NextResponse.json({ message: "Erro de envio." }, { status: 500 });
+  }
 }

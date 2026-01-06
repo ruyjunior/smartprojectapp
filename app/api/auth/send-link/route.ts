@@ -45,10 +45,11 @@ export async function POST(req: Request) {
     // Criar link de acesso
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     const link = `${baseUrl}/auth/confirm?token=${token}`;
+    console.log('Link: ', link);
 
     // Enviar e-mail
-    SendLinkAccess(email, user.name, link);
-
+    await SendLinkAccess(email, user.name, link);
+    
     return NextResponse.json({ message: "E-mail enviado! Verifique sua caixa de entrada." });
   } catch (error) {
     console.log(error)
