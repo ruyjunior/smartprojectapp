@@ -13,7 +13,7 @@ export async function deleteToken(id: string) {
     }
 
     // Delete the token
-    await sql`DELETE FROM smartprojectsapp.tokens WHERE id = ${id}`;
+    await sql`DELETE FROM smartprojectsapp.auth_tokens WHERE id = ${id}`;
 
     revalidatePath('/tokens');
 
